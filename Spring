@@ -1,1 +1,11 @@
- Bean
+ ## Bean
+ 
+ Spring IoC컨테이너가 관리하는 자바 객체를 빈(Bean)이라는 용어로 부른다.
+   -  ApplicationContext.getBean()으로 얻어질 수 있는 객체가 빈(Bean)이라고 함.
+   -  Spring에서의 빈 은 ApplicationContext가 알고 있는 객체, 즉 ApplicationContext가 만들어서 그 안에 담고 있는 객체
+   
+ 
+ @빈을 만드는 방법
+  1. Component Scan
+  2. Config 설정 파일에 직접 빈을 
+ 
