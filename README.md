@@ -15,7 +15,8 @@
     - [Java Reflection](https://github.com/russell-seo/TIL/blob/main/Java/Reflection.md)
 
 
-
+  - JPA
+      - [JPA 요약 정리](https://github.com/russell-seo/ORM-JPA)
 
 # Infra
 
