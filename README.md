@@ -20,4 +20,5 @@
 
 # Infra
 
-  - 
+  -   [AWS EC2]
+  -   [AWS Tomcat9, nginx]
