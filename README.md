@@ -12,7 +12,7 @@
  - Java
  
     - [Stream](https://github.com/russell-seo/TIL/blob/main/Java/Stream)
-    - [Java Reflection](https://github.com/russell-seo/TIL/blob/main/Java/Reflection)
+    - [Java Reflection](https://github.com/russell-seo/TIL/blob/main/Java/Reflection.md)
 
 
 
