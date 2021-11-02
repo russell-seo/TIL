@@ -21,4 +21,4 @@
 # Infra
 
   -   [AWS EC2]
-  -   [AWS Tomcat9, nginx]
+  -   [AWS Tomcat9, nginx](https://github.com/russell-seo/TIL/blob/main/Infra/AWS/Tomcat%2CNginx.md)
