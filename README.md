@@ -4,6 +4,7 @@
    - [Bean](https://github.com/russell-seo/TIL/blob/main/Spring)
    - [AOP](https://github.com/russell-seo/TIL/blob/main/Spring/AOP.md)
    - [Exception Handler](https://github.com/russell-seo/TIL/blob/main/Spring/ExceptionHandler.md) 
+   - [Spring Exception]
  
  
  - Spring MVC
