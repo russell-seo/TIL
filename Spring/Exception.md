@@ -24,6 +24,6 @@
  
   - Handler(Controller) 나 그 뒤 계층에서 throw 된 Exception은 DispathcerServlet 이 전달 받은 뒤 다시 servlet 밖의 Servlet container가 처리하게 된다.
   
-  - HandlerExceptionResolver가 등록되어 있지 않으면 HTTP Status 500 내부 서버 오류 와 같은 메시지가 브라우저에 노출 됨. 하지만 HandlerExceptionResolver가 등록 되어 있으면
-    DispatcherServlet은 먼저 HandlerExcpetionResolver가 해당 Exception을 Handling 할 수 있는 지 확인하고 Exception Handling 이 가능한 경우 HandlerExceptionResolver에게 
+  - `HandlerExceptionResolver`가 등록되어 있지 않으면 HTTP Status 500 내부 서버 오류 와 같은 메시지가 브라우저에 노출 됨. 하지만 `HandlerExceptionResolver`가 등록 되어 있으면
+    `DispatcherServlet`은 먼저 `HandlerExcpetionResolver`가 해당 Exception을 Handling 할 수 있는 지 확인하고 Exception Handling 이 가능한 경우 `HandlerExceptionResolver`에게 
     `Exception Handling` 을 위임한다.
