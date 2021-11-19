@@ -58,9 +58,9 @@ Advice가 적용되는 순서는 다음과 같다.
 ![image](https://user-images.githubusercontent.com/79154652/142518815-8ed67f65-62d0-41ac-af18-23eb9bbe3f33.png)
 
 
-AOP를 구현하면서 대상 객체에 대한 정보 및 파라미터 값을 전달 해야 할 때가 있다. 이때 이러한 정보에 접근할 수 있도록 ProceedingJoinPoint 인터페이스를 제공한다.
+AOP를 구현하면서 대상 객체에 대한 정보 및 파라미터 값을 전달 해야 할 때가 있다. 이때 이러한 정보에 접근할 수 있도록 `ProceedingJoinPoint` 인터페이스를 제공한다.
 
-메서드
+`ProceedingJoinPoint Method`
 
 - Signature getSignature() : 호출되는 메서드에 대한 정보를 구한다.
 
