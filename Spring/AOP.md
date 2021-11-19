@@ -30,8 +30,6 @@ private void test2(){}
 private void test3(){}
 ```
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ee6b6b51-1dfc-41c5-9964-6c570f3d1d13/Untitled.png)
-
 Advice가 적용되는 순서는 다음과 같다.
 
 - @Before
@@ -40,3 +38,30 @@ Advice가 적용되는 순서는 다음과 같다.
 - @Around(메소드 수행 후)
 - @After
 - @AfterReturning
+
+### 스프링 AOP 특징
+
+- 프록시 패턴 기반의 AOP 구현체, 프록시 객체를 쓰는 이유는 접근 제어 및 부가기능을 추가하기 위해서 임
+- 스프링 Bean 에만 AOP 적용 가능.
+- 모든 AOP 기능을 제공하는 것이 아닌 스프링 IoC와 연동하여 프로젝트 전역의 중복코드 등을 해결하기 위한 것이 목적
+
+아래 코드와 같이 AOP를 사용하려면 @Aspect, @Component 어노테이션을 붙여 클래스가 Aspect를 나타내는 것을 명시하고 스프링 Bean으로 등록한다.
+
+아래 코드는 Controller에 요청이 들어오면 Token 값을 체크하는 AOP를 구현한 코드이다.
+
+![image](https://user-images.githubusercontent.com/79154652/142518487-4c93132a-8e0c-4215-95a9-ccbf42afbed3.png)
+
+@Around 어노테이션은 타겟 메서드를 감싸서 특정 Advice를 실행한다는 의미이다.
+
+또 특정 @어노테이션을 생성해 Aspect를 실행하는 기능도 제공한다.
+
+![image](https://user-images.githubusercontent.com/79154652/142518815-8ed67f65-62d0-41ac-af18-23eb9bbe3f33.png)
+
+
+AOP를 구현하면서 대상 객체에 대한 정보 및 파라미터 값을 전달 해야 할 때가 있다. 이때 이러한 정보에 접근할 수 있도록 ProceedingJoinPoint 인터페이스를 제공한다.
+
+메서드
+Signature getSignature() : 호출되는 메서드에 대한 정보를 구한다.
+Object getTarget() : 대상 객체를 구한다.
+Object[] getArgs() : 파라미터 목록을 구한다.
+
