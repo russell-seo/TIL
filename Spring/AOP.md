@@ -61,7 +61,10 @@ Advice가 적용되는 순서는 다음과 같다.
 AOP를 구현하면서 대상 객체에 대한 정보 및 파라미터 값을 전달 해야 할 때가 있다. 이때 이러한 정보에 접근할 수 있도록 ProceedingJoinPoint 인터페이스를 제공한다.
 
 메서드
-Signature getSignature() : 호출되는 메서드에 대한 정보를 구한다.
-Object getTarget() : 대상 객체를 구한다.
-Object[] getArgs() : 파라미터 목록을 구한다.
+
+- Signature getSignature() : 호출되는 메서드에 대한 정보를 구한다.
+
+- Object getTarget() : 대상 객체를 구한다.
+
+- Object[] getArgs() : 파라미터 목록을 구한다.
 
