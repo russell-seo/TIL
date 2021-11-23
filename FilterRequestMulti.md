@@ -23,7 +23,6 @@
     - 먼저 부모 클래스의 생성자를 호출 한다.
     - Filter에서 받은 요청을 `request.getInputStream()`으로 처음 호출 하여 `is` 라는 변수에 저장한다.
     - 그 후 Apache 라이브러리를 사용한 IOUtils 클래스의 toByteArray()메소드를 사용해 모든 데이터를 바이트 배열로 가져온다.
-    - 
 
 
 ![image](https://user-images.githubusercontent.com/79154652/142986539-69b53668-c8c9-4f16-8ed9-dcd721f20b35.png)
@@ -32,7 +31,7 @@
  
 ## Filter에 Custom한 Filter 적용하기
 
-  - 
+  - OncePerRequestFilter를 CustomFilter에 상속하여 `doFilterInternal`을 Override 하여 사용하면 된다.
  
  ![image](https://user-images.githubusercontent.com/79154652/142991235-77c00b76-c8da-4da9-8be7-d4b0400ca5ef.png)
 
