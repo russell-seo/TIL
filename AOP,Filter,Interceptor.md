@@ -65,7 +65,9 @@
     `Interceptor`는 여러 개를 사용할 수 있다.
     
      1.preHandler() - 컨트롤러 메소드가 실행되기 전
+     
      2.postHandler() - 컨트롤러 메소드 실행 직 후 view 페이지 렌더링 되기 전
+     
      3.afterCompletion() - view 페이지가 렌더링 되고 난 후
     
 ![image](https://user-images.githubusercontent.com/79154652/142807737-bfacede4-cb51-41a8-991f-c8b2bab3307b.png)
