@@ -32,6 +32,9 @@
 ## Filter에 Custom한 Filter 적용하기
 
   - OncePerRequestFilter를 CustomFilter에 상속하여 `doFilterInternal`을 Override 하여 사용하면 된다.
+
+  - 앞에서 정의한 httpServletRequestWrapper 인스턴스를 생성하면서 요청받은 request를 넘겨준다.
+  - httpServletRequestWrapper에서 request를 읽고 저장한 값을 받아 filterchain.dofilter에 매개변수로 넣어준다.
  
  ![image](https://user-images.githubusercontent.com/79154652/142991235-77c00b76-c8da-4da9-8be7-d4b0400ca5ef.png)
 
