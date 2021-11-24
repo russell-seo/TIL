@@ -20,9 +20,20 @@
   
   - 위의 코드는 HttpServletRequestWrapper 를 상속 받아서 구현한다.
   
-    - 먼저 부모 클래스의 생성자를 호출 한다.
-    - Filter에서 받은 요청을 `request.getInputStream()`으로 처음 호출 하여 `is` 라는 변수에 저장한다.
-    - 그 후 Apache 라이브러리를 사용한 IOUtils 클래스의 toByteArray()메소드를 사용해 모든 데이터를 바이트 배열로 가져온다.
+    ### HttpServletRequestWrapper 란?
+     
+     -  필터가 필터로서의 제기능을 하기위해서는 클라이언트의 요청을 변경하고, 또 클라이언트로 가는 응답을 변경 할 수 있어야 한다.
+        이러한 변경을 할 수 있도록 해주는 것이 바로 `ServletRequestWrapper`, `ServletResponseWrapper` 이다.
+        서블릿 요청/응답 Wrapper 클래스를 이용함으로써 클라이언트의 요청정보를 변경하여, 최종자원인 Servlet/JSP/HTML/기타자원에 전달 할 수 있고
+        또한 최종자원으로부터의 응답결과를 변경하여 새로운 응답정보를 클라이언트에 보낼 수 있게 된다.
+        
+     -  HttpServletRequestWrapper 클래스와 HttpServletResponseWrapper 클래스 모두 javax.servlet.http 패키지에 정의되어 있으며, 이 두 클래스는 각각의 인터페이스에
+        정의되어 있는 모든 메소드를 이미 구현해 놓고 있다. 필터를 통해서 변경하고 싶은 정보가 있을 경우 그 정보를 추출하는 메소드를 알맞게 Override 하여
+        필터의 `doFilter()` 메소드에 넘겨주기만 하면 된다.
+
+   - 먼저 부모 클래스의 생성자를 호출 한다.
+   - Filter에서 받은 요청을 `request.getInputStream()`으로 처음 호출 하여 `is` 라는 변수에 저장한다.
+   - 그 후 Apache 라이브러리를 사용한 IOUtils 클래스의 toByteArray()메소드를 사용해 모든 데이터를 바이트 배열로 가져온다.
 
 
 ![image](https://user-images.githubusercontent.com/79154652/142986539-69b53668-c8c9-4f16-8ed9-dcd721f20b35.png)
