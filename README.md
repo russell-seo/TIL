@@ -22,6 +22,10 @@
 
   - JPA
       - [JPA 요약 정리](https://github.com/russell-seo/ORM-JPA)
+      
+# DataBase
+
+  - [트랜잭션]()
 
 # Infra
 
