@@ -21,6 +21,7 @@
 
 
   - JPA
+      - [영속성 컨텍스트]()
       - [JPA 요약 정리](https://github.com/russell-seo/ORM-JPA)
       
 # DataBase
