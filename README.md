@@ -23,7 +23,7 @@
   - JPA
       - [영속성 컨텍스트](https://github.com/russell-seo/TIL/blob/main/JPA/%EC%98%81%EC%86%8D%EC%84%B1%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8.md)
       - [JPA 요약 정리](https://github.com/russell-seo/ORM-JPA)
-      - [JpaRepository & Paging]()
+      - [JpaRepository](https://github.com/russell-seo/TIL/blob/main/JPA/JpaRepository.md)
       
 # DataBase
 
