@@ -14,6 +14,8 @@
         - Before : 메소드 실행 전에 동작
         - After : 메소드 실행 후에 동작
         - AfterReturning : 메소드가 정상적으로 실행된 후에 동작
+                ![image](https://user-images.githubusercontent.com/79154652/144564850-dbbac712-baef-4f8e-854d-8c5514cf2aed.png)
+                 @AfterReturning의 returning = "returnValue" 값으로 Controller에서 넘어오는 response 값을 받을 수 있다.
         - AfterThrowing : 예외가 발생한 후에 동작
         - Around : 메소드 호출 이전, 이후, 예외 발생등 모든 시점에서 동작
 - Weaving : 포인트 컷으로 지정한 관심 메소드가 호출될 때, 어드바이스에 해당하는 횡단 관심 메소드가 삽입되는 과정을 의미함. 이를 통해 비지니스 메소드를 수정하지 않고도 횡단 관심에 해당하는 기능을 추가하거나 변경 가능.
