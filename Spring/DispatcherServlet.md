@@ -30,31 +30,31 @@
   ## doDispatch 메소드
   1. 핸들러 조회 - 아래 코드는 doDispatch의 `핸들러 조회` 코드이다.
   
-  `mappedHandler = getHandler(processedRequest);
+  `mappedHandler = getHandler(processedRequest);`
   
-  => 요청에 맞는 적절한 핸들러를 찾아 반환해준다.`
+  `=> 요청에 맞는 적절한 핸들러를 찾아 반환해준다.`
   
-  `noHandlerFound(processedRequest, response);
+  `noHandlerFound(processedRequest, response);`
   
-  => 적절한 핸들러를 찾지 못한경우 404 에러코드를 반환해준다.`
+  `=> 적절한 핸들러를 찾지 못한경우 404 에러코드를 반환해준다.`
   
   ![image](https://user-images.githubusercontent.com/79154652/144574187-93bf0014-1db7-4de5-abbc-b608367a2a4f.png)
    
    
   2. 핸들러 어댑터 조회 - 핸들러를 처리할 수 있는 어댑터
   
-  `HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());
+  `HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());`
   
-  => 찾은 핸들러를 처리할 수 있는 핸들러 어댑터를 찾아준다.
+  `=> 찾은 핸들러를 처리할 수 있는 핸들러 어댑터를 찾아준다.`
   
-  => 만약 찾지 못할 경우 ServletException 발생`
+  `=> 만약 찾지 못할 경우 ServletException 발생`
   
   
-  `mv = ha.handle(processedRequest, response, mappedHandler.getHandler());
+  `mv = ha.handle(processedRequest, response, mappedHandler.getHandler());`
   
-  => 찾은 핸들러 어댑터를 이용해 로직을 수행하는 handle 메소드를 호출한다.
+  `=> 찾은 핸들러 어댑터를 이용해 로직을 수행하는 handle 메소드를 호출한다.`
   
-  => 결과로 ModelAndView 를 반환받고 이를 이용해 렌더링 까지 수행된다.`
+  `=> 결과로 ModelAndView 를 반환받고 이를 이용해 렌더링 까지 수행된다.`
   
   ![image](https://user-images.githubusercontent.com/79154652/144574879-8816761c-7c34-46d3-8a9d-70fce920e11d.png)
 
@@ -63,11 +63,11 @@
    
   3. 뷰 렌더링 호출
 
-  `processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);
+  `processDispatchResult(processedRequest, response, mappedHandler, mv, dispatchException);`
   
-  => 실제 코드는 복잡하게 되있는데 결국 render() 메소드를 호출한다.
+  `=> 실제 코드는 복잡하게 되있는데 결국 render() 메소드를 호출한다.`
   
-  => render()에서 ModelAndView에서 View를 찾아 ViewResolver를 이용해 뷰의 물리적 이름을 완성해서 forward 해준다.`
+  `=> render()에서 ModelAndView에서 View를 찾아 ViewResolver를 이용해 뷰의 물리적 이름을 완성해서 forward 해준다.`
   
   ![image](https://user-images.githubusercontent.com/79154652/144770712-4f9b0426-a5a1-4d08-aad8-868b77685695.png)
 
