@@ -5,7 +5,7 @@
   ## Why?
   Dispatch의 의미는 파견, 급파하다의 의미로 해석해보면, 받은 요청을 어딘가로 빨리빨리 보내는 서블릿 이라는 뜻이다.
   
-  Spring이 없는 JAVA 런타임에서는 컨트롤러가 존재하지 않는다. 따라서 우리는 서블릿 객체를 생성하고 그것을 web.xml에 일일히 다 등록해줘야 했다.
+  Spring이 없는 JAVA 런타임에서는 컨트롤러가 존재하지 않는다. 따라서 우리는 서블릿 객체를 생성하고 그것을 web.xml에 일일히 다 등록해줘야 했다. 아래 코드와 같이
   
   ![image](https://user-images.githubusercontent.com/79154652/144779432-ba644478-d2d1-4df3-b283-2395092527ff.png)
 
@@ -13,7 +13,7 @@
   
   는 HttpServlet을 확장한 객체이다. 이렇게 되면 HttpServlet 기능을 필수로 Override 해야하고 더이상 일반 객체로 사용할 수 없다.
   
-  이러한 불편함은 DispatcherServlet이 나타남에 따라 편리한 구조를 가지게 되었다.
+  이러한 불편함은 DispatcherServlet이 나타남에 따라 Spring MVC 모든 요청을 받아 처리를 하게 됨.
   
   ## DispathcerServlet 구조
   
