@@ -87,4 +87,79 @@
   ![image](https://user-images.githubusercontent.com/79154652/144771311-c00c1952-74e4-4cd8-93ad-7f401fdaf750.png)
 
    
+  ## DispatcherServlet 구성요소
   
+   ![이미지](https://github.com/binghe819/TIL/raw/master/Spring/MVC/image/image-20200924010336407.png)
+   
+   
+   ### MultipartResolver
+   
+   - 사용자의 파일 업로드 요청에 대한 처리를 하는 인터페이스
+   
+   - HttpServletRequest 를 MultipartHttpServletRequest 로 변환해주어 요청을 담고 있는 File을 꺼낼 수 있는 API 제공
+  
+  
+   ### LocaleResolver
+   
+   - 요청하는 클라이언트의 위치(Locale)정보를 파악하는 인터페이스.
+      
+      - 지역 정보를 읽어서 적절한 언어를 선택할 때 사용된다.
+      - 헤더값의 `accept-language`를 읽고 처리하는 것이 기본 값
+
+   - 기본 전략으로는 요청의 accept-language를 보고 판단하는 `AcceptHeaderLocaleResolver` 가 사용된다.
+
+
+  ### ThemeResolver
+  
+   - 애플리케이션에 설정된 테마를 파악하고 변경할 수 있는 인터페이스
+      
+        - 웹 브라우저에서 버튼 누르면 테마를 바꾸는 것을 Spring 에서 자체적으로 해주는 것.
+        - 즉, View에게 css 파일을 넘겨줘서 테마를 바꿀 수 있게 해준다.
+
+  ### HandlerMapping
+  
+   - 요청을 처리할 핸들러를 찾는 인터페이스
+   
+      - 즉, 요청을 처리할 Controller를 찾는 인터페이스
+      
+      ![이미지](https://github.com/binghe819/TIL/raw/master/Spring/MVC/image/image-20200924142551245.png)
+      
+   - `BeanNameUrlHandlerMapping` - 빈의 이름을 기반으로 핸들러를 찾아준다.(클래스가 핸들러가 됨)
+   - `RequestMappingHandlerMapping` - 어노테이션 기반 핸들러를 찾아준다.(메세드가 핸들러가 됨)
+   
+  
+  ### HandlerAdapter
+  
+   - `HandlerMapping` 이 찾아낸 핸들러를 처리하는 인터페이스
+   - 스프링 MVC 확장력의 핵심
+        - 개발자가 핸들러를 커스텀하여 사용 가능
+        
+           ![이미지](https://github.com/binghe819/TIL/raw/master/Spring/MVC/image/image-20200924143043743.png)
+        
+        - `RequestMappingHandlerAdapter`  - 어노테이션 기반으로 찾아낸 핸들러를 처리해준다.
+
+  ### HandlerExceptionResolvers
+  
+  - 요청 처리중에 발생한 에러 처리하는 인터페이스
+
+  ### RequestToViewNameTranslator
+  
+   - 핸들러에게 뷰 이름을 명시적으로 리턴하지 않는 경우, 요청을 기반으로 뷰 이름을 판단하는 인터페이스
+  
+  
+  ### ViewResolver
+    
+   - 뷰 이름에 해당하는 뷰를 찾아내는 인터페이스
+  
+  ### FlashMapManager
+  
+   - `FlashMap` 인스턴스를 가져오고 저장하는 인터페이스
+   - `FlashMap` 은 주로 리다이렉션을 사용할 때 요청 매개변수를 사용하지 않고 데이터를 전달하고 정리할 때 사용한다.
+   
+      - URL에 매개변수를 사용하지 않고 보낼 수 있게 해준다.
+      - 즉, 리다이렉션을 할 때 서버에서 클라이언트에게 파라미터를 보낼 때 URL 파라미터를 사용하지 않아도 파라미터를 보낼 수 있게 해준다.
+
+
+ ## 마치며
+ DispathcerServlet은 Spring 을 사용 할떄 가장 중요한 핵심 Front Controller이며 그냥 막연하게 쓰는게 아니라 `왜` 쓰는지에 대해
+ 학습하고 공부하게 된다면 문제가 생겼을 때 빠른 대처가 가능할 것이라고 생각한다.
