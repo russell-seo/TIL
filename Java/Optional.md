@@ -35,4 +35,22 @@
    
    JAVA8 이전에는 아래 코드 처럼 NPE를 막기위해 null 체크를 항상 해주어 코드 스타일이 매우 난잡하다.
    
-   
+   중첩 null 체크하기
+        
+          public String getCityOfMemberFromOrder(Order order) {
+            if (order != null) {
+              Member member = order.getMember();
+              if (member != null) {
+                Address address = member.getAddress();
+                if (address != null) {
+                  String city = address.getCity();
+                  if (city != null) {
+                    return city;
+                  }
+                }
+              }
+            }
+            return "Seoul"; // default
+           }
+           
+  모든 단계마다 null이 반환되지 않을지 의심하면서 null 체크를 합니다. 들여쓰기 때문에 코드를 읽기가 매우 어려우며
