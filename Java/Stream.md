@@ -1,4 +1,6 @@
 
+# Stream
+
 1. Java 8 추가한 스트림은 람다를 활용할 수 있는 기술 중 하나이다.
     - 스트림은 데이터 소스와 상관없이 같은 방식으로 데이터를 다룰 수 있다.(코드의 재사용성)
         - 스트림은 데이터 소스를 추상화하고, 자주 사용되는 메서드들을 정의해놓았다.
@@ -11,7 +13,7 @@
         - 배열 혹은 컬렉션의 데이터를 쿼리(Stream와 동일하다고 봐도 무방)하는 것.
         
 
-[Stream API 연산 종류]
+## Stream API 연산 종류
 
 1. 생성하기
     - Stream 객체를 생성
@@ -24,7 +26,7 @@
     - 가공된 데이터로부터 원하는 결과를 만들기 위한 최종 연산
     - Stream의 요소들을 소모하면서 연산이 수행되기 때문에 1번만 처리가능하다.
 
-[Collection의 Stream 생성]
+## Collection의 Stream 생성
 
 Collection 인터페이스에는 stream()이 정의되어 있기 때문에, Collection 인터페이스 구현한 객체들 List, Set 등 모두 이 메소드를 이용해 Stream 생성 가능.
 
@@ -33,7 +35,7 @@ List<String> list = Arrays.asList("a","b")
 Stream<String> listStream = list.stream();
 ~~~
 
-가공하기
+## 가공하기
 
 1. map
     - map은 요소들을 특정 조건에 해당하는 값으로 변환
@@ -96,4 +98,4 @@ Stream<String> listStream = list.stream();
           .mapToint(Integer::parseInt)
           .max()
           .ifPresent(System.out::println); // String -> Int
-    ~~~
+   ~~~
