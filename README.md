@@ -1,7 +1,7 @@
 # TIL
   
  - Spring
-   - [Bean](https://github.com/russell-seo/TIL/blob/main/Spring)
+   - [Bean](https://github.com/russell-seo/TIL/blob/main/Spring/Bean.md)
    - [AOP](https://github.com/russell-seo/TIL/blob/main/Spring/AOP.md)
    - [Exception Handler](https://github.com/russell-seo/TIL/blob/main/Spring/ExceptionHandler.md) 
    - [Spring Exception](https://github.com/russell-seo/TIL/blob/main/Spring/Exception.md)
@@ -28,9 +28,9 @@
 
 # DataBase
 
-  - [트랜잭션]()
+  - [트랜잭션]-예정
 
 # Infra
 
-  -   [AWS EC2]
+  -   [AWS EC2]-예정
   -   [AWS Tomcat9, nginx](https://github.com/russell-seo/TIL/blob/main/Infra/AWS/Tomcat%2CNginx.md)
