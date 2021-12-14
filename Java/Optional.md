@@ -190,4 +190,4 @@ int length = Optional.ofNullable(getFile()).map(String::length).orElse(0);
 ## 참고문서 
 ---
 
-![링크](https://www.daleseo.com/java8-optional-after/)
+[https://www.daleseo.com/java8-optional-after/](https://www.daleseo.com/java8-optional-after/)
