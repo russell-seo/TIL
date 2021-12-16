@@ -7,7 +7,7 @@
   
   `도커는 컨테이너 정보를 DokcerFile(이미지) 코드로 관리할 수 있다. 이 코드를 기반으로 복제 및 배포가 이루어지기 때문에 재현성이 높은 것이 특징`
 
-  ## VM vs Docker 
+  ## [1] VM vs Docker 
   
   - VM(가상머신)
     - 가상 머신은 하드웨어 스택을 가상화 한다.
@@ -22,7 +22,7 @@
   
   
   
-  ## 이미지(Image)
+  ## [2] 이미지(Image)
   
    - 컨테이너 실행에 필요한 팡리과 설정값 등을 포함하고 있는 것으로 상태값을 가지지 않고 변하지 않는다.
    - 도커 이미지는 컨테이너 실행하기 위한 모든 정보를 가지고 있기 때문에 보통 용량이 수백메가MB에 이릅니다. 도커는 효율적인 이미지 관리를 위해
@@ -30,7 +30,7 @@
      
      ![이미지](https://subicura.com/assets/article_images/2017-01-19-docker-guide-for-beginners-1/image-layer.png)
      
-  ## __Docker의 구조__
+  ## [3] __Docker의 구조__
   
   - 우리는 도커를 사용할 때 docker라는 명령어를 맨 앞에 붙여서 사용한다. 그리고 실제 `docker는 /usr/bin/docker`에 위치하고 있다. 이처럼 명령어 `/usr/bin/docker` 에 위치한 파일을 통해
     사용되고 있다. 하지만 실제 도커 엔진의 프로세스를 확인해보면 `/usr/bin/dockerd` 파일로 실행 된다.
@@ -64,6 +64,11 @@
   2. /usr/bin/docker는 /var/run/docker.sock 유닉스 소켓을 사용해 `도커 데몬` 에게 명령어 전달
   3. 도커 데몬은 이 명령어를 파싱하고 명령어에 해당하는 작업을 수행
   4. 수행 결과를 도커 클라이언트에게 반환하고 사용자에게 결과 출력
+  
+  <p align= "center">
+  <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbP7uqe%2FbtrdMIHeLcy%2F9qoFR5HkiEyQCJumLkMFA1%2Fimg.png" width="500" height="200"/>
+  </p>
+  
   
   ## 참고
   ---
