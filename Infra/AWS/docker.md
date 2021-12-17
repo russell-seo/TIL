@@ -73,6 +73,26 @@
   </p>
   
   
+  ## [5] 도커 클라이언트
+  
+   - 도커는 Restful API로 소통하는 Client-Server 체계
+   - Client가 요청하는 build, run, pull, push 등의 작업을 받아 HTTP API Request 로 변환하여 Server에 요청
+
+
+  ## [6] Docker Registry
+  
+   - 도커 내부에서 도커 이미지들을 보관하는 저장소
+   - 클라우드 호스팅 업체에서도 컨테이너 레지스트리
+
+
+  ## [7] Docker Hub
+  
+  - 도커에서 운여하는 도커 레지스트리
+  - Git처럼 로그인 후 도커 이미지를 업로드(push)/다운로드(pull)하여 사용할 수 있다.
+  <p align= "center">
+  <img src = "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FA5muh%2FbtrdMJ0oNE1%2FeuUAF1GCuVswSXWNpm9S7K%2Fimg.png" width="600" height="300"/>
+  </p>
+  
   ## 참고
   ---
   [https://junstar92.tistory.com/169](https://junstar92.tistory.com/169)
