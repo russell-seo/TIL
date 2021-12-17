@@ -43,7 +43,7 @@ Stream<String> listStream = list.stream();
         
         ~~~java
         list.stream().map(s-> s.toUpperCase())
-        							.collect(Collectors.toList());
+        			 .collect(Collectors.toList());
         ~~~
    flatMap은 기존 2차원 이상의 배열을 조작시 쓰인다는 점에서 map과 차이가 있다.
    flatMap은 중첩구조를 한 단계 제거하고 단일 컬렉션으로 만들어주는 기능을 수행한다.
