@@ -16,7 +16,7 @@
     - [DispathcerServlet](https://github.com/russell-seo/TIL/blob/main/Spring/DispatcherServlet.md)
  - Java
  
-    - [Stream](https://github.com/russell-seo/TIL/blob/main/Java/Stream)
+    - [Stream](https://github.com/russell-seo/TIL/blob/main/Java/Stream.md)
     - [Java Reflection](https://github.com/russell-seo/TIL/blob/main/Java/Reflection.md)
     - [Optional](https://github.com/russell-seo/TIL/blob/main/Java/Optional.md)
 
