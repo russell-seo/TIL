@@ -15,7 +15,7 @@
     - [Spring MVC Flow](https://github.com/russell-seo/TIL/blob/main/Spring/Spring%20MVC%20Flow.md)
     - [DispathcerServlet](https://github.com/russell-seo/TIL/blob/main/Spring/DispatcherServlet.md)
  - Java
-    - [Functional Interface]()
+    - [Functional Interface](https://github.com/russell-seo/TIL/blob/main/Java/Functional.md)
     - [Stream](https://github.com/russell-seo/TIL/blob/main/Java/Stream.md)
     - [Java Reflection](https://github.com/russell-seo/TIL/blob/main/Java/Reflection.md)
     - [Optional](https://github.com/russell-seo/TIL/blob/main/Java/Optional.md)
