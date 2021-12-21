@@ -8,6 +8,12 @@
     
     @ControllerAdvice 는 AOP 방식이고 Application 전역에서 발생하는 모든 컨트롤러의 예외를 한 곳에서 처리하게 할 수 있다.
     
+     @ExceptionHandler라는 어노테이션을 쓰고 캐치하고 싶은 예외클래스를 등록해주면 된다.
+    
     ![image](https://user-images.githubusercontent.com/79154652/140484482-34c174c5-b63d-4081-b2f8-cae597611610.png)
     
     위의 코드에서 @RestControllerAdvice를 사용했는데 이는 return 값이 Json으로 반환되며 괄호안에 범위를 지정 할 수 있다.
+    
+   `@ExceptionHandler` 같은 경우 `@Controller`, `@RestController` 가 적용된 `Bean`내에서 발생하는 예외를 잡아서 하나의 메소드를 처리해 주는 기능이다.
+   
+  
