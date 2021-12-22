@@ -90,7 +90,7 @@
   - 도커에서 운여하는 도커 레지스트리
   - Git처럼 로그인 후 도커 이미지를 업로드(push)/다운로드(pull)하여 사용할 수 있다.
   <p align= "center">
-  <img src = "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FA5muh%2FbtrdMJ0oNE1%2FeuUAF1GCuVswSXWNpm9S7K%2Fimg.png" width="600" height="300"/>
+  <img src = "https://camo.githubusercontent.com/ac2997ac7c99306daabf298baa28ab05b69bdce0c6152bd24c95cc983fe0c969/68747470733a2f2f696d67312e6461756d63646e2e6e65742f7468756d622f523132383078302f3f73636f64653d6d746973746f72793226666e616d653d6874747073253341253246253246626c6f672e6b616b616f63646e2e6e6574253246646e25324641356d7568253246627472644d4a306f4e45312532466575554146314743755673775358574e706d3953374b253246696d672e706e67" width="600" height="300"/>
   </p>
   
   ## 참고
