@@ -28,7 +28,7 @@
 
 # DataBase
 
-  - [인덱스(Index)]()
+  - [인덱스(Index)](https://github.com/russell-seo/TIL/blob/main/DB/index.md)
   - [트랜잭션]-예정
 
 # Infra
