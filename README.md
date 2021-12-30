@@ -25,7 +25,7 @@
       - [JPA 요약 정리](https://github.com/russell-seo/ORM-JPA)
       - [JpaRepository](https://github.com/russell-seo/TIL/blob/main/JPA/JpaRepository.md)
       - [N+1 문제](https://github.com/russell-seo/TIL/blob/main/JPA/N%2B1.md)
-      - [OSIV]()
+      - [OSIV](https://github.com/russell-seo/TIL/blob/main/JPA/OSIV.md)
 
 # DataBase
 
