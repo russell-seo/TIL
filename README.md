@@ -5,7 +5,7 @@
    - [AOP](https://github.com/russell-seo/TIL/blob/main/Spring/AOP.md)
    - [Exception Handler](https://github.com/russell-seo/TIL/blob/main/Spring/ExceptionHandler.md) 
    - [Spring Exception](https://github.com/russell-seo/TIL/blob/main/Spring/Exception.md)
-   - [Jwt](https://github.com/russell-seo/TIL/blob/main/Spring/JWT.md)
+   - [J](https://github.com/russell-seo/TIL/blob/main/Spring/JWT.md)
  
  
  - [AOP, Filter, Interceptor 의 차이](https://github.com/russell-seo/TIL/blob/main/AOP%2CFilter%2CInterceptor.md)
