@@ -34,3 +34,19 @@
   2. DB의 키와 실제 앱에 전송하고자 하는 데이터를 Firebase 서버에 전달된다. Firebase 서버와는 HTTP 통신이 이용되며 Firebase 서버에서 원하는 방식대로 데이터를 구성하여 요청이 이루어 진다.
   3. Firebase 서버에서는 전달받은 키값을 식별해 어떤 스마트폰의 앱인지를 식별한다. 결국 키값에 의해 스마트폰에 데이터를 전달할 수 있다. 
      개발자가 앱에 데이터를 받기 위한 서비스를 만들어 두면 Firebase 서버로 부터 데이터가 수신 될 때 마다 서비스가 실행되어 데이터를 획득
+     
+     
+
+
+# FCM 구현
+
+  먼저 FCM 서버를 구현하기 위해 작성해야 하는 코드는 총 3개 이다.
+  
+  1. FireBase 로 부터 `AccessToken` 받는 코드
+  2. PUSH 요청 보낼 `메시지` 만드는 코드
+  3. FCM에 PUSH 요청을 위한 `HTTP통신 POST` 코드
+
+
+[참고]()
+---
+[https://firebase.google.com/docs/cloud-messaging/concept-options?authuser=0](https://firebase.google.com/docs/cloud-messaging/concept-options?authuser=0)
