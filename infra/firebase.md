@@ -49,4 +49,4 @@
 
 [참고]()
 ---
-[https://firebase.google.com/docs/cloud-messaging/concept-options?authuser=0](https://firebase.google.com/docs/cloud-messaging/concept-options?authuser=0)
+[https://firebase.google.com/docs/cloud-messaging/migrate-v1?authuser=0](https://firebase.google.com/docs/cloud-messaging/migrate-v1?authuser=0)
