@@ -46,6 +46,68 @@
   2. PUSH 요청 보낼 `메시지` 만드는 코드
   3. FCM에 PUSH 요청을 위한 `HTTP통신 POST` 코드
 
+  ## getAccessToken
+  FireBase 서버에 PUSH 요청을 위해서는 승인된 AccessToken이 필요하다.
+
+  ~~~java
+    @Override
+    @PostConstruct
+    public String getAccessToken() throws IOException {
+        String firebaseConfigPath = "firebase/logenapp-firebase-adminsdk-1e9lc-f5311c4208.json";
+
+        GoogleCredentials googleCredentials =
+                GoogleCredentials.fromStream(new ClassPathResource(firebaseConfigPath).getInputStream())
+                .createScoped(ImmutableList.of("https://www.googleapis.com/auth/cloud-platform"));
+
+        // accessToken 생성
+        googleCredentials.refreshIfExpired();
+
+        return googleCredentials.getAccessToken().getTokenValue();
+    }
+  ~~~
+  
+  ## makeMessage
+  FireBase 서버에 보낼 PUSH 메시지를 만드는 코드
+  ~~~java
+  @Override
+    public String makeMessage(String token, String title, String body) throws IOException {
+        FcmMessage sendMessage = 
+                FcmMessage.builder().message(
+                            FcmMessage.Message.builder()
+                                .token(token)
+                                .notification(FcmMessage.Notification.builder()
+                                                .title(title)
+                                                .body(body)
+                                                .build())
+                            .build())
+                .validate_only(false)
+                .build();
+
+        return objectMapper.writeValueAsString(sendMessage);
+    }
+  ~~~
+
+## sendMessage
+HTTP v1 프로토콜을 사용하여 알림 메시지를 보내는 방법이다.
+특정 PUSH 알림이 필요한 API로 Request가 오면 FireBase 서버로 조건에 맞게 보낸다.
+
+~~~java
+@Override
+    public void sendMessage(String token, String title, String body) throws IOException {
+        String msg = makeMessage(token, title, body);
+
+        OkHttpClient okHttpClient = new OkHttpClient();
+        RequestBody requestBody = RequestBody.create(msg, MediaType.get("application/json; charset=utf-8"));
+        Request request = new Request.Builder()
+                .url(SEND_URL)
+                .post(requestBody)
+                .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + fcmService.getAccessToken())
+                .build();
+
+
+        Response execute = okHttpClient.newCall(request).execute();
+    }
+~~~
 
 [참고]()
 ---
