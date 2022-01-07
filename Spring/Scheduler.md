@@ -46,6 +46,10 @@ public class Scheduler {
   
   위 코드는 간단한 `@Scheduled` 어노테이션을 적용한 메소드를 실행하였고 아래와 같이 10초 마다 메소드가 실행되는 것을 확인 할 수 있다.
   
+  > fixedDelay : 이전에 실행된 task의 `종료시간`으로 부터 정의된 시간만큼 지난 후 다음 task 실행 miliseconds 단위
+  
+  > fixedRate : 이전에 실행된 task의 `시작시간`으로 부터 정의된 시간만큼 지난 후 다음 task 실행 miliseconds 단위
+  
   ![image](https://user-images.githubusercontent.com/79154652/148498462-3666244c-42b0-4d43-a6f1-ee37a4054c80.png)
 
  - 추가로 `cron`표현식을 통해서 원하는 시간, 날짜, 요일등 세부적인 스케줄을 등록하는 것이 가능하다.
