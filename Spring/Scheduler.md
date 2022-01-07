@@ -10,6 +10,7 @@
 
  ## 스케줄링 어노테이션 활성화
     
+   아래 코드와 같이 Java Config 를 사용한다면 `@EnableScheduling` 어노테이션만 붙여 주면 된다.
    ~~~java
    @Configuration
    @EnableScheduling
@@ -17,7 +18,7 @@
    
    }
    ~~~
-   위 코드와 같이 Java Config 를 사용한다면 `@EnableScheduling` 어노테이션만 붙여 주면 된다.
+  
    
    만약 XML 을 사용 한다면 아래의 `<task:annotation-driven>` 속성을 추가해주면 된다.
    ~~~
