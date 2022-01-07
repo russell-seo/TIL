@@ -98,3 +98,4 @@ public class Scheduler {
 [참고]()
 ---
 [https://docs.spring.io/spring-framework/docs/current/reference/html/integration.html#scheduling](https://docs.spring.io/spring-framework/docs/current/reference/html/integration.html#scheduling)
+[https://mingmi-programming.tistory.com/132](https://mingmi-programming.tistory.com/132)
