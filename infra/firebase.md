@@ -36,9 +36,116 @@
      개발자가 앱에 데이터를 받기 위한 서비스를 만들어 두면 Firebase 서버로 부터 데이터가 수신 될 때 마다 서비스가 실행되어 데이터를 획득
      
      
-
-
 # FCM 구현
+  
+  - Google 어플리케이션 기본 사용자 인증정보(ADC) 활용한 구현
+  - HTTP v1 REST 활용한 구현
+
+# ADC 활용한 구현
+
+   1. build.gradle에 `implementation "com.google.firebase:firebase-admin:8.1.0"` 추가
+   2. 먼저 사용자 인증 정보를 확인한다.(초기화 작업)
+  
+  
+
+  ## FcmInit
+  먼저 Spring 을 올리면서 사용자정보를 인증한다.
+  ~~~java
+  @Component
+public class FcmInit {
+
+    private final String firebaseConfigPath = "비공개 키 경로";
+
+    @PostConstruct
+    public void fcminit() throws IOException {
+
+
+        FileInputStream refreshToken = new FileInputStream(firebaseConfigPath);
+
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setCredentials(GoogleCredentials.fromStream(refreshToken))
+                .setDatabaseUrl("firebase DB 주소/")
+                .build();
+
+        if(FirebaseApp.getApps().isEmpty()){ //조건을 걸지 않으면 여러번 초기화하면서 장애가 발생
+            FirebaseApp.initializeApp(options);
+        }
+    }
+  
+  ~~~
+  
+  특정 기기 1개에 전송
+  
+  ~~~java
+  @Override
+    public void sendMulti(List<String> token){
+        MulticastMessage message = MulticastMessage.builder().setNotification(Notification.builder().setTitle("주임님").setBody("행복하세요?").build())
+                .addAllTokens(token)
+                .build();
+
+        try {
+            BatchResponse batchResponse = FirebaseMessaging.getInstance().sendMulticast(message);
+            System.out.println("batchResponse = " + batchResponse);
+        } catch (FirebaseMessagingException e) {
+            e.printStackTrace();
+        }
+
+    }
+  ~~~
+  
+  다수 기기에 같은 메시지 전송
+  
+  ~~~java
+  @Override
+    public void sendMessages(String token){
+
+        Message message = Message.builder().setNotification(Notification.builder().setTitle("주임님").setBody("행복하세요?").build())
+                                 .setToken(token)
+                                 .build();
+        try {
+            String send = FirebaseMessaging.getInstance().send(message);
+            System.out.println("send = " + send);
+        } catch (FirebaseMessagingException e) {
+            e.printStackTrace();
+        }
+    }
+  
+  ~~~
+  
+  일괄 메시지 전송
+  
+  ~~~java
+  @Override
+    public void sendMessageAll(List<FcmDto> fcmDtos, String title, String body) {
+        System.out.println("fcmDtos = " + fcmDtos);
+        List<Message> messages =
+                fcmDtos.stream().map(j -> {
+                    System.out.println("j.getDevice_token() = " + j.getDevice_token());
+                    Message allUsers = Message.builder()
+                            .setNotification(Notification.builder().setTitle(title + j.getMessage()).setBody(body + j.getMessage()).build())
+                            .setToken(j.getDevice_token())
+                            .build();
+                    System.out.println("allUsers = " + allUsers);
+                    return allUsers;
+                }
+        ).collect(Collectors.toList());
+        System.out.println("메시지 = " + messages);
+
+        BatchResponse batchResponse = null;
+        try {
+            batchResponse = FirebaseMessaging.getInstance().sendAll(messages);
+        } catch (FirebaseMessagingException e) {
+            e.printStackTrace();
+        }
+        System.out.println("batchResponse.getSuccessCount() = " + batchResponse.getSuccessCount());
+
+    }
+  ~~~
+  
+  
+  
+
+# FCM 구현(HTTP REST 활용한 코드)
 
   먼저 FCM 서버를 구현하기 위해 작성해야 하는 코드는 총 3개 이다.
   
