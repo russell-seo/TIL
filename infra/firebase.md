@@ -145,7 +145,7 @@ public class FcmInit {
   
   
 
-# FCM 구현(HTTP REST 활용한 코드)
+# HTTP v1 활용한 구현
 
   먼저 FCM 서버를 구현하기 위해 작성해야 하는 코드는 총 3개 이다.
   
