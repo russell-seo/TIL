@@ -29,7 +29,7 @@
       - [JpaRepository](https://github.com/russell-seo/TIL/blob/main/JPA/JpaRepository.md)
       - [N+1 문제](https://github.com/russell-seo/TIL/blob/main/JPA/N%2B1.md)
       - [OSIV](https://github.com/russell-seo/TIL/blob/main/JPA/OSIV.md)
-      - [Spring Data Jpa]()
+      - [Spring Data Jpa](https://github.com/russell-seo/TIL/blob/main/JPA/JpaRepository.md)
 
 # DataBase
 
