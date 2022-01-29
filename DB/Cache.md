@@ -78,3 +78,21 @@
      -  하지만, 상품 데이터를 캐싱한다고 했을 때는 상황이 달라집니다. 사용자가 가격을 변경했는데, 그것이 반영되지 않으면 서비스 신뢰를 심각하게 손상하고, 운이 나쁘면 법적 문제로 이어지기도 합니다. 따라서, 이러한 경우에는 동기화가 속도보다 더 중요하며, 그렇기에 동기화가 확실하게 보장되는 Global Cache를 사용하는 것이 좋습니다.
      
  
+ # Look Aside Cache
+ 
+  캐시에도 다양한 전략이 존재한다.
+  
+  대표적으로 Look Aside Cache 와 Write Back이 존재한다.
+  
+  - Look Aside Cache : 캐시 저장소에 데이터가 있으면, 캐시에서 가져오고 없으면 메인 DB에서 값을 가져오는 대표적인 캐시 전략.
+  - Write Back : 캐시 저장소에 특정 시간동안 데이터를 모아서, 배치 처리를 통해 DB에 저장하는 전략
+  
+  ![image](https://github.com/binghe819/TIL/raw/master/Spring/Cache/spring%20boot%20cache%20with%20redis/image/webserver_cache.png)
+
+- Web Server는 데이터가 존재하는지 Cache를 먼저 확인한다.
+  - Cache에 데이터가 있으면 Cache에서 값을 가져온다.
+  - Cache에 데이터가 없으면 DB에서 데이터를 가져와서 Cache에 저장하고 값을 가져온다.
+
+- Write 하는 방식
+  - 방법1 : 어플리케이션이 새로운 데이터 쓰기 혹은 업데이트 할 때 캐시와 DB 모두에 같은 작업을 실행하는 방법.
+  - 방법2 : 어플리케이션의 모든 쓰기 작업은 DB에만 적용되고, 기존의 캐시 데이터를 무효화 시키는 방법.
