@@ -96,3 +96,28 @@
 - Write 하는 방식
   - 방법1 : 어플리케이션이 새로운 데이터 쓰기 혹은 업데이트 할 때 캐시와 DB 모두에 같은 작업을 실행하는 방법.
   - 방법2 : 어플리케이션의 모든 쓰기 작업은 DB에만 적용되고, 기존의 캐시 데이터를 무효화 시키는 방법.
+
+
+## Cache 와 CacheManager
+
+> 스프링이 캐싱 기능을 추상화시켰고, 그저 @EnableCaching 이라는 어노테이션을 선언해주면, 캐시관련된 어노테이션을 스캔하여 캐싱 로직을 수행한다.
+
+- 사실 가장 중요한 것은 캐시 데이터를 어디에 저장하느냐 이다.
+  
+  다시 말해, 스프링은 캐시 관련된 로직을 제공하지만, 캐시 데이터를 어디에 저장할지는 개발자가 저장해줘야 한다.
+  
+  그리고 이부분을 스프링은 아래 두 가지 인터페이스를 이용해 추상화해두었다.
+  
+    - `org.springframework.cache.Cache` : 캐시 데이터에 대한 생명주기를 관리하는 객체
+    - `org.springframework.cache.CacheManager` : 캐시를 관리해주는 매니저, `Cache` 객체를 관리한다.
+  
+ 필자는 프로젝트에 Redis 환경이 구축되어 있어, RedisCacheManager를 이용하여 구현하였다.
+ 
+ 
+ ## 핵심은 둘
+  
+  - Caching declaration : identify the methods that need to be cached and their policy
+    - 어노테이션을 통해 어떤 메서드가 캐싱이 필요한지, 또한 어노테이션을 통해 어떤 정책을 사용할지 설정해주면 된다.
+  
+  - Cache Configuration : The backing cache where the data is stored and from which it is read
+    - 캐시한 데이터를 어디에 저장하고 읽어올지 설정해주면 된다.
