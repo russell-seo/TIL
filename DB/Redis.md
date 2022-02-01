@@ -104,6 +104,8 @@ Keys 명령어가 상당히 오래걸리는데, 만약 중간에 Keys명령어�
   8. volatile-lfu : expire set을 가진 것 중 가장 적게 엑세스한 키부터 제거하고 공간을 확보
   
   
+  
+  
   Maxmemory 초과로 인해서 데이터가 지워지게 되는 것을 eviction 이라고 합니다. Redis에 들어가서 INFO 명령어를 친 후 evicted_keys 수치로
   
   보면 eviction이 발생했는지 알 수 있습니다. Amazon Elasticache를 사용하는 경우 모니터링 tab에 들어가면 eviction에 대한 그래프가 있는데
