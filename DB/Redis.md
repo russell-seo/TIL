@@ -73,3 +73,39 @@
     - `AOF` : Redis의 모든 write/update를 순차적으로 재실행하고 데이터를 복구합니다.
     
     - 가장 좋은 방법은 두 방법을 혼용해서 사용하는 방법으로 주기적으로 snapshot으로 백업을 하고 다음 snapshot까지의 저장을 AOF 방식으로 수행하는 방식
+
+
+# Redis 관리하기
+
+Redis의 대표적인 특징은 Single Threaded(싱글쓰레드) 라는 점이다. 다시 말해 Redis는 한 번에 딱 하나의 명령어만 실행할 수 있다는 뜻 입니다.
+
+만약 명령어를 포함한 Packet이 MTU(Maximum Trasmission Unit)보다 크면 Packet이 쪼개져서 올 수 있는데, Redis는 쪼개진 명령어를 합쳐서 하나
+
+의 명령어가 되는 순간 그 명령어를 실행합니다. Single Thread라서 느리다고 생각 할 수 있지만, 평균적으로 __Get/Set 명령어 같은 경우 초당
+10만개 정도 까지도 처리할 수 있다고 한다.
+
+다만 `조심할 점은 처리시간이 긴 명령어를 중간에 넣으면 그 뒤에 있는 명령어들은 전부 기다려야 한다는 것` 이다. 대표적으로 전체 키를 불러오는
+
+Keys 명령어가 상당히 오래걸리는데, 만약 중간에 Keys명령어를 실행하면 그 뒤에 오는 Get/Set 명령어들은 타임아웃이 나서 요청에 실패할 수도 있다.
+
+> Redis를 사용하여 서비스를 운영하다보면 Redis 서버의 메모리가 한계에 도달할 수 있다. 메모리의 한계는 MaxMemory 값으로 설정할 수 있다.
+  MaxMemory 수치까지 메모리가 다 차는 경우 Redis는 Max Memory Policy에 따라서 추가 메모리를 확보합니다.
+
+
+- Maxmemory-policy  설정값
+  
+  1. noeviction : 기존 데이터를 삭제하지 않습니다. 메모리가 꽉 찬 경우에는 OOM(Out of Memory)오류 반환하고 새로운 데이터는 버린다.
+  2. allkeys-lru :LRU(Least Recently Used)라는 페이지 교체 알고리즘을 통해 데이터를 삭제하여 공간을 확보한다.
+  3. volatile-lru : expire set을 가진 것 중 LRU로 삭제하여 메모리 공간을 확보한다.
+  4. allkys-random : 랜덤으로 데이터를 삭제하여 공간을 확보한다.
+  5. volatile-random : expire-set을 가진 것 중 TTL(Time to live) 값이 짧은 것 부터 삭제한다.
+  6. volatile-ttl : expire set을 가진 것 중 TTL이 짧은 것 부터 삭제
+  7. allkeys-lfu: 가장 적게 엑세스한 키를 제거하여 공간을 확보
+  8. volatile-lfu : expire set을 가진 것 중 가장 적게 엑세스한 키부터 제거하고 공간을 확보
+  
+  
+  Maxmemory 초과로 인해서 데이터가 지워지게 되는 것을 eviction 이라고 합니다. Redis에 들어가서 INFO 명령어를 친 후 evicted_keys 수치로
+  
+  보면 eviction이 발생했는지 알 수 있습니다. Amazon Elasticache를 사용하는 경우 모니터링 tab에 들어가면 eviction에 대한 그래프가 있는데
+  
+  이를 토해 Eviction 여부에 대한 알림을 받을 수 있습니다.
