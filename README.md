@@ -35,7 +35,7 @@
 
   - [인덱스(Index)](https://github.com/russell-seo/TIL/blob/main/DB/index.md)
   - [Redis](https://github.com/russell-seo/TIL/blob/main/DB/Redis.md)
-    - [Redis Replication]()
+    - [Redis Replication](https://github.com/russell-seo/TIL/blob/main/DB/RedisReplication.md)
   - [Cache](https://github.com/russell-seo/TIL/blob/main/DB/Cache.md)
 # Infra
 
