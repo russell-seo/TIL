@@ -64,9 +64,13 @@ public class RedisConfig {
    쉽게말해, 객체와 JSON 간의 직렬화/역직렬화 설정을 해주어야 한다.
    
    
-   캐싱을 적용하는 것은 간단하다. 캐싱을 원하는 메소드에 
+   캐싱을 적용하는 것은 간단하다. 캐싱을 원하는 메소드에 어노테이션을 붙여주기만 하면 된다.
     
    ![image](https://user-images.githubusercontent.com/79154652/152315898-d8e99cc4-b152-4454-b95b-a6f14ef7d9c1.png)
 
-   
+   - `@Cacheable` : 조회 캐시 설정 어노테이션
+      - key : 저장소에 저장될 때의 key(프로젝트 에는 파라미터 필드의 update_date 를 사용했다.)
+      - value : 저장소에 저장될때의 그룹명
+      - condition : SpEL을 사용하여 캐싱조건 설정
+      - unless : DB로부터 받아온 값에 따라 캐싱조건 설정(프로젝트에는 DB에는 받은 값이 없으면 캐시되지 않도록 설정)
     
