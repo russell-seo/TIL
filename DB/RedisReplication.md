@@ -239,4 +239,4 @@ Redis Cluster 마스터와 슬레이브 연동을 모두 끝냈고, 실제로 �
 
 참고()
 ---
-![https://co-de.tistory.com/24](https://co-de.tistory.com/24)
+[https://co-de.tistory.com/24](https://co-de.tistory.com/24)
