@@ -235,5 +235,8 @@ Redis Cluster 마스터와 슬레이브 연동을 모두 끝냈고, 실제로 �
   
 이 글은 여기서 마치며 다음에는 실제 테스트를 진행해보고 포스팅 하겠다.
 
-  
-  
+
+
+참고()
+---
+![https://co-de.tistory.com/24](https://co-de.tistory.com/24)
