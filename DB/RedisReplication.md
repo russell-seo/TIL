@@ -56,7 +56,7 @@
   ![image](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F0vAII%2Fbtq4DhJYDuA%2FhGfHUmIO9FuXfGeKPkhSTK%2Fimg.png)
     
     
-  1. Redis 설치
+ 1. Redis 설치
   
   ~~~java
   $ wget http://download.redis.io/releases/redis-5.0.5.tar.gz 
@@ -67,7 +67,7 @@
   $ redis-server redis.conf(redis.conf 파일이 있는 경로에서) 
   ~~~
   
-  2. 설정
+ 2. 설정
   
   3개의 마스터 노드와, 3개의 Slave 노드를 띄우기 위해 설정 파일을 복사 한다.
   
@@ -103,7 +103,7 @@
     logfile logs/redis_[각자포트].log
   ~~~
   
-  3. 서버 기동
+ 3. 서버 기동
   ~~~java
   $ redis-server redis_6379.conf
   $ redis-server redis_6378.conf
@@ -113,14 +113,14 @@
   $ redis-server redis_7377.conf
   ~~~
   
-  4. 서버가 돌아가고 있는 프로세스 확인
+ 4. 서버가 돌아가고 있는 프로세스 확인
   
   - 서버는 해당 서버에 올라가 있지만, Master와 Slave 설정을 하지않은 상태이다.
   
   ![image](https://user-images.githubusercontent.com/79154652/153111250-410c5487-1421-427e-afaf-9da6f7a60d35.png)
 
   
-  5. 마스터 설정
+ 5. 마스터 설정
   ~~~java
   $ redis-cli --cluster create 0.0.0.0:6379 0.0.0.0:6378 0.0.0.0:6377
   
@@ -154,3 +154,83 @@
   
   ~~~
   
+  
+ 6. Slave 등록
+  ~~~java
+  $ redis-cli --cluster add-node 127.0.0.1:7379 127.0.0.1:6379 --cluster-slave 
+  $ redis-cli --cluster add-node 127.0.0.1:7378 127.0.0.1:6378 --cluster-slave 
+  $ redis-cli --cluster add-node 127.0.0.1:7377 127.0.0.1:6377 --cluster-slave 
+  >>> Adding node 127.0.0.1:7379 to cluster 127.0.0.1:6379 
+  >>> Performing Cluster Check (using node 127.0.0.1:6379) 
+  M: 1421ba67b8753514d8b4468bfba6691492600b15 127.0.0.1:6379 
+  slots:[0-5460] (5461 slots) master 
+  M: b6d509a5de3a12df80922d5cc9508a0e9031f4c9 127.0.0.1:6378 
+  slots:[10923-16383] (5461 slots) master 
+  M: a9a9cf5addf2b403f9d7a19f2a7436a69b9ee29a 127.0.0.1:6377 
+  slots:[5461-10922] (5462 slots) master 
+  [OK] All nodes agree about slots configuration. 
+  >>> Check for open slots... 
+  >>> Check slots coverage... 
+  [OK] All 16384 slots covered. 
+  Automatically selected master 127.0.0.1:6379 
+  >>> Send CLUSTER MEET to node 127.0.0.1:7379 to make it join the cluster. 
+  Waiting for the cluster to join 
+  >>> Configure node as replica of 127.0.0.1:6379. 
+  [OK] New node added correctly.
+
+  ~~~
+
+  
+ 7. 클러스터 확인
+  
+  ![image](https://user-images.githubusercontent.com/79154652/153112849-5758139d-60c9-454c-80a9-8914e7373003.png)
+  
+ 8. Spring Bean 에 등록
+  
+ ~~~java
+        @Bean
+        public RedisConnectionFactory redisConnectionFactory(){
+            LettuceClientConfiguration lettuceClientConfiguration = LettuceClientConfiguration.builder()
+                    .readFrom(ReadFrom.REPLICA_PREFERRED)
+                    .build();
+
+            RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration()
+                    .clusterNode("3.34.122.63", 6379)
+                    .clusterNode("3.34.122.63", 6378)
+                    .clusterNode("3.34.122.63", 6377)
+                    .clusterNode("3.34.122.63", 7379)
+                    .clusterNode("3.34.122.63", 7378)
+                    .clusterNode("3.34.122.63", 7377);
+
+            LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(redisClusterConfiguration, lettuceClientConfiguration);
+            return lettuceConnectionFactory;
+        }
+
+        @Bean
+        public RedisTemplate<String,Object> redisTemplate(){
+            RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+            redisTemplate.setConnectionFactory(redisConnectionFactory());
+            redisTemplate.setKeySerializer(new StringRedisSerializer());
+            redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class));
+            return redisTemplate;
+        }
+
+        @Bean
+        public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory){
+            RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+                    .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
+                    .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer())).entryTtl(Duration.ofMinutes(30));
+
+            return RedisCacheManager
+                    .RedisCacheManagerBuilder
+                    .fromConnectionFactory(redisConnectionFactory)
+                    .cacheDefaults(redisCacheConfiguration)
+                    .build();
+
+        } 
+  
+ ~~~
+
+Redis Cluster 마스터와 슬레이브 연동을 모두 끝냈고, 실제로 데이터를 넣어서 테스트를 해볼 예정이다.
+  
+이 글은 여기서 마치며 다음에는 실제 테스트를 진행해보고 포스팅 하겠다.
