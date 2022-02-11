@@ -4,6 +4,8 @@
   - Redis를 구성하는 방법 중에서 Read 분산과 데이터 이중화를 위한 Master/Slave 구조가 있습니다. Master 노드는 쓰기/읽기를 전부 수행하고,
     Slave는 읽기만 가능합니다. 이렇게 하려면 Slave는 Master 의 데이터를 전부 가지고 있어야 한다. 이럴 때 발생하는 것이 Replication 입니다.
     
+    `굳이 대용량의 데이터를 처리해야하는 서비스가 아니라면 마스터노드 하나만 가져가도 충분하다고 한다.`
+    
     `Replication은 마스터에 있는 데이터를 복제해서 Slave로 옮기는 작업입니다. Slave가 싱크를 받는 작업은 다음과 같다.`
     
   ## Master-Slave간 Replication 작업 순서
