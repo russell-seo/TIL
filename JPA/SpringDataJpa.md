@@ -573,3 +573,113 @@ public void page() throws Exception {
     Pageable nextPageable(); //다음 페이지 객체
     Pageable previousPageable();//이전 페이지 객체
    ~~~
+
+
+## Projections
+
+Entity 대신에 DTO를 편리하게 조회할 때 사용
+
+전체 Entity가 아니라 만약 회원 이름만 딱 조회하고 싶으면?
+
+1. 먼저 인터페이스를 구현한다.
+
+~~~java
+public interface UsernameOnly{
+      String getUsername();
+    }
+~~~
+
+- 조회할 Entity의 필드를 getter 형식으로 지정하면 해당 필드만 선택해서 조회(Projection)
+
+2. Repository를 구현
+
+~~~java
+public interface MemberRepository ... {
+  List<UsernameOnly> findProjectionsByUsername(String username);
+}
+~~~
+
+- 메서드 이름은 자유, 반환 타입으로 인지 한다.
+
+
+3. Test
+
+~~~java
+
+@Test
+public void projections() throws Exception {
+ //given
+ Team teamA = new Team("teamA");
+ em.persist(teamA);
+ 
+ Member m1 = new Member("m1", 0, teamA);
+ Member m2 = new Member("m2", 0, teamA);
+ 
+ em.persist(m1);
+ em.persist(m2);
+ 
+ em.flush();
+ em.clear();
+ 
+ //when
+ List<UsernameOnly> result = memberRepository.findProjectionsByUsername("m1");
+ 
+ //then
+ 
+ Assertions.assertThat(result.size()).isEqualTo(1);
+ 
+ }
+~~~
+
+4. query 확인
+~~~java
+select m.username from member m where m.username = 'm1';
+~~~
+
+- username 만 조회하는 것을 확인 할 수 있다.
+
+
+__인터페이스 기반 Closed Projections__
+
+프로퍼티 형식(getter)의 인터페이스를 제공하면, 구현체는 스프링 데이터 JPA가 제공
+
+~~~java
+public interface UsernameOnly{
+ String getUsername();
+}
+~~~
+
+__클래스 기반 Projection__
+
+다음과 같이 인터페이스가 아닌 구체적인 DTO 형식도 가능
+
+생성자의 파라미터 이름으로 매칭
+
+~~~java
+public class UsernameOnlyDto {
+    
+    private final String username;
+ 
+ public UsernameOnlyDto(String username) {
+ this.username = username;
+ }
+ 
+ public String getUsername() {
+ return username;
+ }
+}
+
+~~~
+
+__Native Query + Projection 활용__
+
+~~~java
+
+@Query(value = "select m.member_id as id, m.username, t.name as teamName " +
+               "from member m left join team t",
+               countQuery = "select count(*) from member",
+               nativeQuery = true)
+
+Page<MemberProjection> findByNativeProjection(Pageable pageable);
+
+~~~
