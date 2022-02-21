@@ -16,7 +16,7 @@
    - Credential(증명서) : 인증 과정 중, 주체가 본인을 인증하기 위해 서버에 제공하는 것(ID/PASSWORD)
 
 
-  
+  <p align = center>
   <img src = https://media.vlpt.us/images/qotndus43/post/8d342792-848f-4078-9c74-b3acd32e8c91/image.png>
   </p>
   
@@ -101,9 +101,9 @@ public class xxxService {
    
    우선은 소셜 로그인이 아닌 기본적인 Form Login 의 구조를 살펴보자
    
-   
-   ![image](https://media.vlpt.us/images/tmdgh0221/post/943d8964-04c2-4310-8b32-caaf0aac8b65/security-aritchtecture.PNG)
-   
+   <p align = center>
+   <img src = https://media.vlpt.us/images/tmdgh0221/post/943d8964-04c2-4310-8b32-caaf0aac8b65/security-aritchtecture.PNG>
+   </p>
    
    1.사용자가 로그인 정보와 함께 인증 요청(HttpRequest)
    
