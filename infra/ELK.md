@@ -4,14 +4,14 @@
    
    ELK Stack을 알아보기 전에 ElasticSearch에 대해 알아보자.
    
-   __ElasticSearch__ 란?
+   1. __ElasticSearch__ 란?
    
    ElasticSearch는 Apache Lucene 기반의 Java 오픈소스 분산형 RESTful 검색 및 분석 엔진 입니다. 방대한 양의 데이터에 대해 실시간으로 저장과 검색 및 분석등의 작업을 수행할 수 있습니다.
    
    특히 정형데이터, 비정형 데이터, 지리 데이터등 모든 타입의 데이터를 처리할 수 있습니다. ElasticSearch는 `JSON 문서로 데이터를 저장하기 때문입니다.`
    
    
-  __ELK Stack__ 란?
+  2. __ELK Stack__ 란?
   
   - 기존 `ELK(ElasticSearch + Logstash + Kibana)에 FileBeats`가 들어간 형태를 말한다.
 
