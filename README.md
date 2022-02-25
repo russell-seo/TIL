@@ -35,7 +35,7 @@
       
   - QueryDsl
       
-      - [Spring Boot Querydsl 설정]()      
+      - [Spring Boot Querydsl 설정](https://github.com/russell-seo/TIL/blob/main/Querydsl/QueryDsl.md)      
       
   - ElasticSearch
   
