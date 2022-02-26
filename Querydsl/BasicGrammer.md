@@ -134,11 +134,11 @@ public void searchAndParam() {
 
 ### 결과조회
 
-- fetch() : 리스트 조회, 데이터 없으면 빈 리스트 반환
-- fetchOne() : 단 건 조회
+- `fetch()` : 리스트 조회, 데이터 없으면 빈 리스트 반환
+- `fetchOne()` : 단 건 조회
       - 결과가 없으면 : `null`
       - 결과가 둘 이상이면:`com.querydsl.core.NonUniqueResultException`
 
 - `fetchFirst()` : limit(1).fetchOne()
-- `fetchResults() : 페이징 정보 포함, total count 쿼리 추가 실행
+- `fetchResults()` : 페이징 정보 포함, total count 쿼리 추가 실행
 - `fetchCount()` : count 쿼리로 변경해서 count 수 
