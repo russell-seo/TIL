@@ -144,3 +144,123 @@ public void searchAndParam() {
 - `fetchFirst()` : limit(1).fetchOne()
 - `fetchResults()` : 페이징 정보 포함, total count 쿼리 추가 실행
 - `fetchCount()` : count 쿼리로 변경해서 count 수 
+
+
+~~~java
+
+//페이징에서 샤용
+
+QueryResults<Member> results = 
+                                qf
+                                .selectFrom(member)
+                                .fetchResults();
+                                
+//Count 쿼리로 변경
+long count = qf
+              .selectFrom(member)
+              .fetchCount();
+
+~~~
+
+### 정렬
+
+~~~java
+
+@Test
+public void sort(){
+    
+    JPAQueryFactory qf = new JPAQueryFactory(em);
+    
+    List<Member> result = qf
+                          .selectFrom(member)
+                          .where(member.age.eq(10))
+                          .orderBy(member.age.desc(), member.username.asc().nullsLast())
+                          .fetch();
+}
+
+~~~
+
+- `desc()`, `asc()` : 일반 정렬
+- `nullsLast()`, `nullFirst()` : null 데이터 순서 부여
+
+
+### 페이징
+
+~~~java
+@Test
+public void paging(){
+
+  List<Member> result =  qf
+                          .selectFrom(member)
+                          .orderBy(member.username.desc())
+                          .offset(1) // 0부터 시작된다 원래
+                          .limit(2) // 최대 2개 조회
+                          .fetch();
+   
+}
+
+//전체 조회수가 필요하면 fetchResults
+
+@Test
+public void paging2() {
+ QueryResults<Member> queryResults = queryFactory
+                                       .selectFrom(member)
+                                       .orderBy(member.username.desc())
+                                       .offset(1)
+                                       .limit(2)
+                                       .fetchResults();
+
+
+~~~
+
+> 참고 : 실무에서 페이징 쿼리를 작성할 때, 데이터를 조회하는 쿼리는 여러 테이블을 조인해야 하지만, count 쿼리는 조인이 필요 없는 경우도 있다.
+        그런데 이렇게 자동화된 count 쿼리는 원본 쿼리와 같이 모두 조인을 해버리기 때문에 성능이 안나올 수 있다. count 쿼리에 조인이 필요없는 성능 최적화가 필요하다면,
+        count 전용 쿼리를 별도로 작성해야 한다.
+
+
+### 기본집합 및 GroupBy
+
+~~~java
+@Test
+public void aggregation(){
+  List<Tuple> result = queryFactory
+                           .select(member.count(),
+                           member.age.sum(),
+                           member.age.avg(),
+                           member.age.max(),
+                           member.age.min())
+                           .from(member)
+                           .fetch();
+
+}
+    Tuple tuple = result.get(0);
+    
+    assertThat(tuple.get(member.count())).isEqualTo(4);
+   assertThat(tuple.get(member.age.sum())).isEqualTo(100);
+   assertThat(tuple.get(member.age.avg())).isEqualTo(25);
+   assertThat(tuple.get(member.age.max())).isEqualTo(40);
+   assertThat(tuple.get(member.age.min())).isEqualTo(10);
+   
+   
+@Test
+public void group(){
+      List<Tuple> result = qf
+                          .select(team.name, member.age.avg())
+                          .from(member)
+                          .join(member.team, team)
+                          .groupBy(team.name)
+                          .fetch();
+      
+      Tuple teamA = result.get(0);
+      Tuple teamB = result.get(1);
+
+// 그룹화된 결과를 제한하려면 having
+
+.groupBy(item.price)
+.having(item.price.gt(1000))
+
+}
+~~~
+
+- JPQL이 제공하는 모든 집합 함수를 제공한다.
+- tuple 은 프로젝션과 결과반환에서 설명한다.
