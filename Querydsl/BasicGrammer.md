@@ -264,3 +264,36 @@ public void group(){
 
 - JPQL이 제공하는 모든 집합 함수를 제공한다.
 - tuple 은 프로젝션과 결과반환에서 설명한다.
+
+
+## 조인
+
+기본 조인
+조인의 기본 문법은 첫 번째 파라미터에 조인 대상을 지정하고, 두번째 파라미터에 별칭(alias)으로 사용할 Q 타입을 지정하면 된다.
+
+`join(조인대상, 별칭으로 사용할 Q타입)`
+
+~~~java
+
+@Test
+public void join(){
+    QMember member = QMember.member;
+    QTeam team = QTeam.team;
+    
+    List<Member> result = qf
+    .selectFrom(member)
+    .join(member.team, team)
+    .where(team.name.eq("teamA"))
+    .fetch();
+    
+    assertThat(result)
+            .extracting("username")
+            .containsExactly("member1", "member2")
+}
+
+~~~
+
+- `join()`, `innerJoin()` : 내부 조인(inner join)
+- `leftJoin()` : left 외부 조인
+- `rightJoin()` : right 외부 조인
+- JPQL의 `on`과 성능 최적화를 위한 `fetch` 조인 제공
