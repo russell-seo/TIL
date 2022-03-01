@@ -12,8 +12,12 @@
   그리고 내부적으로 트랜잭션 코드가 추상화되어 숨겨져 있는 것 입니다.
   `이렇게 추상화 계층을 사용하여 어떤 기술을 내부에 숨기고 개발자에게 편의성을 제공해주는 것이 서비스 추상화(Service Abstraction)`입니다.
   
+  > 이는 POJO 원칙을 철저히 따른 Spring의 기능으로 Spring 에서 동작할 수 있는 Library 들은 POJO 원칙을 지키게끔 PSA 형태의 추상화가 되어 있음을 의미 한다.
+  
   그리고 아시다시피 DB에 접근하는 방법은 여러가지가 있다. 기본적으로 JDBC를 통해 접근(DatasourceTransactionManger)할 수 있으며 ORM을 이용하고자 하면 JPA(JpaTranscationalManager)를 통해서 접근할 수도 있습니다. 신기하게도 어떠한 경우라도 @Transactional 어노테이션을 이용하면 트랜잭션을 유지하는 기능을 추가할 수 있다.
   이렇게 __하나의 추상화로 여러 서비스를 묶어둔 것을 Spring 에서 Portable Service Abstraction__ 이라고 한다. 또 Service Abstraction으로 제공되는 기술을 다른 기술 스택으로 간편하게 바꿀 수 있는 확장성을 가지고 있는 것이 `PSA(Portable Service Abstraction)` 이다.
+  
+  따라서 외부 라이브러리 들은 Spring 에서 사용할 때 내부 구현이 달라지더라도 동일한 인터페이스로 동일한 구동이 가능 하게끔 설계되어 있으며 의존성을 고려할 필요가 없다.
   
   > Spring은 Spring Web MVC, Spring Transaction, Spring Cache등의 다양한 PSA를 제공한다.
 
