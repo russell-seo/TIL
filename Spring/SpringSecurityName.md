@@ -61,12 +61,15 @@
   __2. Authentication__
       - 실질적으로 인증정보를 담고 있는 객체
       - Authentication 객체의 구성
+      
           - `Principal`
               - 내가 누구인지에 대한 정보를 담은 객체
               - 로그인_ID에 해당하는 값을 담고 있다.
+              
           - `Credentials`
               - 인증 자격에 대한 정보를 담은 객체
               - 비밀번호와 같은 암호 값을 담고 있다.
+              
           - `Authorities`
               - 현재 유저의 권한(ROLE)정보를 담은 객체
               
