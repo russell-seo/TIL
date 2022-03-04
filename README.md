@@ -51,7 +51,6 @@
   - [Cache](https://github.com/russell-seo/TIL/blob/main/DB/Cache.md)
 # Infra
 
-  -   [AWS EC2]-예정
   -   [AWS Tomcat9, nginx](https://github.com/russell-seo/TIL/blob/main/Infra/AWS/Tomcat%2CNginx.md)
   -   [Docker](https://github.com/russell-seo/TIL/blob/main/Infra/AWS/docker.md)
   -   [Firebase](https://github.com/russell-seo/TIL/blob/main/infra/firebase.md)
