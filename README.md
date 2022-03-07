@@ -49,6 +49,7 @@
   - [Redis](https://github.com/russell-seo/TIL/blob/main/DB/Redis.md)
     - [Redis Replication](https://github.com/russell-seo/TIL/blob/main/DB/RedisReplication.md)
     - [Redis 적용](https://github.com/russell-seo/TIL/blob/main/DB/RedisApply.md)
+    - [Redis 메모리 운영 및 ]()
   - [Cache](https://github.com/russell-seo/TIL/blob/main/DB/Cache.md)
 # Infra
 
