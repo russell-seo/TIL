@@ -297,3 +297,85 @@ public void join(){
 - `leftJoin()` : left 외부 조인
 - `rightJoin()` : right 외부 조인
 - JPQL의 `on`과 성능 최적화를 위한 `fetch` 조인 제공
+
+
+
+__세타 조인__
+
+연관관계가 없는 필드로 조인
+
+~~~java
+
+@Test
+public void theta_join() throws Exception{
+  em.persist(new Member("teamA"));
+  em.persist(new Member("teamB"));
+  
+  List<Member> result = qf
+                          .select(member)
+                          .from(member, team)
+                          .where(member.username.eq(team.name))
+                          .fetch();
+    
+    
+    assertThat(result)
+            .extracting("username")
+            .containsExactly("teamA", "teamB")
+
+}
+
+~~~
+
+- from 절에 여러 엔티티를 선택하여 세타 조인
+- 외부 조인 불가능 -> 다음에 설명할 조인 on 사용하면 외부 조인 가능
+
+
+__ON절을 활용한 조인__
+
+- 조인 대상 필터링
+  
+  회원과 팀을 조인하면서, 팀 이름이 teamA인 팀만 조인, 회원은 모두 조회
+  
+ ~~~java
+ /**
+ * 예) 회원과 팀을 조인하면서, 팀 이름이 teamA인 팀만 조인, 회원은 모두 조회
+ * JPQL: SELECT m, t FROM Member m LEFT JOIN m.team t on t.name = 'teamA'
+ * SQL: SELECT m.*, t.* FROM Member m LEFT JOIN Team t ON m.TEAM_ID=t.id and
+t.name='teamA'
+ */
+ @Test
+ public void join_on_filtering() throws Exception{
+    
+     List<Tuple> result = qf
+                            .selet(member, team)
+                            .from(member)
+                            .leftJoin(member.team, team).on(team.name.eq("teamA"))
+                            .fetch();
+ 
+ }
+ ~~~
+ 
+ > 참고 : on 절을 활용해 조인 대상을 필터링 할 떄, 외부조인이 아니라 내부 조인을 사용하면 where 절에서 필터링 하는 것과 기능이 동일하다. 따라서 on절을 활용한 조인대상 필터링을 사용할 때, 내부조인이면 익숙한 where 절로 해결하고, 정말 외부조인이 필요한 경우에만 이 기능을 사용해야 한다.
+
+
+## 페치 조인
+
+
+- 페치 조인은 SQL 에서 제공하는 기능은 아니다. SQL 조인을 활용해서 연관된 엔티티를 SQL 한번에 조회하는 기능이다. 주로 성능 최적화에 사용하는 방법
+
+~~~java
+
+@Test
+public void fetchjoinUse() throws Exception{
+
+  Member findMember  = qf
+            .selectFrom(member)
+            .join(member.team, team).fetchJoin()
+            .where(member.username.eq("member1"))
+            .fetchOne();
+
+}
+
+~~~
+
+- `join(), leftJoin()`등 조인 기능 뒤에 `fetchJoin()`이라고 추가하면 된다.
