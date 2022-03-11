@@ -22,7 +22,7 @@ public class PushInfoVO {
   
   __Mapper.xml__
   
-  ~~~
+  ~~~java
   <resultMap id="PushInfoUser" type="com.jhc.logen.vo.fcm.PushInfoVO">
         <id column="id" property="id"/>
         <result column="tradesub_nm" property="tradesub_nm" />
@@ -40,7 +40,7 @@ public class PushInfoVO {
   - `<result>` 는 PK가 아닌 일반 컬럼에 대한 매핑을 처리한다. 속성은 위의 `<id>` 와 동일하다. 
   
   
-  ~~~
+  ~~~java
   <select id="findUserInfo" parameterType="String" resultMap="PushInfoUser">
         select l.id, a.tradesub_cd, a.tradesub_nm, a.login_time from
                       LOGEN_APP.logen_fcm l
