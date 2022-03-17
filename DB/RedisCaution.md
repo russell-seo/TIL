@@ -10,6 +10,17 @@
    - 설정
 
 
+   ## 그래서 Redis 운영을 위한 설정 팁 먼저 기록하겠다.
+   
+   - Maxclient 설정을 `50000`으로 해놓자. 기본값은 `10000` (설정한 값의 수 만큼 Client 접속 가능)
+   - RDB/AOF 설정 off(persistance 기능을 끄는게 성능, 안정성이 높음. 혹시 persistance를 유지해야할 경우 Master에서는 off 시켜놓고
+     Slave에서만 설정을 켜두도록 하자.
+   - 특정 command는 disable 시키자. 다른건 몰라도 `Keys`를 disable 시켜야 한다.
+   - maxmemory를 사용할만큼 지정한다. 1G로 놓으면 1GB만 사용하게 된다.
+   - maxmemory-policy, 즉 메모리가 꽉 찼을 때의 정책을 성정한다. 사실 이럴 일이 없게 60~70% 정도 차면 migration을 해주는 것이 맞다. allkeys-lru로 설정하면 가장 최근에 입력 받은 값을 사용하고, 전의 값은 지운다.
+   - 적절하게 ziplist 자료구조를 사용하도록 하자.
+
+
    ## Redis 설정
    
    설정 파일을 변경하는 방법은 redis 설치 디렉토리 안의 redis.conf 파일을 변경하고 재구동 하면 된다.
