@@ -1,6 +1,7 @@
 
 #  Redis 운영 이슈와 효율적인 관리
 
+   [Redis Windows 다운로드](https://github.com/microsoftarchive/redis/releases)
 
    Redis 운영 이슈는 4가지가 있다.
    
