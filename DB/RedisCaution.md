@@ -88,4 +88,16 @@
      레디스 서버가 사용 할 수 있는 최대 값들 설정, 주로 메모리에 관한 설정 들이며 복제나 스냅샷 사용시 숙지 해야 한다.
      
      - `maxclient` : Redis 인스턴스에 접속 할 수 있는 클라이언트 수를 지정한다. 기본값은 1024로 된다.
+     - `maxmemory` : Redis 인스턴스가 데이터를 저장하기 위하여 사용할 메모리 크기를 지정한다. 이 값보다 많은 데이터를 저장하면 maxmemory-policy 설정에 지정된 값에 따라서 레디스의 동작이 달라 진다.
+     - `maxmemory-policy` : 레디스에서 저장한 데이터가 maxmemory를 넘을 경우, 메모리 정리를 어떻게 할지에 대한 정책을 지정해 준다.
+         - volatile-lru : (기본값) 만기시각이 설정된 key 들 중에서 LRU 알고리즘에 의해 key를 골라 삭제
+         - allkeys-lru : LRU algorithm 에 의해 key를 골라 삭제
+         - volatile-random : 만기시각이 설정된 key 들 중에서 랜덤하게 key를 골라 삭제
+         - allkeys-random : 랜덤하게 key를 골라 삭제
+         - volatile-ttl : 만기시각이 설정된 key들 중에서 만기시각이 가장 가까운 key를 골라 삭제
+         - noeviction : 어떤 key 도 삭제하지 않고 error on write operations 를 돌려준다.
+     - `maxmemory-samples` : maxmemory-policy 를 적용하기 위해서 레디스가 조회할 키의 개수를 지정함
+        전체 키를 읽어서 삭제 policy에 해당하는 키를 찾는게 아니라, 지정한 값 만큼의 임의의 키를 읽어서 그 중에서 삭제 대상인 키가 있는지 확인한다. 이때 임의로 읽어 들일 키의 개수를 지정 함.
+        
+        
 
