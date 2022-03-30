@@ -51,7 +51,7 @@
   - Jenkins
        
        - [Jenkins 개념 및 요약]()
-       - [Jenkins Github 연동]()
+       - [Jenkins Github 연동](https://github.com/russell-seo/TIL/blob/main/Jenkins/github.md)
        - [Jenkins CI&CD]()
 # DataBase
 
