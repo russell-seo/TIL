@@ -1,5 +1,5 @@
 
-# Jenkins Github Webhooks 연동
+# Jenkins Github 연동
 
 
   Jenkins를 사용해서 CI/CD 환경을 구축하기 전에 젠킨스와 Github를 연동하는 것을 먼저 해보고자 한다.
