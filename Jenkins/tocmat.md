@@ -7,4 +7,4 @@
   
   ## CI & CD
   
-  먼저 CI(Github Repo에서 clone 하는 기록은 TIL에 이미 기록해 놓았다)[](https://github.com/russell-seo/TIL/blob/main/Jenkins/CI%26CD.md)
+  먼저 CI(Github Repo에서 clone 하는 기록은 TIL에 이미 기록해 놓았다)[ ](https://github.com/russell-seo/TIL/blob/main/Jenkins/CI%26CD.md)
