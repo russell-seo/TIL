@@ -59,3 +59,29 @@
   빌드 성공 하게 된다.
   
   여기까지다 CI를 적용 시켰다고 할 수 있다.
+  
+  ## SSH를 이용해 원격 서버에 배포
+  
+  이제 Github Push를 통해 빌드 유발이 되면, 젠킨스가 빌드한 후 원격 서버에 SSH를 통해 파일을 전송하는 것을 진행해볼려고 한다.
+  
+  
+   ### Publish Over SSH 플러그인 설치 및 설정
+   
+   > Jenkins 관리 -> Plug in -> Publish Over SSH 설치 -> 프로젝트 구성
+
+
+   ![image](https://user-images.githubusercontent.com/79154652/162342482-5ce6082f-8a8d-4fdd-a8a2-edb588d1c374.png)
+    
+   - Key
+      - RSA 키가 필요하다
+      - 
+    
+
+  ![image](https://user-images.githubusercontent.com/79154652/162341992-032e714f-13dd-4745-9f9f-7ec5dfa2e261.png)
+
+   
+   - SSH Server
+      - Name : 시스템 설정 -> SSH Server 등록되어 있는 SSH를 통해 보낼 원격 서버
+      - 
+  
+  
