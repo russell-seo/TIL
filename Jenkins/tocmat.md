@@ -63,6 +63,13 @@
   ![image](https://user-images.githubusercontent.com/79154652/161720551-2bf4fba9-e8a7-4873-9844-7b2bd5b7af4e.png)
 
   - 로컬에서만 허용한다는 코드를 모두 주석 처리해 주면 정상적으로 빌드 및 배포되는 것을 볼 수 있다.
+  - 혹은 아래와 같이 특정 IP만 접속하게 끔 IP를 등록해준다.
+
+        <Context antiResourceLocking="false" privileged="true" >
+        <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+                 allow="특정ip|127.0.0.1"/>
+        </Context>
+
 
   ![image](https://user-images.githubusercontent.com/79154652/161720949-5cf34088-0518-49a3-98ed-98fc5e56f973.png)
   
