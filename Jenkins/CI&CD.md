@@ -74,7 +74,9 @@
     
    - Key
       - RSA 키가 필요하다
-      - 
+      - AWS EC2 같은 경우는 pem키를 넣으면된다.
+      - 일반적으로 서버에서 직접 키를 생성할려면
+      - `~/.ssh` 명령어를 통해 
     
 
   ![image](https://user-images.githubusercontent.com/79154652/162341992-032e714f-13dd-4745-9f9f-7ec5dfa2e261.png)
@@ -82,6 +84,21 @@
    
    - SSH Server
       - Name : 시스템 설정 -> SSH Server 등록되어 있는 SSH를 통해 보낼 원격 서버
-      - 
+      - Source files : Jenkins 파일 경로의 workspace `build/libs/*.jar` 빌드 후 해당 경로의 jar 파일을 지칭한다.
+      - Remove prefix : 제거할 접두자를 의미, `bulid/libs/` 제거하고 jar 파일만 배포
+      - Exec command : 배포 후 실행할 쉘 스크립트 입력
   
+  
+  
+   위 설정들을 모두 마쳤으면 배포 준비가 완료 된 것이다.
+   
+   이제 Github 해당 Repo에 push를 하면 build 후 배포되는 것을 확인 할 수 있다.
+   
+   ![image](https://user-images.githubusercontent.com/79154652/162349341-05849313-ce0f-4507-aa9e-8f748d78c3a1.png)
+   
+   
+    
+   
+   
+
   
