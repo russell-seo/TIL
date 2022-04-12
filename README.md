@@ -50,7 +50,7 @@
   
   - Jenkins
        
-       - [Jenkins 개념 및 요약]()
+       - [Jenkins 개념 및 요약](https://github.com/russell-seo/TIL/blob/main/Jenkins/jenkins.md)
        - [Jenkins Github 연동](https://github.com/russell-seo/TIL/blob/main/Jenkins/github.md)
        - [Jenkins CI&CD](https://github.com/russell-seo/TIL/blob/main/Jenkins/CI%26CD.md)
        - [Jenkins tomcat war CI&CD](https://github.com/russell-seo/TIL/blob/main/Jenkins/tocmat.md)
