@@ -81,5 +81,9 @@
   일단 테스트용으로 Spring 프로젝트의 db.properties 도 함께 git에 올려서 Build를 진행했지만.
   
   DB 정보들은 추가로 따로 빼내어서 진행해 볼려고 한다. 
+  
+  참고
+  ---
+  [Tomcat 특정 IP ](https://nevergiveup.tistory.com/entry/Tomcat-%ED%8A%B9%EC%A0%95IP-%EC%A0%9C%ED%95%9C?category=839142)
 
   
