@@ -95,7 +95,56 @@
   아무리 요청이 많이 들어와도 core size를 늘리지 않는다는 정책이다. 무한 대기열 전략에선 작업큐가 꽉 찰 일이 없으므로, Thread pool Max 사이즈가
   의미가 없다.
   
+  > 지금까지 알아본 바에 의하면, 유저 요청이 들어올 때(Connection) 마다 쓰레드가 하나씩 할당될것 이고, 작업큐가 가득차면 쓰레드가 늘어날 것이고, 쓰레드도 가득차면
+    유저 요청이 거절된다. 하지만 이는 `BIO Connector(Blocking I/O)` 일떄 유효한 이야기 이다. 그러나 톰캣 8.0부터 `NIO(NonBlocking I/O) Connector`이 기본으로 채택되고
+    9.0 부터는 BIO Connector가 deprecate 됨 으로써 위의 설며과는 다른 방식으로 진행되게 된다.
+
+
+  ## Connector
   
+  Connector는 소켓 연결을 수입하고 데이터 패킷을 획득하여 HttpServletRequest 객체로 변환하고, Servlet 객체에 전달하는 역할을 한다.
+  
+  1. Acceptor에서 while문으로 대기하며 port listen을 통해 Socket Connection을 얻게 된다.
+  2. Socket Connection으로부터 데이터를 획득한다. 데이터 패킷을 파싱해서 HttpServletRequest 객체를 생성한다.
+  3. Servlet Container 에 해당 요청객체를 전달합니다. ServletContainer는 알맞은 서블릿을 찾아 요청을 처리한다.
+
+
+  ### BIO Connector
+  
+  BIO Connector는 Socket Connection을 처리할 때 Java의 기본적인 I/O 기술을 사용한다. Thread Pool에 의해 관리되는 Thread는 소켓 연결을 받고 요청을 처리하고 요청에 대해 응답한 후
+  소켓 연결이 종료되면 Pool에 다시 돌아오게 된다.
+  즉, Connection이 닫힐 때 까지 하나의 Thread는 특정 Connection에 계속 할당되어 있을 것입니다.
+  
+  이러한 방식으로 Thread를 할당하여 사용 할 경우, 동시에 사용되는 Thread 수가 동시 접속할 수 있는 사용자의 수가 될 것 입니다. 그리고 이러한 방식을 채택해서 사용할 경우
+  Thread들이 충분히 사용되지 않고 idle(아무것도하지않는) 상태로 낭비되는 시간이 많이 발생합니다. 이러한 문제점을 해결하고 리소스를 효율적으로 사용하기위해 `NIO Connector`가 등장했다.
+  
+  
+  ### NIO Connector
+  
+  NIO Connector는 I/O가 아니라 Http11NioProtocol을 사용하는데 해당 내용에 대해 이해하기 위해선 NIO에 대해 이해해야 한다.
+  
+  ![image](https://user-images.githubusercontent.com/79154652/163323263-4859051b-9a84-44b2-a269-693d097e2bf0.png)
+
+  
+  NIO Connector에선 Poller 라고 하는 별도의 쓰레드가 커넥션을 처리한다. Poller는 Socket들을 캐시로 들고 있다가 해당 Socket에서 data에 대한 처리가 가능한 순간에만
+  Thread를 할당하는 방식을 사용해서 Thread가 idle 상태로 낭비되는 시간을 줄여준다.
+  
+  ![image](https://user-images.githubusercontent.com/79154652/163324086-4c3847fb-d2ec-4d35-86e4-125a4b2c419d.png)
+
+  Acceptor는 이름 그대로 Socket Connection을 accept합니다. ServerSocket.accept() 방식을 사용하고 있습니다. 소켓에서 Socket Channel 객체를 얻어서 톰캣의 NioChannel 객체로
+  변환합니다. 그리고 추가로 NioChannel 객체를 PollerEvent라는 객체로 한번 더 캡슐화해서 event queue에 넣게 됩니다. Acceptor는 event Queue 공급자, Poller Thread는 event Queue의 사용자입니다.
+  
+  ![image](https://user-images.githubusercontent.com/79154652/163324358-c89cf583-8b6c-4ace-85f3-d15256cf5101.png)
+
+  Poller는 NIO의 Selector를 가지고 있습니다. Selector에는 다수의 채널이 등록되어 있고, Select 동작을 수행하여 데이터를 읽을 수 있는 소켓을 얻습니다. 그리고 Worker Thread Pool에서 이용할 수 있는 Worker Thread를 얻어서 해당 소켓을 worker Thread에게 넘기게 된다.
+  
+  Java Nio Selector를 사용해서 data 처리가 가능할 때만 Thread를 사용하기 때문에 idle상태로 낭비되는 Thread가 줄어들게 된다.
+  
+  Poller에선 Max Connection 까지 연결을 수락하고, 셀렉터를 통해 채널을 관리하므로 작업큐 사이즈와 관계없이 추가로 커넥션을 refuse하지 않고 받아놓을 수 있습니다.
+  
+  요약
+  ---
+  NIO 기반의 Connector는 하나의 Connection이 하나의 쓰레드를 할당받는 BIO Connector에 비해, Selector를 활용해 Socket을 관리하므로 더 적은 쓰레드를 사용합니다. 또한 Max-Connections 값까지 접속을 유지하고, 쓰레드가 모자라면 max 사이즈 까지 쓰레드를 추가한다. time-wait 시간 안에 처리가 가능하다면 처리할 수 있습니다.
   
   참고
   ---
