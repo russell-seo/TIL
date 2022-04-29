@@ -50,7 +50,7 @@
        - [Logback](https://github.com/russell-seo/TIL/blob/main/Logback/Filter.md)
   
   - Jenkins
-       - [롤링, 카나리, 블루그린]()
+       - [롤링, 카나리, 블루그린](https://github.com/russell-seo/TIL/blob/main/Jenkins/deployStrategy.md)
        - [Jenkins 개념 및 요약](https://github.com/russell-seo/TIL/blob/main/Jenkins/jenkins.md)
        - [Jenkins Github 연동](https://github.com/russell-seo/TIL/blob/main/Jenkins/github.md)
        - [Jenkins CI&CD](https://github.com/russell-seo/TIL/blob/main/Jenkins/CI%26CD.md)
