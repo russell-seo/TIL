@@ -56,6 +56,9 @@
        - [Jenkins CI&CD](https://github.com/russell-seo/TIL/blob/main/Jenkins/CI%26CD.md)
        - [Jenkins Pipeline](https://github.com/russell-seo/TIL/blob/main/Jenkins/pipeline.md)
        - [Jenkins tomcat war CI&CD](https://github.com/russell-seo/TIL/blob/main/Jenkins/tocmat.md)
+
+  - nGinx
+      - [로드 밸런싱 설정]()
 # DataBase
 
   - [인덱스(Index)](https://github.com/russell-seo/TIL/blob/main/DB/index.md)
