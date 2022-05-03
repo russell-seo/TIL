@@ -58,7 +58,7 @@
        - [Jenkins tomcat war CI&CD](https://github.com/russell-seo/TIL/blob/main/Jenkins/tocmat.md)
 
   - nGinx
-      - [로드 밸런싱 설정]()
+      - [로드 밸런싱 설정](https://github.com/russell-seo/TIL/blob/main/Infra/AWS/nginx.md)
 # DataBase
 
   - [인덱스(Index)](https://github.com/russell-seo/TIL/blob/main/DB/index.md)
