@@ -98,7 +98,8 @@
             }
 }
 ~~~
-    
+
+
     
     
 - 중요하게 설정해야 할 부분은 `location` 의 proxy_pass 부분과 `upstream` 부분이다.
@@ -108,6 +109,43 @@
         - ip-hash : 클라이언트 ip를 해쉬한 값을 기반으로 특정 서버 할당
     - `location`의 proxy_pass는 80포트로 요청이 들어 왔을 때 해당 url로 redirect 한다는 의미이다.
         - proxy_pass 의 http://test 는 upstream 에서 설정해준 `test`를 입력해주면 test에 설정된 서버로 로드밸런싱 된다.
+
+Upstream 만들기
+~~~
+upstream <업스트림 이름> {
+
+          <로드밸런스 타입: defulat는 round-robin>
+
+            server <host1>:<port1>
+
+            ...
+
+            server <host2>:<port2>
+
+}
+
+~~~
+
+- upstream은 강 의 상류를 의미하는데 즉 위에서 아래로 뿌려주는 것을 의미한다.
+- 즉 여러군대로 뿌려주는 녀석을 upstream 이라고 부른다.
+
+~~~
+server {
+
+        ...
+
+        location <url>{
+
+        proxy_pass http://<업스트림 이름>
+
+}
+
+        ...
+
+}
+~~~
+
+- 서버의 location에서 로드밸런싱할 url을 선택한다.
 
 
 필자는 위와 같이 설정을 하고 테스트를 해보았는데. `proxy_pass`가 작동하지 않는것 같았다.
