@@ -36,8 +36,8 @@
     http {
 
     upstream test {
-            server 222.106.7.93:8445;
-            server 222.106.7.68:8083;
+            server IP:PORT;
+            server IP:PORT;
     }
             
 
@@ -99,6 +99,30 @@
 }
 ~~~
     
+    
+    
 - 중요하게 설정해야 할 부분은 `location` 의 proxy_pass 부분과 `upstream` 부분이다.
     - `upstream`은 설정해놓은 서버로 로드밸런싱 한다는 블럭이다. 따로 로드밸런싱 전략을 설정하지 않으면 `라운드 로빈` 방식으로 로드밸런싱 된다.
-    - `
+        - round-roibn : 라운드 로빈 방식으로 서버 할당
+        - least-connected : 커넥션이 가장 적은 서버를 할당
+        - ip-hash : 클라이언트 ip를 해쉬한 값을 기반으로 특정 서버 할당
+    - `location`의 proxy_pass는 80포트로 요청이 들어 왔을 때 해당 url로 redirect 한다는 의미이다.
+        - proxy_pass 의 http://test 는 upstream 에서 설정해준 `test`를 입력해주면 test에 설정된 서버로 로드밸런싱 된다.
+
+
+필자는 위와 같이 설정을 하고 테스트를 해보았는데. `proxy_pass`가 작동하지 않는것 같았다.
+
+그래서 `/etc/nginx/site-enabled/default`에도 proxy_pass를 설정해 주었다.
+
+
+default
+~~~
+location / {
+          proxy_pass http://test;
+
+}
+~~~
+
+위와 같이 추가하였다. test가 동작하는 이유는 nginx.conf 에 `/etc/nginx/site-enabled/*` 가 include 되어 있기 때문이다.
+
+위와 같이 설정해서 다시 테스트 해본 결과. 설정한 2대의 WAS로 분산되서 요청이 가는 것을 확인 할 수 있었다.
