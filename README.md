@@ -10,6 +10,7 @@
    - [Scheduler](https://github.com/russell-seo/TIL/blob/main/Spring/Scheduler.md)
    - [Spring Batch](https://github.com/russell-seo/TIL/blob/main/Spring/SpringBatch.md)
    - [Spring Thread Pool](https://github.com/russell-seo/TIL/blob/main/Spring/threadpool.md)
+   - [Spring Transactiona 문제](https://github.com/russell-seo/TIL/blob/main/Spring/transaction.md)
  - Spring Security
       - [Spring Security 용어 및 흐름 이해하기](https://github.com/russell-seo/TIL/blob/main/Spring/SpringSecurityName.md)
       - [Spring Security 간단한 로그인 구현](https://github.com/russell-seo/TIL/blob/main/Spring/Security.md)
