@@ -58,7 +58,7 @@
        - [Jenkins Pipeline](https://github.com/russell-seo/TIL/blob/main/Jenkins/pipeline.md)
        - [Jenkins tomcat war CI&CD](https://github.com/russell-seo/TIL/blob/main/Jenkins/tocmat.md)
 
-  - inx
+  - NGinx
       - [로드 밸런싱 설정](https://github.com/russell-seo/TIL/blob/main/Infra/AWS/nginx.md)
 # DataBase
 
