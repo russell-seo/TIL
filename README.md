@@ -71,8 +71,8 @@
 
 # FRONTEND
 
-  - [React]()
-    https://github.com/russell-seo/TIL/blob/main/react/react.md
+  - [React](https://github.com/russell-seo/TIL/blob/main/react/react.md)
+    
 # Infra
 
   -   [AWS Tomcat9, nginx](https://github.com/russell-seo/TIL/blob/main/Infra/AWS/Tomcat%2CNginx.md)
