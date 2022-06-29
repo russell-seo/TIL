@@ -71,8 +71,8 @@
 
 # FRONTEND
 
-  - [React](https://jade-domain-421.notion.site/React-e3a70873b499447bb560167f730f25ab)
-
+  - [React]()
+    https://github.com/russell-seo/TIL/blob/main/react/react.md
 # Infra
 
   -   [AWS Tomcat9, nginx](https://github.com/russell-seo/TIL/blob/main/Infra/AWS/Tomcat%2CNginx.md)
