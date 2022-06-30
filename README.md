@@ -69,7 +69,7 @@
     - [Redis 메모리 운영 및 주의점](https://github.com/russell-seo/TIL/blob/main/DB/RedisCaution.md)
   - [Cache](https://github.com/russell-seo/TIL/blob/main/DB/Cache.md)
 
-# FRONTEND
+# FrontEnd
 
   - [React](https://github.com/russell-seo/TIL/blob/main/react/react.md)
     
