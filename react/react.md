@@ -231,7 +231,7 @@ const calculate = useCallback((num) => {
 - 의존성배열의 상태가 변하지 않는 이상 초기화되지 않고 메모리상에 위 예시인 calculate 함수를 가지고 있는다.
 - 의존성배열이 바뀌면 다시 초기화 된다.
 
-### useMemo vs useCallback
+### 🔎 useMemo vs useCallback
 
 - useMemo 는 특정 결과 값을 재사용 할 때 사용 한다.
 - useCallback 은 특정 함수를 재사용 할 때 사용한다.
