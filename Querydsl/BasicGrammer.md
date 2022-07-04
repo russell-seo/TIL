@@ -379,3 +379,91 @@ public void fetchjoinUse() throws Exception{
 ~~~
 
 - `join(), leftJoin()`등 조인 기능 뒤에 `fetchJoin()`이라고 추가하면 된다.
+
+
+
+## 프로젝션 + DTO로 조회
+
+- 순수 JPA에서 DTO로 조회
+
+~~~Java
+
+em.createQuery("select new study.querydsl.dto.MemberDto(m.username, m.age) from Member m", MemberDto.class)
+      .getResultList();
+
+~~~
+
+
+- Querydsl DTO로 조회
+
+  - 프로퍼티 접근
+  - 필드 직접 접근
+  - 생성자 사용
+
+- 프로퍼티 접근 (Setter)
+
+~~~java
+
+ queryFactory
+        .select(Projections.bean(MemberDto.class,
+                member.username,
+                member.age))
+        .from(member)
+        .fetch();
+
+~~~
+
+- 생성자 접근
+
+~~~java
+
+ queryFactory
+        .select(Projections.constructor(MemberDto.class,
+                member.username,
+                member.age))
+        .from(member)
+        .fetch();
+
+~~~
+
+- 필드 직접 접근
+
+~~~java
+
+ queryFactory
+        .select(Projections.fields(MemberDto.class,
+                member.username,
+                member.age))
+        .from(member)
+        .fetch();
+
+~~~
+
+
+- 별칭이 다를때
+
+~~~java
+@Data
+  public class UserDto {
+      private String name;
+      private int age;
+  }
+  
+
+List<UserDto> fetch = queryFactory
+                          .select(Projections.fields(UserDto.class,
+                                  member.username.as("name"),
+
+                                  ExpressionUtils.as(
+                                      JPAExpressions
+                                        .select(memberSub.age.max())
+                                        .from(memberSub), "age")
+                                   )
+                                  .from(member)
+                                  .fetch();
+
+
+~~~
+
+- 프로퍼티나 필드 접근 생성 방식에서 필드 이름이 다를 때 해결방안
+- ExpressionUtils.as(query, alias) : 필드나 서브쿼리에 별칭 적용
