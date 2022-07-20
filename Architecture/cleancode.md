@@ -5,7 +5,7 @@
  ![image](https://user-images.githubusercontent.com/79154652/179788702-2a5072e3-10ee-46d6-ac8b-2461e62b5894.png)
 
  
-  [1장. 계층형 아케턱처의 문제는 무엇일까?]()
+  [1장. 계층형 아케턱처의 문제는 무엇일까?](https://github.com/russell-seo/TIL/blob/main/Architecture/1%EC%9E%A5.md)
   
   [2장. 의존성 역전하기]()
   
