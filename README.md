@@ -75,7 +75,7 @@
 
 # Architecture
 
-  - [클린아키텍처]()
+  - [클린아키텍처](https://github.com/russell-seo/TIL/blob/main/Architecture/cleancode.md)
 
 # Infra
 
