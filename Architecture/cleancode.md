@@ -7,7 +7,7 @@
  
   [1장. 계층형 아케턱처의 문제는 무엇일까?](https://github.com/russell-seo/TIL/blob/main/Architecture/1%EC%9E%A5.md)
   
-  [2장. 의존성 역전하기]()
+  [2장. 의존성 역전하기](https://github.com/russell-seo/TIL/blob/main/Architecture/2%EC%9E%A5.md)
   
   [3장. 코드 구성하기]()
   
