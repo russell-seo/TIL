@@ -9,7 +9,7 @@
   
   [2장. 의존성 역전하기](https://github.com/russell-seo/TIL/blob/main/Architecture/2%EC%9E%A5.md)
   
-  [3장. 코드 구성하기]()
+  [3장. 코드 구성하기](https://github.com/russell-seo/TIL/blob/main/Architecture/3%EC%9E%A5.md)
   
   4장. 유스케이스 구현하기
   
