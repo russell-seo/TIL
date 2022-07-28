@@ -11,7 +11,7 @@
   
   [3장. 코드 구성하기](https://github.com/russell-seo/TIL/blob/main/Architecture/3%EC%9E%A5.md)
   
-  [4장. 유스케이스 구현하기]()
+  [4장. 유스케이스 구현하기](https://github.com/russell-seo/TIL/blob/main/Architecture/4%EC%9E%A5.md)
   
   [5장. 웹 어댑터 구현하기]()
   
