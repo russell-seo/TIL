@@ -13,7 +13,7 @@
   
   [4장. 유스케이스 구현하기](https://github.com/russell-seo/TIL/blob/main/Architecture/4%EC%9E%A5.md)
   
-  [5장. 웹 어댑터 구현하기]()
+  [5장. 웹 어댑터 구현하기](https://github.com/russell-seo/TIL/blob/main/Architecture/5%EC%9E%A5.md)
   
   [6장. 영속성 어댑터 구현하기]()
   
