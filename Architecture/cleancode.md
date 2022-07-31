@@ -15,7 +15,7 @@
   
   [5장. 웹 어댑터 구현하기](https://github.com/russell-seo/TIL/blob/main/Architecture/5%EC%9E%A5.md)
   
-  [6장. 영속성 어댑터 구현하기]()
+  [6장. 영속성 어댑터 구현하기](https://github.com/russell-seo/TIL/blob/main/Architecture/6%EC%9E%A5.md)
   
   7장. 아키텍처 요소 테스트하기
   
