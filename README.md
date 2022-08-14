@@ -71,7 +71,7 @@
   
 # Kotlin
   
-  - [Kotlin 익히기]
+  - [Kotlin]()
   
 
 # FrontEnd
