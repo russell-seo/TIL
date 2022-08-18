@@ -59,3 +59,34 @@
   println(extendString("russell", 29))
   
   ~~~
+  
+  - 람다의 리턴
+    
+    - 마지막 파라미터가 람다일 때 `funtionName { it > 3.22}` 와 같이 `()`를 생략할 수 있다. 코틀린에서 자주 마주치는 녀석이다.
+  ~~~kotlin
+  
+  val calculateGrade : (Int) -> String {
+  
+      when(it) {
+          in 0..40 -> "fail"
+          in 41..80 -> "success"
+          in 80..100 -> "great"
+          else -> "Error"
+      }
+  }
+  
+  ~~~
+  
+  ~~~kotlin
+  
+  fun invokeLamda(lamda : (Double) -> Boolean) : Boolean {
+    return lamda(5.323)
+  } 
+  
+  
+  val lamda = {number : Double ->
+   number == 4.3213 
+   }
+  
+  ~~~
+  
