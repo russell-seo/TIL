@@ -90,3 +90,13 @@
   
   ~~~
   
+  ## companion object 
+  
+  - Java 의 Static 과 같은 것이라고 생각하면 된다.
+
+
+  ## object class
+  
+  - object 클래스는 SingleTon 패턴이라고 생각하면 된다.
+  - 무조건 프로젝트가 실행될때 1번만 생성한다.
+  
