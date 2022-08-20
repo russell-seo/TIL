@@ -93,7 +93,43 @@
   ## companion object 
   
   - Java 의 Static 과 같은 것이라고 생각하면 된다.
-
+  ~~~java
+  
+  public class Person{
+    public static final int MAX_AGE = 100;
+  
+  }
+  
+  // ->> kotlin
+  
+  class Person{
+    companion Object {
+       const val MAX_AGE : Int = 100;
+    }
+  
+  }
+  ~~~
+  
+  ~~~java
+  public class Perons{
+    public static void hello(){
+       System.out.println("1");
+    }
+  
+  }
+  
+  // -> to kotlin
+  
+  
+  class Person{
+    companion Object{
+      fun hello (){
+         println("1");
+      }
+    }
+  }
+  ~~~
+  
 
   ## object class
   
