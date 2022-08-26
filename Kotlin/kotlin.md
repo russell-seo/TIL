@@ -1,5 +1,12 @@
  # Kotlin 
 
+ Kotlin 에서 JPA 를 사용하여 ManyToOne 속성의 지연로딩으로 걸어놨을 때 ManyToOne 속성의 데이터를 가져올 때 SQL이 실행되어야 한다.
+ 
+ 하지만 Kotlin 같은 경우에는 지연로딩이 제대로 작동하지 않는다.
+ 
+ 그 이유는
+ 
+ Kotlin 클래스는 final(상속 불가)이 기본 프록시 클래스를 생성하려면 클래스가 상속이 가능해야 한다.
 
   ## Lamda
   
