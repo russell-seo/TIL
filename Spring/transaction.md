@@ -138,3 +138,26 @@
   
  - `@Transactional` 어노테이션 메서드는 클래스 내부적으로 사용하지말고, 밖에서 사용하자.(프록시 객체 때문)
  - 굳이 내부적으로 사용하려면, 자기자신 Proxy 객체를 사용하여 처리하자.
+
+
+  # 트랜잭션의 서비스 추상화
+  
+  - `한개 이상의 DB로의 작업`을 하나의 트랜잭션으로 만드는건 JDBC의 Connection을 이용한 트랜잭션 방식인 로컬 트랜잭션으로는 불가능하다. 왜냐하면 로컬 트랜잭션은 `하나의 DB Connection 에 종속`되기 때문이다.
+
+   따라서 각 DB와 독립적으로 만들어지는 Connection을 통해서가 아니라 별도의 트랜잭션을 통해 트랜잭션을 관리하는 글로벌 트랜잭션 방식을 사용해야 한다. 자바는 JDBC외에 이런 글로벌 트랜잭션을 지원하는 트랜잭션 매니저를 지원하기 위해 API의 JTA(JAVA Transaction API)를 제공하고 있다.
+   
+   트랜잭션 매니저는 DB와 메시징 서버를 제어하고 관리하는 각각의 리소스 매니저와 XA 프로토콜을 통해 연결된다. 이를 통해 트랜잭션 매니저가 실제 DB와 메시징 서버의 트랜잭션을 종합적으로 제어할 수 있게 되는 것이다. 이렇게 JTA를 이용해 트랜잭션 매니저를 활용하면 여러개의 DB나 메시징 서버에 대한 작업을 하나의 트랜잭션으로 통합하는 `분산 트랜잭션` 또는 `글로벌 트랜잭션`이 가능해진다.
+  
+  
+  스프링이 제공하는 트랜잭션 경계설정을 위한 추상 인터페이스는 PlatformTransactionManager다. JDBC의 로컬 트랜잭션을 이용한다면 PlatformTransactionManager를 구현한 DataSourceTransactionManager를 사용하면 된다. 사용할 DB의 DataSource를 생성자 파라미터로 넣으면서 DataSourceTransactionManager의 오브젝트를 만든다.
+
+JDBC를 이용하는 경우에는 먼저 Connection을 생성하고 나서 트랜잭션을 시작했다. 하지만 PlatformTransactionManager에서는 트랜잭션을 가져오는 요청인 getTransation() 메소드를 호출하기만 하면 된다. 필요에 따라 트랜잭션 매니저가 DB 커넥션을 가져오는 작업도 같이 수행해주기 때문이다. 여기서 트랜잭션을 가져온다는 것은 일단 트랜잭션을 시작한다는 의미라고 생각하자. 파라미터로 넘기는 DefaultTransactionDefinition 오브젝트는 트랜잭션에 대한 속성을 담고 있다.
+
+
+- 이렇게 시작된 트랜잭션은 TransactionStatus 타입의 변수에 저장된다. TransactionStatus는 트랜잭션에 대한 조작이 필요할 때 PlatformTransactionManager 메소드의 파라미터로 전달해주면 된다.
+
+트랜잭션이 시작됐으니 이제 JdbcTemplate을 사용하는 DAO를 이용하는 작업을 진행한다. 스프링의 트랜잭션 추상화 기술은 앞에서 적용해봤던 트랜잭션 동기화를 사용한다. PlatformTransactionManager로 시작한 트랜잭션 동기화 저장소에 저장된다. PlatformTransactionManager를 구현한 DataSourceTransactionManager 오브젝트는 JdbcTemplate에서 사용될 수 있는 방식으로 트랜잭션을 관리해준다. 따라서 PlatformTransactionManager를 통해 시작한 트랜잭션은 UserDao의 JdbcTemplate 안에서 사용된다.
+
+- `JTATransactionManager`는 주요 자바 서버에서 제공하는 JTA 정보를 JNDI를 통해 자동으로 인식하는 기능을 갖고 있다. 따라서 별다른 설정 없이 JTATransactionManager를 사용하기만 해도 서버의 트랜잭션 매니저/서비스와 연동해서 동작한다.
+
+어떤 트랜잭션 매니저 구현 클래스를 사용할지 UserService 코드가 알고 있는 것은 DI 원칙에 위배된다. 자신이 사용할 구체적인 클래스를 스스로 결정하고 생성하지 말고 컨테이너를 통해 외부에서 제공받게 하는 스프링 DI의 방식으로 바꾸자.
