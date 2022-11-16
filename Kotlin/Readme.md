@@ -2,10 +2,10 @@
    
    ## Kotlin 익히기
    
-   - (kotlin 기본)[]
+   - [kotlin 기본]()
    
    
    
    ## Kotlin Issue
    
-   - (kotlin Test Code Junit5+생성자 이슈)[]
+   - [kotlin Test Code Junit5+생성자 이슈]()
