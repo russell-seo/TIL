@@ -71,7 +71,7 @@
   
 # Kotlin
   
-  - [Kotlin](https://github.com/russell-seo/TIL/blob/main/Kotlin/kotlin.md)
+  - [Kotlin](https://github.com/russell-seo/TIL/tree/main/Kotlin)
   
 
 # FrontEnd
