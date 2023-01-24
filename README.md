@@ -73,6 +73,7 @@
   - [Cache](https://github.com/russell-seo/TIL/blob/main/DB/Cache.md)
   - [TimeZone](https://github.com/russell-seo/TIL/blob/main/DB/timezone.md)
   - [Flyway 도입기](https://github.com/russell-seo/TIL/blob/main/DB/flyway.md)
+  - [Spatial Query(공간, 지도)]()
 # Kotlin
   
   - [Kotlin](https://github.com/russell-seo/TIL/tree/main/Kotlin)
@@ -93,4 +94,3 @@
   -   [Firebase](https://github.com/russell-seo/TIL/blob/main/infra/firebase.md)
   -   [nGrinder 부하 테스트](https://github.com/russell-seo/TIL/blob/main/nGrinder/buhaTest.md)
   -   [Git SubModule vs Subtree](https://github.com/russell-seo/TIL/blob/main/Infra/AWS/gitsubmodule.md)
-  -   [AWS S3]()
