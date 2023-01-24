@@ -76,4 +76,53 @@
   - Polygon 타입의 좌표로 이루어진 다각형 안에 해당 좌표가 위치하는지에 대해 테스트 해 볼려고 한다.
 
 
+  1. Polygon 타입의 테이블을 생성
+  ~~~
+  create table polygon (
+    `id` bigint not null auto_increment,
+    `name` varchar not null,
+    `polygon` polygon not null
+    primary key(`id`)
+  )
+  ~~~
+  
+  
+  2. Polygon 데이터 Insert
+  ~~~mysql
+  insert into polygon (polygon, name)
+  values(ST_GEOMFROMTEXT('POLYGON((48.89 2.27, 48.89 2.42, 48.81 2.42, 48.81 2.27, 48.89 2.27))', `PARIS`);
+  ~~~
+  - `ST_GeomFromText` 함수는 잘 알려진 텍스트(WKT) 포인트 표시에서 포인트, 라인스트링 및 폴리곤을 작성하고 삽입하는 데 사용됩니다.
+  - 해당 Polygon 좌표들은 실제 파리의 좌표를 가져온 것 입니다.
 
+
+  3. ST_Contains 함수 활용
+   - 해당 함수를 활용하여 좌표가 해당 Polygon 안에 위치하는지 확인할 수 있다.
+    
+   ~~~mysql
+    select name from polygon a where st_contains(a.polygon, Point(48.861105, 2.335337));
+   ~~~
+    
+   - Point(48.861105, 2.335337) 는 루브르 박물관의 위/경도 좌표이다.
+   - 해당 쿼리는 아래와 같이 `PARIS`라는 로우가 조회가된다.
+
+   ![스크린샷 2023-01-24 오후 10 07 36](https://user-images.githubusercontent.com/79154652/214300176-a8aff574-d980-479e-8cb6-75face3dcd94.png)
+   
+   - 만약 다른 나라의 좌표를 넣는다고 하면 어떻게 조회되는지 확인해 보자.
+   
+   ![스크린샷 2023-01-24 오후 10 11 45](https://user-images.githubusercontent.com/79154652/214302830-1148226a-38c5-4476-a29c-a6acafebe7c1.png)
+  
+  - 구글에서 프랑스의 파리가 아닌 리옹의 아무곳이나 찍어 위/경도를 가져와서 쿼리를 돌려봤다.
+  
+  ~~~mysql
+  select name from polygon a where st_contains(a.polygon, Point(45.928543, 4.605636));
+  ~~~
+![image](https://user-images.githubusercontent.com/79154652/214303713-5d9eede3-d83a-49fe-b3df-78428c71f337.png)
+
+
+  - 결과는 Null 값을 리턴한다. 즉 해당 좌표는 해당 Polygon에 속하지 않는다는 것이다.
+
+
+## 마무리
+
+- 일단 오늘은 공간데이터 타입과 함수를 알아 보았고 필자는 회사에서 계속 이와 관련된 프로젝트를 진행하며 공부해 나가야 하기때문에 이에 관한 정보는 계속 기술해 나갈 예정이다.
