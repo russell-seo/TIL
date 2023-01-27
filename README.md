@@ -73,7 +73,9 @@
   - [Cache](https://github.com/russell-seo/TIL/blob/main/DB/Cache.md)
   - [TimeZone](https://github.com/russell-seo/TIL/blob/main/DB/timezone.md)
   - [Flyway 도입기](https://github.com/russell-seo/TIL/blob/main/DB/flyway.md)
-  - [Spatial Query(공간, 지도)](https://github.com/russell-seo/TIL/blob/main/DB/spatialQuery.md)
+  - 지도
+      - [Spatial Query(공간, 지도)](https://github.com/russell-seo/TIL/blob/main/DB/spatialQuery.md)
+      - [Spatial Query Index로 최적화]()
 # Kotlin
   
   - [Kotlin](https://github.com/russell-seo/TIL/tree/main/Kotlin)
