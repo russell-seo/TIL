@@ -116,8 +116,8 @@
           , a.polygon);
   ~~~
   6. 결과는 동일할 것이기 때문에 실행 속도만 확인해 본다. `0.765sec -> 0.015sec'로 개선된 것을 확인할 수 있다.
-  ![image](https://user-images.githubusercontent.com/79154652/215329563-95dcff85-a423-46b5-9b7d-2e0c727d07c2.png)
-  
+  <img src = "https://user-images.githubusercontent.com/79154652/215329563-95dcff85-a423-46b5-9b7d-2e0c727d07c2.png" width="500%" height="500%">
+ 
   7. 인덱스를 잘 타는걸로 확인된다.
   ![image](https://user-images.githubusercontent.com/79154652/215329781-ebe219a2-b490-4139-bf53-8bec8d872a58.png)
 
@@ -131,6 +131,9 @@
 
 
 --참조--
+
 [https://dev.mysql.com/doc/refman/5.7/en/using-spatial-indexes.html](https://dev.mysql.com/doc/refman/5.7/en/using-spatial-indexes.html)
+
 [https://dev.mysql.com/doc/refman/8.0/en/spatial-index-optimization.html](https://dev.mysql.com/doc/refman/8.0/en/spatial-index-optimization.html)
+
 [https://geojson.io/#new&map=6.63/34.072/125.756](https://geojson.io/#new&map=6.63/34.072/125.756)
