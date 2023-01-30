@@ -76,6 +76,7 @@
   - 지도
       - [Spatial Query(공간, 지도)](https://github.com/russell-seo/TIL/blob/main/DB/spatialQuery.md)
       - [Spatial Query Index로 최적화](https://github.com/russell-seo/TIL/blob/main/DB/sqIndex.md)
+      - [R-Tree 인덱스]()
 # Kotlin
   
   - [Kotlin](https://github.com/russell-seo/TIL/tree/main/Kotlin)
