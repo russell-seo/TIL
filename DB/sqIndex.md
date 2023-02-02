@@ -66,12 +66,15 @@
   - 그래서 `ST_ASTEXT`로 캐스트 해야한다.
 
   6. 해당 쿼리를 실행하여 `MBR` 과 폴리곤이 교차하는 국가,도시와 폴리곤을 아래와 같이 조회 할 수 있다.
+  
   ![image](https://user-images.githubusercontent.com/79154652/215327966-f115e76a-2255-47d5-bbf7-7cdc8a3de62e.png)
 
   7. 하지만 쿼리 실행 속도를 보면 `0.765sec` 라는 실행 시간이 나온다. 이정도 쿼리 실행시간이면 필자의 프로젝트에서 사용하지 못 할 수준이다.
+  
   ![image](https://user-images.githubusercontent.com/79154652/215328100-a30afdb2-3fdb-4b94-8564-b951fcc3ae7a.png)
   
   8. 인덱스를 타는지 확인해보기 위해 `explain`으로 확인해 보았다. 결과는 테이블 풀 스캔이었다. 분명 인덱스를 생성했는데 왜 인덱스를 타지않는지 한참동안 찾아보았고 이유는 위에서 먼저 설명했던 테이블을 생성시 SRID를 설정하지 않아서 해당 컬럼에 인덱스를 타지않았던 것이다.
+  
 ![image](https://user-images.githubusercontent.com/79154652/215328180-842407f6-31d7-47fe-ae3a-338a35da955f.png)
 
  
@@ -119,6 +122,7 @@
   <img src = "https://user-images.githubusercontent.com/79154652/215329563-95dcff85-a423-46b5-9b7d-2e0c727d07c2.png" width="500%" height="500%">
  
   7. 인덱스를 잘 타는걸로 확인된다.
+  
   ![image](https://user-images.githubusercontent.com/79154652/215329781-ebe219a2-b490-4139-bf53-8bec8d872a58.png)
 
 
