@@ -81,7 +81,7 @@
 # Kotlin
   
   - [Kotlin](https://github.com/russell-seo/TIL/tree/main/Kotlin)
-  - [DSL]()
+  - [DSL](https://github.com/russell-seo/TIL/blob/main/11%EC%9E%A5.ipynb)
 
 # FrontEnd
 
