@@ -103,5 +103,5 @@
 # 기타
 
   - 게임 서버 프로그래밍
-    1. [멀티스레딩]()
+    1. [멀티스레딩](https://github.com/russell-seo/TIL/blob/main/Game/1.%EB%A9%80%ED%8B%B0%EC%8A%A4%EB%A0%88%EB%94%A9/ssw-chapter1.md)
     2. [컴퓨터 네트워크]()
