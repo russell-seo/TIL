@@ -39,3 +39,16 @@ __이는 제어권의 관점에서 이해하면 이해하기 쉽다__
   - 대표적으로 callback 함수를 넘겨 호출된 함수가 작업완료 후 callback을 실행시키는 것
 
 ![image](https://user-images.githubusercontent.com/79154652/229472790-4cbb13a3-a2c1-4b25-a255-a370b34749f9.png)
+
+
+위에서 언급한 `Blocking`, `Non-Blocking`, `Synchronous`, `Asynchronous`를 조합하면 총 4개의 조합이 나올수 있다.
+
+기본적으로 흔히 우리가 흔히 볼 수 있는 `Blocking Synchronous` 조합은 서버에서 기본적으로 가장 많이 쓰는 조합이다.
+
+이번글에서는 비동기 프로그래밍에 관한 내용 이므로 
+
+`Async Blocking` 과 `Async Non-Blocking`에 대해서만 간단하게 설명할 예정이다.
+
+### Async Blocking
+
+비동기 블로킹에 대해 보다보면 어디서 자주 접할 수 없는 
