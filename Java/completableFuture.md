@@ -104,12 +104,58 @@ class PersonService(
 ![image](https://user-images.githubusercontent.com/79154652/230521475-134f8926-3730-467d-8050-e3d00ad00c45.png)
 
 
+> CompletableFuture 에서 제공하는 ***Async()가 붙은 메소드는 기본적으로 ForkJoinPool 의 CommonPool()을 사용한다. 즉 우리가 정해놓은 쓰레드풀이 아니라 요청이 많아지면 계속해서 쓰레드풀을 생성해 성능상 문제가 생길 가능성이 높다. 그래서 Executor를 넘겨 쓰레드풀을 지정해서 쓰는 것을 추천한다.
+
+> 위 코드를 보면 Executors.nexFixedThreadPool 로 쓰레드 풀을 생성하고 supplyAsync()의 두번째 파라미터로 Excutors 를 넘기면 된다.
+
 ### supplyAsync()
 - CompletableFuture 의 `supplyAsync` 는 대표적인 비동기 처리를 요청하는 메소드 이다.
 - `supplyAsync`는 비동기적으로 동작하길 원하는 작업중 리턴값이 있는 경우에 사용된다
-- 
+
 
 > `Future`와 동일하게 `get()` 호출시 Blocking 이 된다. 그리고 `get()`을 호출하지 않아도 `supplyAsync()`로 넘겨준 `Task가 비동기로 실행된다`
 
 
 ### thenApply()
+
+`We can use this method to work with the result of the previous call. However, a key point to remember is that the return type will be combined of all calls.`
+
+- 위의 설명처럼 CompletableFuture의 리턴 값을 받아서 사용할 수 있다.
+- 필자는 personRepository.findByid(1)로 Person 객체를 받아서 thenApply()에서 사용하였다.
+- 흔히 스트림의 Map에 비유할 수 있다.
+
+### thenCompose()
+- CompletionStage 타입으로만 변환을 해야한다.
+- 흔히 스트림의 flatMap에 비유할 수 있다.
+
+~~~Kotlin
+CompletableFuture.supplyAsync(() -> 1)
+    .thenCompose(i -> CompletableFuture.completedFuture(i * 3))
+    .thenAccept(System.out::println);
+~~~
+
+### 에러핸들링 exceptionally()
+
+- 기존의 Future에서는 에러핸들링 하지 못했던 문제를 CompletableFuture 에서 `exceptionally()` 메소드로 에러핸들링 할 수 있게 제공한다.
+
+
+~~~Kotlin
+public ComletableFuture<T> exceptionally(
+  Function<Throwable, ? extends T> fn){
+    return uniExceptionallyStage(fn)
+  }
+~~~
+
+- Throwable 타입의 인자를 받아서 T 타입을 반환한다. 
+
+
+## 마무리
+
+기본적으로 Java에서 제공하는 비동기 처리를 위한 CompletablaFuture에 대해 간단히 알아보았다.
+
+필자는 자주쓰지는 않았지만 요청이 많으면 많아질수록 비동기 처리가 필수가 될것이다. 하지만 이렇게 비동기 처리를 따로 워커쓰레드로 돌리는 것 보다는
+
+Queue에 넣어서 처리하는 것을 선호하는 편이긴 하지만 여러 방법을 알아두면 좋을 것 같아 정리하였다. 추가로 또 사용할 일이 있거나 추가적인 내용이 있으면 추가할 것이다.
+
+
+
