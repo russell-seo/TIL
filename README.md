@@ -110,4 +110,4 @@
     3. [소켓 프로그래밍](https://github.com/russell-seo/TIL/blob/main/Game/socket.md)
     
  - 네트워크 와 운영체제
-    - [운영체제의 전반적인 ](https://github.com/russell-seo/TIL/blob/main/OS/%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C%20%EC%A0%84%EB%B0%98%EC%A0%81%EC%9D%B8%20%ED%9D%90%EB%A6%84.md)
+    - [운영체제의 전반적인 흐름](https://github.com/russell-seo/TIL/blob/main/OS/%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C%20%EC%A0%84%EB%B0%98%EC%A0%81%EC%9D%B8%20%ED%9D%90%EB%A6%84.md)
