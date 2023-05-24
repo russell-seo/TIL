@@ -15,6 +15,7 @@
 
 ### 문제상황
 
+__JoinService__
  ~~~Kotlin
  @Service
 class JoinService(
@@ -25,7 +26,7 @@ class JoinService(
 
     @Transactional
     override fun joinMember(dto: JoinDto): Member {
-        name = dto.name
+        name = dto.name //name 이라는 변수가 공유되는 상황을 만들기 위해 임의로 name 에 할당
 
         val member =
                 Member.create(
@@ -37,11 +38,7 @@ class JoinService(
         )
         return memberJoinPort.registerMember(member);
     }
-
-    override fun findMember(email: String) : Member? {
-        return memberJoinPort.findMember(email)
-    }
-
+    
     override fun getName(): String {
         return name
     }
@@ -51,4 +48,63 @@ class JoinService(
 ~~~
 
 
+- Member 를 저장하는 Service 클래스를 만들고 이를 스프링 빈으로 등록하여 사용한다.
+- 위 코드로 테스트 코드를 작성해서 `name`이라는 변수가 공유되는 상황을 직접 확인 해 보자.
+- 필자는 스레드 2개를 병렬로 돌리기 위해 Kotlin 의 코루틴을 사용해서 테스트 해 보겠다.
 
+~~~Kotlin
+@SpringBootTest
+class KotlinPlayGroundApplicationTests {
+
+    @Autowired
+    private lateinit var joinService: JoinService
+
+
+    @Test
+    fun `싱글톤 에서 무상태 변수`() = runBlocking{
+        val thread1 = async(Dispatchers.Default){
+            println("Thread 1: Running")
+            val dto = JoinDto(
+                userId = "kiaofk1",
+                password = "123",
+                email = "kiaofk1@naver.com",
+                name = "서상원",
+                phone = "1"
+            )
+            joinService.joinMember(dto).id!!
+            println("Thread 1: Finish")
+        }
+
+        val thread2  = async(Dispatchers.Default){
+            println("Thread 2: Running")
+            val dto = JoinDto(
+                userId = "kiaofk2",
+                password = "123",
+                email = "kiaofk2@naver.com",
+                name = "빅뱅",
+                phone = "1"
+            )
+            joinService.joinMember(dto).id!!
+            println("Thread 2: Finished")
+        }
+
+        thread1.await()
+        thread2.await()
+        println("joinService = ${joinService.getName()}")
+    }
+
+~~~
+
+- JoinService Bean 객체를 주입받아서 사용한다.(싱글톤 객체로 1개만 생성됨)
+- `thread1`과 `thread2`가 병렬적으로 실행된다.
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/afa1220b-e4db-4d80-aa32-00e4b0b34f3a)
+
+- 위 이미지와 같이 DB에 2번의 SQL이 날라간 것을 볼 수 있다.
+- 아래 그림을 보면 name -> 서상원, 빅뱅 2개의 데이터가 들어가야 하는 상황
+- But 서상원, 서상원으로 SQL이 날라간 것을 볼 수 있다.
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/4fdff4c1-601a-41c7-a3a0-61eeeacc1957)
+
+
+- 즉 여러요청이 동시에 들어오는 경우 `name`이라는 클래스 변수가 공유되면서 사용자 의도와 다르게 값이 저장되는 것을 볼 수 있다.
