@@ -1,12 +1,12 @@
 # Gradle(그레이들)
 
-- What is Gadle?
+- `What is Gadle?`
   - JVM 에서 동작하는 스크립트 언어 `groovy`기반의 DSL을 사용한다.   
   - Gradle is an open-source build automation tool flexible enough to build almost any type of software
   - Gradle 은 한마디로 `빌드 자동화 툴` 이다.
 
 
-- build.gradle
+- `build.gradle`
   - build.gradle 은 파일 자체가 Project 객체로 이는 Project Interface를 구현한 구현체이다. 
   - Project 단위에서 필요한 작업을 수행하기 위해 메소드, 프로퍼티 등을 모아놓은 슈퍼객체이다.
 
