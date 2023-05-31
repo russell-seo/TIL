@@ -27,6 +27,85 @@
 - `application` -> Project Object 의 application 메소드
 
 
+
+## Gradle 동작 순서
+
+`Initialization` -> `Configuration` -> `Execution`
+위 순으로 Gradle 은 동작한다.
+
+### Initialization
+
+- Initialization step 에는 보통 setting.gradle.kts를 읽어 `프로젝트 이름이 무엇인지. 프로젝트에 어떤 모듈이 있는지 확인한다`.
+- 멀티 모듈일 때는 각 모듈 별로 build.gradle.kts 파일이 있는지 확인한다.
+~~~
+api project(':pms-common')
+api project(':pms-domain')
+~~~
+
+### Configuration
+
+- Gradle 작업을 하기 위해 필요한 Gradle Task를 순차적으로 수행한다.
+  - 보통 라이브러리를 가져오는 작업
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/6ffdfb47-4fa6-4467-9567-213dc3eff02d)
+
+- 우리가 흔히 dependencies를 추가하고 나서 누르는 요놈이 Configuration 단계이다.
+
+### Execution
+
+- Compile 하거나 Test를 하거나 패키징 하는 작업(jar. war. apk)을 Execution 단계에서 한다.
+  - Kotlin 이나 Java 파일을 바이트 코드로 변환하는 작업, 변환된 바이트 코드를 사용해 테스트하거나 패키징 하는 작업
+
+~~~
+> Task :compileKotlin UP-TO-DATE
+> Task :compileJava NO-SOURCE
+> Task :processResources NO-SOURCE
+> Task :classes UP-TO-DATE
+> Task :inspectClassesForKotlinIC UP-TO-DATE
+> Task :jar UP-TO-DATE
+> Task :startScripts UP-TO-DATE
+> Task :distTar UP-TO-DATE
+> Task :distZip UP-TO-DATE
+> Task :assemble UP-TO-DATE
+> Task :compileTestKotlin NO-SOURCE
+> Task :compileTestJava NO-SOURCE
+> Task :processTestResources NO-SOURCE
+> Task :testClasses UP-TO-DATE
+> Task :test NO-SOURCE
+> Task :check UP-TO-DATE
+~~~
+
+- Task 가 붙어서 나오는 task들이 Execution 작업이다.
+
+
+> Gradle Task 기본 블록은 Configuration 단계에서 수행, 추가로 doFirst{}, doList{} 메소드 블록은 Execution 단계에서 실행된다.
+
+~~~
+tasks.register("myJob"){
+    println("is this first?????")
+    
+    doFirst{
+        println("this is first tasks ")
+    }
+
+}
+
+
+tasks.named("build"){
+    dependsOn("myJob")
+}
+~~~
+
+위처럼 Build 전에 tasks 를 실행하기 위해서 tasks를 작성해 놓았으며, doFirst 를 통해서 해당 Tasks를 먼저 실행할 수 있다.
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/266594cc-5a7e-4a0d-85a7-80b0e37a675e)
+
+
+
+
+- Configuration 단계에서 `is this first?????`가 먼저 출력되고, 다음으로 Execution 단계의 `this is first tasks` 가 출력된다
+
+
 ## Wrapper
 - 빌드도구 `Wrapper` 가 제공되기 전에는 각 개발자가 자신의 환경에 빌드 도구를 설치하여 실행환경을 설정하고 관리해야한다.
 - 각 개발자마다 빌드도구 버전이 다른 경우 실행되지 않는다.
