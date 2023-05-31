@@ -101,7 +101,7 @@
   -   [Firebase](https://github.com/russell-seo/TIL/blob/main/infra/firebase.md)
   -   [nGrinder 부하 테스트](https://github.com/russell-seo/TIL/blob/main/nGrinder/buhaTest.md)
   -   [Git SubModule vs Subtree](https://github.com/russell-seo/TIL/blob/main/Infra/AWS/gitsubmodule.md)
-  -   [Gradle]()
+  -   [Gradle](https://github.com/russell-seo/TIL/blob/main/infra/gradle.md)
 
 
 # 기타
