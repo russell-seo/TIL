@@ -147,6 +147,52 @@ implementation("org.springframework.boot:spring-boot-starter")
 ~~~
 코틀린 DSL은 모든 문자열을 큰따옴표로 작성하도록 한다. 추가로 IDE에서 잘못된 문법 오류코드를 잡아준다.
 
+### Kotlin DSL플러그인 적용
+
+- 선언적으로 plugins {}블록 사용
+- 명령적으로 레거시 apply() 함수를 쓴다
+
+__build.gradle.kts__(kotlin)
+~~~
+plugins {
+    java
+    jacoco
+    `maven-publish`
+    id("org.springframework.boot") version "2.7.8"
+}
+~~~
+
+Kotlin DSL은 모든 Gradle 코어 플러그인에 대한 속성 확장을 제공한다.
+
+
+__build.gradle__(groovy)
+~~~
+plugins {
+    id 'java'
+    id 'jacoco'
+    id 'maven-publish'
+    id 'org.springframework.boot' version '2.7.8'
+}
+~~~
+
+apply() 사용
+__build.gradle.kts__
+~~~
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.7.8")
+    }
+}
+
+apply(plugin = "java")
+apply(plugin = "jacoco")
+apply(plugin = "org.springframework.boot")
+~~~
+
+apply() 도 사용가능. 비 핵심코어 플러그인은 빌드 스크립트에 해당 경로가 포함되어야 한다.
 
 ## 참조
 [https://docs.gradle.org/current/userguide/migrating_from_groovy_to_kotlin_dsl.html]()
