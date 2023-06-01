@@ -146,3 +146,7 @@ implementation("org.springframework.boot:spring-boot-starter")
 }
 ~~~
 코틀린 DSL은 모든 문자열을 큰따옴표로 작성하도록 한다. 추가로 IDE에서 잘못된 문법 오류코드를 잡아준다.
+
+
+## 참조
+[https://docs.gradle.org/current/userguide/migrating_from_groovy_to_kotlin_dsl.html]()
