@@ -175,7 +175,7 @@ plugins {
 }
 ~~~
 
-apply() 사용
+
 __build.gradle.kts__
 ~~~
 buildscript {
@@ -194,5 +194,7 @@ apply(plugin = "org.springframework.boot")
 
 apply() 도 사용가능. 비 핵심코어 플러그인은 빌드 스크립트에 해당 경로가 포함되어야 한다.
 
+## 결론 
+- Kotlin DSL 을 써보자!
 ## 참조
 [https://docs.gradle.org/current/userguide/migrating_from_groovy_to_kotlin_dsl.html]()
