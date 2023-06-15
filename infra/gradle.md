@@ -18,6 +18,7 @@
 
 - Project 오브젝트는 내부에 많은 메소드 와 프로퍼티를 가지고 있다. 그중 대표적인 것은 Java Application 용 Build.gradle이 가진 plugins, repositories, dependencies, application 메소드이다.
 - 우리가 Gradle Task를 이용해 빌드하게 되면 bulid Task 는 이 메소드를 수행시킨다.
+- 우리가 아래에 작성한 코드는 build.gradle은 Gradle 스크립트 엔진에 의해 해석되고 실행된다.
 
 ![image](https://github.com/russell-seo/TIL/assets/79154652/2f73a215-119f-40cd-869a-1718775067b9)
 
