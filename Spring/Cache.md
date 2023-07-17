@@ -1,5 +1,11 @@
 # Spring Cache
 
+  스프링의 캐시 추상화는 캐시 기술에 종속되지 않으며 AOP를 통해 적용되어 애플리케이션의 코드를 수정하지 않고 적용이 가능하다.
+
+  이를 위해 스프링은 사용하고자 하는 캐시 기술을 캐시 매니저 빈으로 등록해야 한다.
+
+  캐시 데이터를 ConcurrentHashMap에 저장하는 `ConcurrentMapCacheManager`, EhCache를 지원하는 `EhCacheManager`, `RedisCacheManger`등 다양한 캐시 매니저가 존재하며 적절하게 CacheManager로 등록하여 사용할 수 있다.
+
   ## Cache
   대표적으로 Cache는 CPU와 HDD/SSD입니다. `CPU의 레지스터는 우리가 사용하는 하드디스크 보다 훨씬 빠르다. 그래서 이 사이에 Cache를 두어 CPU가 빠르게 처리할 수 있도록 하는 것`
 
@@ -23,6 +29,46 @@
   
 ![image](https://github.com/russell-seo/TIL/assets/79154652/d56b39fa-f710-4d98-88b7-6bca01ffb898)
 
+
+스프링에서 `@EnableCaching` 어노테이션을 통해 캐시 기능을 활성화 시킬 수 있다.
+
+실제로 이 기능을 사용해보면서 익혀보자.
+
+
+
+  ## Configuration
+
+  ~~~java
+  @Configuration
+public class RedisConfig {
+    @Bean
+    public RedisConnectionFactory redisConnectionFactory(){
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(new RedisStandaloneConfiguration("localhost", 6379));
+        return lettuceConnectionFactory;
+    }
+
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate() {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        return redisTemplate;
+    }
+
+    @Bean
+    public RedisCacheManager redisCacheManager(RedisConnectionFactory redisConnectionFactory){
+        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
+                .entryTtl(Duration.ofMinutes(3L));
+
+
+
+        return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(redisConnectionFactory).cacheDefaults(redisCacheConfiguration).build();
+    }
+  }
+  ~~~
 
   
   
