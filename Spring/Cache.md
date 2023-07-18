@@ -35,7 +35,7 @@
 실제로 이 기능을 사용해보면서 익혀보자.
 
 
-
+필자는 Redis로 캐싱을 구현하기 위해 아래와 같이 Config를 작성해서 RedisCacheManager를 등록해준다.
   ## Configuration
 
   ~~~java
@@ -70,5 +70,46 @@ public class RedisConfig {
   }
   ~~~
 
-  
-  
+
+## Service
+
+~~~java
+@Service
+@RequiredArgsConstructor
+public class Caching {
+    private final ProductRepository productRepository;
+    @PostConstruct
+    public void init(){
+        productRepository.save(new Product("캐싱"));
+        productRepository.save(new Product("캐싱2"));
+    }
+
+    @Cacheable(key = "#id", value = "product" )
+    public Product cache(Long id){
+        return productRepository.findById(id).orElse(null);
+    }
+}
+~~~
+
+- `@Cacheable`
+  -  key : 캐시 저장소에 저장될 key값
+  -  value : 캐시 저장소에 저장될 그룹명
+
+- Product 라는 Entity가 존재하고 DB에 캐싱, 캐싱2라는 데이터를 넣고 처음 Redis 에 캐쉬가 없을 때와 있을 때 DB에 날라가는 쿼리를 보면 된다.
+
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/fce01c46-361b-4789-9565-b2d9c4eef3f8)
+
+- 현재 Redis에는 아무런 데이터도 들어가 있지 않다.
+
+- 처음 조회하면 아래와 같이 DB에 쿼리가 날라가서 데이터를 가져온다.
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/eeb86e58-5c2a-4dc3-bb67-65cee768a731)
+
+- 그리고 Redis를 확인해보면 해당 key, value 값이 캐싱되어있는 것을 볼 수있다.
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/4749916e-2f76-4abb-8e58-5bb005c3d67e)
+
+
+- 이제 다시 id = 1 인 데이터를 요청하면 DB에 쿼리가 날라가지 않고 캐시 메모리에서 데이터를 가져와서 내보낸다.
+
