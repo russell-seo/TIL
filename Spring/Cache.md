@@ -113,3 +113,24 @@ public class Caching {
 
 - 이제 다시 id = 1 인 데이터를 요청하면 DB에 쿼리가 날라가지 않고 캐시 메모리에서 데이터를 가져와서 내보낸다.
 
+
+
+## @CacheEvict
+~~~
+@Transactional
+    @CacheEvict(key = "#id", value = "product")
+    public void modify(Long id, String name){
+        Product product = productRepository.findById(id).orElse(null);
+        product.setName("캐시변경");
+    }
+~~~
+
+- `@CacheEvict`는 해당 key 값에 대한 캐시를 지우는 어노테이션이다.
+- 즉 해당 key 에대한 value 값이 변경되면 Cache에도 변경된 값을 가지고 있어야 하기 때문에 해당 값을 지우게 한다.
+- 실행시켜보면 아래와 같이 쿼리가 날라가서 DB에 Update 된다
+  
+![image](https://github.com/russell-seo/TIL/assets/79154652/46952a09-32f2-47ff-b4eb-f8b694d5cbc1)
+
+- 이제 Cache 쪽을 살펴보면 아래와 같이 해당 Key 값에 대한 캐시가 지워진걸 볼 수 있다.
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/399592d4-b4e0-4773-9991-55ba6cbe77c6)
