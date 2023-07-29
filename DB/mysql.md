@@ -21,3 +21,7 @@
   ## 항상 Redo Log에 기록되나?
 
   - 항상 Redo Log에 기록되는 것은 아니다 `데이터 변경`이 있을 시에 기록되고 조회 쿼리는 기록되지 않는다.
+
+  - Redo Log는 Redo Log Buffer에 저장된다. 즉 얘도 결국 메모리 영역이니 장애가 나면 사라지게 된다.
+  - 이 Redo Log 를 복구하는 것이 Redo Log File 이다.
+  - Redo Log File은 두 개의 파일로 구성되는데, 하나의 파일이 가득차면 log switch가 발생하며 다른 파일에 쓰게 된다. log switch가 발생할 때 마다 CheckPoint 이벤트도 발생하는데, 이때 InnoDB Buffer Pool Cache에 있던 데이터들이 백그라운드 스레드에 의해 디스크에 기록된다.
