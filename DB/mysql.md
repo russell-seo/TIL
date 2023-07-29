@@ -1,4 +1,7 @@
-# Mysql DB에서 트랜잭션 시 작동원리 이해하기
+# Mysql DB에서 트랜잭션 시 작동원리 이해하기(Redo VS Undo)
+
+  - Redo Log : 변경 후의 값을 기록
+  - Undo Log : 변경 전의 값을 기록
 
 
   ## Redo Log
@@ -25,3 +28,30 @@
   - Redo Log는 Redo Log Buffer에 저장된다. 즉 얘도 결국 메모리 영역이니 장애가 나면 사라지게 된다.
   - 이 Redo Log 를 복구하는 것이 Redo Log File 이다.
   - Redo Log File은 두 개의 파일로 구성되는데, 하나의 파일이 가득차면 log switch가 발생하며 다른 파일에 쓰게 된다. log switch가 발생할 때 마다 CheckPoint 이벤트도 발생하는데, 이때 InnoDB Buffer Pool Cache에 있던 데이터들이 백그라운드 스레드에 의해 디스크에 기록된다.
+
+
+
+
+## Undo Log
+
+- 실행 취소 로그 레코드의 집합으로 트랙잭션 실행 후 Rollback 시 Undo Log를 참조해서 이전 데이터로 복구할 수 있도록 로깅 해놓은 영역이다.
+- 예를 들면 기존에 [서상원, 1000] 이라는 Row가 있으면 이를 1000->900으로 update 하는 동작을 수행한다고 하자, 그러면 DB에 해당 Column을 update 할 때 900이라는 데이터가 먼저 메모리 영역에 저장되고 기존의 1000이라는 데이터는 Undo Log에 기록된다. 이 때 만약 Commit 되지 않고 에러가 발생해서 Rollback이 된다면 이 Undo Log의 기존 데이터로 다시 원상복귀 시킨다.
+
+
+~~~
+--데이터 Insert
+INSERT INTO member(m_id, m_name, m_area) VALUES(12, '홍길동', '서울');
+
+-- 변경
+UPDATE member SET m_area='경기' WHERE m_id = 12;
+~~~
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/5a237338-9b91-4699-85d1-8bfbd0776d27)
+
+- Undo Log도 Redo Log와 마찬가지로 Log Buffer에 기록된다. Undo Recoders 영역에 기록된다. 저장되는 데이터는 PK값과 변경되기 전의 데이터 이다.
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/4f1bb2c7-1bc0-4f66-9c49-ee8479362458)
+
+`Redo Log`가 트랜잭션 커밋과 Checkpoint시 디스크에 기록, `Undo Log` 는 Checkpoint시 디스크에 기록
+
+위 그림을 보면 Update 쿼리가 실행되면 Commit, Rollback 전 InnoDB buffer pool에 캐싱된 데이터는 update 한 정보로 수정됩니다. 데이터를 수정함과 동시에 Rollback을 대비하기 위해, 업데이트 전의 데이터를 Undo Records로 기록하는 것이다.
