@@ -68,6 +68,40 @@ public class Post {
         var param = new EasyRandomParameters().seed(seed);
         return new EasyRandom(param).nextObject(Post.class);
     }
+
+  public static EasyRandom get(Long memberId, LocalDate start, LocalDate end){
+        var idPredicate = named("id")
+                .and(ofType(Long.class))
+                .and(inClass(Post.class));
+
+        var memberPredicate = named("memberId")
+                .and(ofType(Long.class))
+                .and(inClass(Post.class));
+
+        var param = new EasyRandomParameters()
+                .excludeField(idPredicate)
+                .dateRange(start, end)
+                .randomize(memberPredicate, () -> memberId);
+
+        return new EasyRandom(param);
+
+    }
+
+    public static EasyRandom getRandom(LocalDate start, LocalDate end){
+        var idPredicate = named("id")
+                .and(ofType((Long.class)))
+                .and(inClass(Post.class));
+
+        var memberPredicate = named("memberId")
+                .and(ofType(Long.class))
+                .and(inClass(Post.class));
+
+        var param = new EasyRandomParameters().excludeField(idPredicate)
+                .dateRange(start, end)
+                .randomize(memberPredicate, new LongRangeRandomizer(1L, 10000L));
+
+        return new EasyRandom(param);
+    }
   ~~~
 
   - 위의 두 메소드중 하나는 seed 값을 받아서 만드는 메소드이다. 시드값을 받지 않는 메소드는 for loop 로 생성하게 되면 동일한 객체만 생성되게 된다.
