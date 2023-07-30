@@ -13,6 +13,7 @@
    - [Spring Transactional](https://github.com/russell-seo/TIL/blob/main/Spring/transaction.md)
    - [Spring 싱글톤 방식의 주의점](https://github.com/russell-seo/TIL/blob/main/Spring/singletone.md)
    - [Spring Cache](https://github.com/russell-seo/TIL/blob/main/Spring/Cache.md)
+   - [Spring Test 데이터 랜덤 생성 라이브러리(EasyRandom)]()
  - Spring Security
       - [Spring Security 용어 및 흐름 이해하기](https://github.com/russell-seo/TIL/blob/main/Spring/SpringSecurityName.md)
       - [Spring Security 간단한 로그인 구현](https://github.com/russell-seo/TIL/blob/main/Spring/Security.md)
