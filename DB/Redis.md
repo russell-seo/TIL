@@ -56,6 +56,13 @@
     __다양한 데이터 타입__
     
     - `String, Set, Sorted Set, Hash, List` 등의 타입을 지원합니다.
+    - `String`
+      - 가장 기본적인 데이터 타입
+      - 바이트 배열을 저장(binary-safe)
+      - 바이너리로 변환할 수 있는 모든 데이터를 저장 가능(JPG와 같은 파일 등)
+      - 최대 크기는 512MB
+      - `INCR` 명령어는 특정 키의 값을 Integer로 취급하여 1 증가 시킨다.(Atomic 해서 Race Condition이 발생하지 않는다.)
+      - `DECR` 특정 키 값을 Integer로 취급하여 1 감소 시킨다.
 
 
     __Persistence__
