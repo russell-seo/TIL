@@ -63,8 +63,27 @@
       - 최대 크기는 512MB
       - `INCR` 명령어는 특정 키의 값을 Integer로 취급하여 1 증가 시킨다.(Atomic 해서 Race Condition이 발생하지 않는다.)
       - `DECR` 특정 키 값을 Integer로 취급하여 1 감소 시킨다.
+    - `List`
+      - Linked-list 형태의 자료구조(인덱스 접근은 느리지만 데이터 추가/삭제가 빠름)
+      - Queue 와 Stack 으로 사용가능하다.
+    - `Set`
+      - 순서가 없는 유니크한 값의 집합
+      - 검색이 빠름
+      - 개별 접근을 위한 인덱스가 존재하지 않고, 집합 연산이 가능
+    - `Hashes`
+      - 하나의 key 하위에 여러개의 field-value 쌍을 저장
+      - 여러 필드를 가진 객체를 저장하는 것
+      - HINCRBY 명령어를 사용해 카운터로 활용 가능
+      - 객체를 저장하는 것과 같다고 보면된다. 즉 객체의 각각의 데이터에 접근해서 가져올 수 있음
+      - Json 을 String 으로 저장하면 어떤 개별 필드 데이터를 가져올 때 도 모든 Json 을 불러와야되기 때문에 하나의 필드 접근이면 Hashes가 유용하다
+    - `SortedSet`
+      - Set 과 유사하게 유니크한 값의 집합
+      - 각 값은 연관된 score를 가지고 정렬 되어 있음
+      - 정렬된 상태이기에 빠르게 최소/최대값을 구할 수 있음
+      - 순위 계산, 리더보드 구현 등에 활용
+      - apple(score:10), banana(score:20), grape(score:30) 같이 score 기준으로 정렬되어 있다.
 
-
+    
     __Persistence__
     
     ![image](https://user-images.githubusercontent.com/42582516/133775761-c7644499-ae6f-4aa8-bd25-8208780c41e0.png)
