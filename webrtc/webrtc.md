@@ -70,6 +70,72 @@ TURN은 이러한 릴레이로 부터 IP 주소와 포트를 클라이언트가 
 ![image](https://github.com/russell-seo/TIL/assets/79154652/150f1d0f-84a5-4aa0-ab77-49e258dc79f9)
 
 
+## SDP(Session Description Protocol)
+
+SDP란 Session Description Protocol 의 약자로 연결하고자 하는 Peer 서로간의 미디어와 네트워크에 관한 정보를 이해하기 위해 사용된다.
+
+### Offer SDP
+
+- 먼저 연결하고자 하는 Peer 가 만든 SDP를 말한다.
+
+
+### Answer SDP
+
+- 응답하는 Peer 가 만든 SDP를 말한다.
+
+SDP의 간단한 예를 보면서 간략하게 알아보자
+
+~~~
+v=0 
+o=- 6137031273746274589 2 IN IP4 127.0.0.1 
+s=- 
+t=0 0 
+a=group:BUNDLE audio video data 
+m=audio 9 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 126
+...
+~~~
+
+`v=0` -> 프로토콜 버전
+
+`o=- 6137031273746274589 2 IN IP4 127.0.0.1` -> 유저이름 (생략됨 -로 표기됨), sessionId, sessionVersion, network type, address type, unicast address 
+
+`s=-` -> 세션이름 (여기선 생략)
+
+`t=0 0` -> 세션이 활성화 됐을 시간 (좌측: start time / 우측: end time 세션만료없이 영구적)
+
+`a=group:BUNDLE audio video data` -> 미디어 라인들 간 관계 (오디오, 비디오, 데이터채널 사용)
+
+`m=audio 9 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 126` -> 미디어타입, 포트번호, 프로토콜, 코덱 프로파일 번호 (peer간 협상과정에 번호. 코덱이 상호 간 가능한지 확인하고 실패시 순서대로 적용)
+
+번들 그룹핑은 SDP 내에 있는 미디어 라인들간에 관계를 형성 한다. 예를 들어 audio video 라고 기술되어 있다면, 이는 datachannel없이 audio와 video 에 관한 라인들만 있음을 의미한다. 즉 audio, video만 사용됨을 의미한다.
+
+
+### SDP Offer <-> Answer SDP 흐름
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/adca7c09-37c3-4c97-b237-f3e9c2a12138)
+
+- Device A
+  - getUserMedia()로 미디어 캡처
+  - RTCPeerConnection 생성, RTCPeerConnection.addTrack() 호출
+  - RTCPeerConnection.createOffer() 로 Offer 생성
+  - RTCPeerConnection.setLocalDescription() 으로 Offer를 LocalDescription으로 설정
+  - SetLocalDescription() 호출 후 , Ice Candidate를 STUN 서버에 요청
+  - 시그널링 서버를 이용해 Device B에 Offer 전송
+ 
+- Device B
+  - Device A의 Offer를 수신
+  - RTCPeerConnection.setRemoteDescription 호출 해서 remoteDesciption 기록
+  - 호출 종료 시 , Local Media 캡처, 각 mediaTrack을 RTCPeerConnection.addTrack()을 통해 Peer Connection 연결
+  - RTCPeerConnection.createAnswer() 로 answer 생성
+  - RTCPeerConnection.setLocalDescription 으로 생성된 Answer에 LocalDescription 설정ㅈ
+  - 시그널링 서버를 사용해 Device A에 Answer 전달
+ 
+- Device A
+  - Answer를 받고
+  - RTCPeerConnection.setRemoteDescription 으로 Answer를 RemoteDescription 으로 설정
+  - 이제 Device A 와 B는 서로의 구성을 모두 알 수 있다.
+
+
 
 ## 마무리
 
