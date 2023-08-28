@@ -1,0 +1,1 @@
+# Kotlin Inline Function/Class
