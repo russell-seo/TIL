@@ -1,4 +1,4 @@
-# Kotlin Inline Function/Class
+# Kotlin Inline Class
 
 
 Kotlin 의 Inline Function 과 Inline Class 에 대해 알아보자.
