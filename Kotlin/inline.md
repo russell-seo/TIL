@@ -11,7 +11,7 @@ Kotlin 의 Inline Function 과 Inline Class 에 대해 알아보자.
 
 ## Value Class(inline Class)
 
-  ~~~
+  ~~~kotlin
   @JvmInline
   value class Password(val p : String)
   ~~~
@@ -28,8 +28,8 @@ Kotlin 의 Inline Function 과 Inline Class 에 대해 알아보자.
 
 ## Code
 
-Data Class
-~~~
+`data class`
+~~~kotlin
 fun alarm(duration : Durations) {
   prtinln(duration.seconds)
 }
@@ -59,8 +59,8 @@ data class Durations(
 
 
 
-Value(inline) Class
-~~~
+`value(inline) class`
+~~~kotlin
 fun alarm(duration : Durations) {
   prtinln(duration.seconds)
 }
