@@ -50,14 +50,27 @@ data class Durations(
 
 위 코드는 Value(inline) Class 대신 data class 를 사용해서 작성한 코드이다.
 
-위 처럼 alarm 이라는 메소드에 Duration 이라는 Class 를 파라미터로 받으면서 한 번에 2초라는 사실을 알 수 있다.
+위 처럼 alarm 이라는 메소드에 Duration 이라는 Class 를 파라미터로 받으면서 한 번에 2초라는 사실을 명확하게 알 수 있다.
 
 하지만 `data class` 를 사용하면 매번 alarm 을 호출 할 때 마다 Duration 이라는 객체를 생성해서 할당한다.
 
 그렇기에 추가적으로 Heap 메모리에 할당함으로 런타임 오버헤드가 발생하며 이를 `Value Class` 로 변환해서 처리하는 것을 권장한다.
 
+### data class to decompile
+
+~~~kotlin
+public static final void alarm(@NotNull Duration duration) {
+      Intrinsics.checkNotNullParameter(duration, "duration");
+      String var1 = duration.getMillis();
+}
+~~~
+
+`Java Code`로 디컴파일 했을 시 alarm 클래스의 파라미터로 Duration 객체가 들어온다.
 
 
+
+
+`Java Code`로 디컴파일 했을 시 alarm 클래스의 파라미터로 `long` 값이 들어오는 것을 볼 수있으며, 이 long 값은 `Duration 내의 프로퍼티` 타입을 그대로 가져온다.
 
 `value(inline) class`
 ~~~kotlin
@@ -81,3 +94,17 @@ value class Durations(
 ~~~
 
 `value class` 로 선언된 Duration 은 파라미터로 들어올 때 객체의 Property로 대체된다.
+`value class` 는 클래스 내에 프로퍼티와 함수를 정의할 수 도 있다.
+
+### value class to decompile
+~~~kotlin
+public static final void alarm_ZlhV6Ys(long duration) {
+      String var2 = duration;
+   }
+~~~
+
+
+
+
+
+
