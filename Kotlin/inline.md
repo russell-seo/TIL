@@ -104,6 +104,72 @@ public static final void alarm_ZlhV6Ys(long duration) {
 ~~~
 
 
+### JPA Entity AI Column with value class
+
+JPA 에서 AI 컬럼을 value class로 Long -> value class 로 사용
+
+> JapRepository<User, UserId> 를 상속받아 구현체를 등록할 때 findById() 메소드로 Entity를 가져올 때 TypeMisMatch Error가 생긴다.
+>
+> StackOverflow 를 찾아봐도 해당 에러에 대한 해결법은 찾을 수 없었다.
+>
+> 그래서 QueryDsl로 id 값을 가져오는 메소드를 작성하거나, JapRespository<User, Long> 을 상속받는 Repository 를 하나 더 구현하는 방법이 있다.
+
+~~~kotlin
+@Entity
+class User(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id : UserId,
+
+    val name : String
+) {
+
+
+}
+
+@JvmInline
+value class UserId(
+    val id : Long? = null
+) : Serializable
+~~~
+
+~~~kotlin
+@Repository
+interface UserReadRepository : JpaRepository<User, Long>{
+}
+
+@Repository
+interface UserCmdRepository : JpaRepository<User, UserId>{
+}
+~~~
+
+- Entity를 findById()같이 조회할려고 하면 첫번째 ReadRepository 를 사용
+- Entity를 Insert, Update 할 때는 두번째 CmdRepository 를 사용
+
+QueryDsl
+~~~kotlin
+
+@Autowired
+    lateinit var entityManager: EntityManager
+
+    @Bean
+    fun query() : JPAQueryFactory {
+        return JPAQueryFactory(entityManager)
+    }
+
+    fun where() : BooleanBuilder {
+        return BooleanBuilder()
+    }
+
+    fun findById(): User? {
+        val user =  query().selectFrom(user)
+            .where(user.id.eq(1L)).fetchOne()
+        return user
+    }
+~~~
+
+- JpaRepository 를 사용하지 않는다면, 위와 같이 QueryDsl로 작성하여 findById()를 대체해서 사용 가능하다.
+
 
 
 ## 마무리
