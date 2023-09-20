@@ -36,3 +36,13 @@ mediasoup and its client side libraries are designed to accomplish with the foll
 
 <img width="996" alt="스크린샷 2023-09-13 오후 11 37 57" src="https://github.com/russell-seo/TIL/assets/79154652/3e65c1fa-873c-40f4-9a47-1dbc8d349c69">
 
+
+
+
+필자는 이 `mediasoup`의 흐름이 처음에 너무 이해하기 어려웠고 특히나 기존에 알던 WebRTC 와 미디어 교환 및 연결하는 과정이 다르기 때문에 더 어려움을 겪었다.
+
+일단 먼저 기본적으로 사용되는 용어에 대해 알아보자
+
+- `RtpCapabilities` : 미디어 수신 관련 정보
+- `Transport` : Endpoint 와 Mediasoup Router를 연결
+- `Connect` 
