@@ -45,4 +45,14 @@ mediasoup and its client side libraries are designed to accomplish with the foll
 
 - `RtpCapabilities` : 미디어 수신 관련 정보
 - `Transport` : Endpoint 와 Mediasoup Router를 연결
-- `Connect` 
+- `Produce` : (Instructs the transport to send an audio or video track to the mediasoup router) 공식 문서상에는 Transport 가 mediasoup router 에 오디오와 비디오 데이터를 전송하는 것을 의미한다.
+- `Consume` : (Instructs the transport to receive an audio or video track from the mediasoup router) Transport 가 mediasoup router로 부터 오디오와 비디오 데이터를 받는 것
+- `Connect` : Server Side Transport와 연결을 위한 정보 교환을 수행
+
+
+
+
+## Process flow
+
+
+
