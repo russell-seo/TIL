@@ -57,12 +57,36 @@ mediasoup and its client side libraries are designed to accomplish with the foll
 
 1. Client -> 서버의 Mediasoup Router 의 RtpCapabilites 를 요청한다.
 2. Client -> Local의 Device 를 생성하고 서버에서 받은 Router 의 RtpCapabilites 를 통해 `load()`한다.
-3. Client -> 서버에 WebRtcTransport 를 생성하는 요청을 한다. 서버에서는 router.createWebrtcTransport()메소드를 통해서 Transport 를 생성한다.
+3. Client -> 서버에 WebRtcTransport 를 생성하는 요청을 한다. 서버에서는 `router.createWebrtcTransport()`메소드를 통해서 Transport 를 생성한다.
 4. Server -> Transport 의 id, iceParameters, iceCandidates, dtlsParameters 를 Client 에 전달한다.
 5. Client -> 서버에서 받은 Transport 의 데이터를 가지고 Client 측의 SendTransport를 생성한다.
-6. Client -> Client 사이드의 SendTransport 가 생성되면 SendTransport 의 produce() 를 호출한다.
+6. Client -> Client 사이드의 SendTransport 가 생성되면 SendTransport 의 `produce()` 를 호출한다.
 
           -> SendTransport의 produce()는 connect()이벤트와 produce()이벤트를 발생시킨다.
-7. Client -> Connect() 를 호출하고 Server 측으로 dtlsParameters를 보낸다.
-8. Server -> dtlsParameters 를 받아 해당 Transport의 connect() 를 호출한다.
-9. 
+7. Client -> `Connect()` 를 호출하고 Server 측으로 dtlsParameters를 보낸다.
+8. Server -> dtlsParameters 를 받아 해당 Transport의 `connect()` 를 호출한다.
+
+>> Producer Client <-> Server 연결 완료
+  
+10. Client -> `produce()`를 호출하고 서버측으로 Parameter 및 Callback 메소드를 보낸다.
+11. Server -> Transport의 `produce()`를 호출해서 Producer를 만든다.
+12. Server -> producer Id를 Client 측에 전달한다.
+
+>> Producer is now Sending media to the Server
+
+
+13. Client -> Client 에서 미디어 수신을 받을 `Recieve Transport`를 생성한다. Server 에서 이와 connect 할 `Transport`를 생성한다.
+14. Client -> Client 에서 Device의 RtpCapabilities 와 Producer의 Id를 보내서 어떤 말하는 Producer의 수신을 받을지 서버에 전달한다.
+15. Server -> 서버는 rtpCapabilities 와 Producer id 로 해당 라우터의 canConsume() 메소드를 호출해서 미디어 수신이 가능한지 확인하고 Consumer를 생성한다.
+16. Server -> Client 측으로 Consumer와 return 받은 데이터를 전달한다.
+17. Client -> Client의 Recieve Transport의 Consume()을 호출한다. 서버측으로 dtlsParameters를 전달
+18. Server -> dtlsParameters 를 받아 Transport.connect()를 호출한다.
+>> Consumer Client -> Server 연결
+
+
+
+## Reference
+
+아래 공식 문서를 처음부터 따라가다 보니 쉽게 구현할 수 있었다.
+
+[Mediasoup Documentation](https://mediasoup.org/documentation/v3/communication-between-client-and-server/)
