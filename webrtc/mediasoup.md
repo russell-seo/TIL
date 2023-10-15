@@ -77,10 +77,10 @@ mediasoup and its client side libraries are designed to accomplish with the foll
 
 13. Client -> Client 에서 미디어 수신을 받을 `Recieve Transport`를 생성한다. Server 에서 이와 connect 할 `Transport`를 생성한다.
 14. Client -> Client 에서 Device의 RtpCapabilities 와 Producer의 Id를 보내서 어떤 말하는 Producer의 수신을 받을지 서버에 전달한다.
-15. Server -> 서버는 rtpCapabilities 와 Producer id 로 해당 라우터의 canConsume() 메소드를 호출해서 미디어 수신이 가능한지 확인하고 Consumer를 생성한다.
+15. Server -> 서버는 rtpCapabilities 와 Producer id 로 해당 라우터의 `canConsume()` 메소드를 호출해서 미디어 수신이 가능한지 확인하고 Consumer를 생성한다.
 16. Server -> Client 측으로 Consumer와 return 받은 데이터를 전달한다.
-17. Client -> Client의 Recieve Transport의 Consume()을 호출한다. 서버측으로 dtlsParameters를 전달
-18. Server -> dtlsParameters 를 받아 Transport.connect()를 호출한다.
+17. Client -> Client의 Recieve Transport의 `Consume()`을 호출한다. 서버측으로 dtlsParameters를 전달
+18. Server -> dtlsParameters 를 받아 `Transport.connect()`를 호출한다.
 >> Consumer Client -> Server 연결
 
 
