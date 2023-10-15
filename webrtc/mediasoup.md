@@ -44,7 +44,7 @@ mediasoup and its client side libraries are designed to accomplish with the foll
 일단 먼저 기본적으로 사용되는 용어에 대해 알아보자
 
 - `RtpCapabilities` : 미디어 수신 관련 정보
-- `Transport` : Endpoint 와 Mediasoup Router를 연결
+- `Transport` : Peer Endpoint 와 Mediasoup Router를 연결
 - `Produce` : (Instructs the transport to send an audio or video track to the mediasoup router) 공식 문서상에는 Transport 가 mediasoup router 에 오디오와 비디오 데이터를 전송하는 것을 의미한다.
 - `Consume` : (Instructs the transport to receive an audio or video track from the mediasoup router) Transport 가 mediasoup router로 부터 오디오와 비디오 데이터를 받는 것
 - `Connect` : Server Side Transport와 연결을 위한 정보 교환을 수행
@@ -55,4 +55,14 @@ mediasoup and its client side libraries are designed to accomplish with the foll
 ## Process flow
 
 
+1. Client -> 서버의 Mediasoup Router 의 RtpCapabilites 를 요청한다.
+2. Client -> Local의 Device 를 생성하고 서버에서 받은 Router 의 RtpCapabilites 를 통해 `load()`한다.
+3. Client -> 서버에 WebRtcTransport 를 생성하는 요청을 한다. 서버에서는 router.createWebrtcTransport()메소드를 통해서 Transport 를 생성한다.
+4. Server -> Transport 의 id, iceParameters, iceCandidates, dtlsParameters 를 Client 에 전달한다.
+5. Client -> 서버에서 받은 Transport 의 데이터를 가지고 Client 측의 SendTransport를 생성한다.
+6. Client -> Client 사이드의 SendTransport 가 생성되면 SendTransport 의 produce() 를 호출한다.
 
+          -> SendTransport의 produce()는 connect()이벤트와 produce()이벤트를 발생시킨다.
+7. Client -> Connect() 를 호출하고 Server 측으로 dtlsParameters를 보낸다.
+8. Server -> dtlsParameters 를 받아 해당 Transport의 connect() 를 호출한다.
+9. 
