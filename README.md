@@ -87,7 +87,7 @@
       - [R-Tree 인덱스](https://github.com/russell-seo/TIL/blob/main/DB/r-tree.md)
       - [Spatial Query Index로 최적화](https://github.com/russell-seo/TIL/blob/main/DB/sqIndex.md)
   - [Mysql Redo Log, Undo Log](https://github.com/russell-seo/TIL/blob/main/DB/mysql.md)
-      
+  - [Mysql]()
 # Kotlin
   
   - [Kotlin](https://github.com/russell-seo/TIL/tree/main/Kotlin)
