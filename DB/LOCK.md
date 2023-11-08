@@ -67,7 +67,26 @@
 
    - 또한 SELECT...FOR UPDATE, DELETE등 X 잠금을 얻는 쿼리는 모드 GAP LOCK을 획득한다.
    - 범위에 대한 LOCK 을 획득 시 해당 범위 안에 존재하지 않는 RECORD는 모두 GAP LOCK을 획득하게 된다.
-   - 
+
+   `GAP LOCK 이 필요한 이유`
+   - REPEATABLE READ 격리 수준 보장
+    - GAP LOCK 이 없다면 PHANTOM READ 가 발생할 수 있다.
+   ![image](https://github.com/russell-seo/TIL/assets/79154652/71d6700d-316c-4406-b7bf-cd19477dcea1)
+
+   - 실제로 위와 같이 실행 시 3,6번의 데이터가 다르게 조회된다. 그 이유는 READ-COMMITED의 경우 3번 실행할 때 배터적 잠금을 걸지 않는다. 즉 GAP LOCK을 걸지 않는다.
+   - 하지만 REPEATABLE READ는 같은 트랜잭션 범위 내 에서는 조회한 데이터가 동일 해야 한다. 그러므로 3번 쿼리를 실행할 때 id 인덱스에 GAP LOCK을 건다. 즉 id=2 에 GAP LOCK을 건다
+   - 그러므로 4번 쿼리의 INSERT는 Session-1 트랜잭션이 끝날 때 까지 대기하고 끝나면 실행한다.
+   - 이렇게 GAP LOCK을 사용하면서 Phantom Read 문제를 해결한다.
+
+   - REPLICATION 일관성 보장(Binary Log Format = statement or Mixed 일때)
+     - Mysql 서버의 Replication은 데이터의 복제를 위하여 바이너리 로그 파일을 사용하는데, 바이너리 로그 포맷은 `Statement, Row, Mixed`중 하나를 선택할 수 있다.
+     - Statement와 Row는 일반적인 경우 실행된 SQL 문장을 바이너리 로그로 저장하기 때문에 거의 유사한 포맷
+
+     ![image](https://github.com/russell-seo/TIL/assets/79154652/e74cce83-f6cf-49ad-9422-cb962bde6238)
+
+     이 예제에서는 
+
+
    
    - `Next-key Lock`
    - `Insert intention Lock`
