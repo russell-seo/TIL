@@ -84,10 +84,34 @@
 
      ![image](https://github.com/russell-seo/TIL/assets/79154652/e74cce83-f6cf-49ad-9422-cb962bde6238)
 
-     이 예제에서는 
+     이 예제에서는 4번 INSERT 가 즉시 완료되지 않고 3번 UPDATE 세션의 트랜잭션이 COMMIT OR ROLLBACK 되어야 4번의 쿼리가 실행된다.
 
+     이는 3번 쿼리가 id = 1, 3 뿐 만 아니라 id = 2인 GAP LOCK을 가지고 있기 때문이다.
+
+     만약 GAP LOCK 없이 세션 1번보다 2번이 먼저 실행되고 COMMIT 되어 버리면 SOURCE DB와 REPLICATION DB의 트랜잭션 실행 순서가 거꾸로 되기 때문에 데이터가 서로 달라지게 된다.
+
+     이렇게 바이너리 로그 포맷 = Statement 일 때 GAP LOCK 이 필요한 이유는 이런 복제 Source 와 Replica DB 데이터 정합성 때문이다.
+
+
+   `GAP LOCK의 특징과 주의사항`
+
+   Shared Gap Lock = Exclusive Gap Lock
+
+   Next Key Lock = Record Lock + Gap Lock
+
+
+   Gap Lock은 Mysql 내부적으로 Shared Lock 만 존재한다. 순수하게 다른 트랜잭션이 대상 간격에 대해서 INSERT 되는 것을 막아주는 것만이 목적이다.
+
+   그래서 UPDATE, DELETE, SELECT...FOR UPDATE 문장에 의한 GAP LOCK 이더라도(설령 performance_schema.data_locks에 보여지는 정보가 “LOCK_MODE: X,GAP”로 Exclusive Gap Lock이라 하더라도)
+
+   여러 트랜잭션 의 GAP LOCK은 호환된다. 즉 동시에 서로 다른 트랜잭션에서 UPDATE table set .. where id = 2 를 실행시켜도 잠금 경합이 발생하지 않는다. 
+
+
+   `GAP LOCK 은 테이블의 데이터 건수가 적을수록 GAP LOCK의 범위가 넓어지는 역효과를 준다.`
+
+
+   ### Next-key Lock
 
    
-   - `Next-key Lock`
    - `Insert intention Lock`
    - `Auto-Inc Lock`
