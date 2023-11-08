@@ -112,6 +112,47 @@
 
    ### Next-key Lock
 
+   GAP LOCK은 순수하게 레코드 사이의 간격만 잠구는 것이 아니라 레코드와 간격을 동시에 잠구기도 한다. 
+
+   예를 들어 UPDATE tables set ... where id between 1 and 3 이때 서버는 1,3은 Record Lock , 그사이는 GAP LOCK을 획득 한다.
+
+   Record 와 GAP Lock 을 동시에 잠구는 것을 `Next key Lock` 이라고 한다.
+
    
-   - `Insert intention Lock`
-   - `Auto-Inc Lock`
+   
+   ### Insert intention Lock
+
+   Insert intention Lock 은 삽입 의도를 나타내며 Row Insert에 앞서 만들어지는 GAP의 한 종류이다.
+
+   실제로 Insert 구문 실행시 획득 되는 특수한 형태의 Gap Lock 이다. Insert 될 Row에 대해서 X-LOCK 걸기 전에 먼저 Insert intention Lock을 건다.
+
+   `목적` : 여러개의 트랜잭션이 GAP 내의 다른 위치에 Insert를 동시에 수행할 때 까지 기다릴 필요 없도록 하는 것이다.
+
+   - 즉 Insert intention Lock 끼리는 서로 충돌되지 않는다.
+
+   예를 들어 pk = 4, pk= 7 인 레코드가 존재하고 트랜잭션 A가 5 트랜잭션 B가 6 에 Insert 한다
+   
+   - 일반적인 Gap Lock 이라면 pk 4~7 에 Gap Lock 에 걸리게 된다.
+   - Insert Intention Lock 이라면
+     - B 트랜잭션인 pk= 6에 Insert 할 때 pk 4~6 에 Insert intention Lock이 걸리게 된다.
+     - A 트랜잭션인 pk = 5 에 Insert 할 때 pk 4~6에 Insert intention Lock이 걸리게 되어 있어도 pk 가 겹치지 않기 때문에 대기없이 바로 실행된다.
+
+   > InnoDB는 실제로 Insert intention Lock이 사용된다. 즉 Insert 문장은 Duplicate Key 에러만 아니면 동시에 실행되게 한다.
+
+   - Insert Intention Lock 과 GAP LOCK은 서로 호환되지 않는다.
+     - GAP LOCK은 내부적으로 Shared Lock 만 존재한다. 그러므로 Gap Lock 끼리는 서로 호환된다.
+     - 즉 다른 트랜잭션에서 GAP LOCK이 걸려잇다고 해도 또 다른 트랜잭션에서 GAP LOCK을 대기없이 획득가능하다.
+     - But Gap Lock 과 Insert intention Lock은 호환되지 않는다.
+     - 이는 Gap Lock 이 걸려있는 Row에 Insert 할려고하면 Row 에 대한 Gap Lock이 풀려야 Insert 구문이 실행된다.
+       - 즉 Insert 시에 Insert intention Lock을 얻기 위해 Gap Lock이 걸려있는 Row 에 insert 구문 수행시 Insert intention Lock 을 얻을려고 대기한다.
+
+   ### Auto-Inc Lock
+
+   AUTO-INC Lock은 AUTO INCREMENT 컬럼이 있는 테이블에 INSERT 구문 실행시 획득되어지는 테이블 레벨 잠금이다.
+
+  예를 들어, A 트랜잭션이 테이블에 값을 삽입한다면, B 트랜잭션이 해당 테이블에 값을 삽입하기위해 기다리게된다.
+
+
+  innodb_autoinc_lock_mode 설정 옵션을 통해 AUTO INCREMENT 잠금을 위해 사용되는 알고리즘을 설정할 수 있다.
+
+  이를 통해 AUTO INCREMENT 값들의 예상되는 순서와 최대 동시성 사이의 트레이드 오프중 원하는 방법을 선택할 수 있다.
