@@ -35,7 +35,7 @@
      - 개별 Index Record 에 S-LOCK or X-LOCK 설정
      - PK, UK로 조회해서 하나의 레코드에 LOCK을 거는 방법
 
-   ### Gap Lock
+   ## Gap Lock
 
    Gap Lock 은 실제 레코드에 대한 잠금이 아닌 레코드와 인접한 사이의 간격을 잠그는 LOCK 이다.
 
@@ -110,7 +110,7 @@
    `GAP LOCK 은 테이블의 데이터 건수가 적을수록 GAP LOCK의 범위가 넓어지는 역효과를 준다.`
 
 
-   ### Next-key Lock
+   ## Next-key Lock
 
    GAP LOCK은 순수하게 레코드 사이의 간격만 잠구는 것이 아니라 레코드와 간격을 동시에 잠구기도 한다. 
 
@@ -120,7 +120,7 @@
 
    
    
-   ### Insert intention Lock
+   ## Insert intention Lock
 
    Insert intention Lock 은 삽입 의도를 나타내며 Row Insert에 앞서 만들어지는 GAP의 한 종류이다.
 
@@ -146,7 +146,7 @@
      - 이는 Gap Lock 이 걸려있는 Row에 Insert 할려고하면 Row 에 대한 Gap Lock이 풀려야 Insert 구문이 실행된다.
        - 즉 Insert 시에 Insert intention Lock을 얻기 위해 Gap Lock이 걸려있는 Row 에 insert 구문 수행시 Insert intention Lock 을 얻을려고 대기한다.
 
-   ### Auto-Inc Lock
+   ## Auto-Inc Lock
 
    AUTO-INC Lock은 AUTO INCREMENT 컬럼이 있는 테이블에 INSERT 구문 실행시 획득되어지는 테이블 레벨 잠금이다.
 
