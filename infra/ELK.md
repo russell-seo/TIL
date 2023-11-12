@@ -92,7 +92,7 @@
      
   3. Spring Application log를 수집할 filebeat의 filebeat.yml 파일 수정
     
-    ~~~
+  ~~~
     # ============================== Filebeat modules ==============================
     filebeat.inputs:
       - type: log
@@ -107,7 +107,7 @@
     # ------------------------------ Logstash Output -------------------------------
     output.logstash:
         hosts: ["localhost:5044"] //Logstash로 parse할 포트
-    ~~~
+  ~~~
 
   4. filebeat log를 받을 `logstash`먼저 실행한다. 명령어는 bin 폴더에서 `logstash -f ../config/logstash.conf` 를 입력
   
