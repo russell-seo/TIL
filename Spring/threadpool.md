@@ -77,7 +77,7 @@
   
   
   ## ThreadPoolExecutor
-  
+  [threadPoolExecutor 관련된 잘 정리된 블로그](https://leeyh0216.github.io/posts/truth_of_threadpoolexecutor/)
   위에 설명한 ThreadPool을 자바에서 구현한 구현체가 ThreadPoolExecutor 이다. 앞서 application.yml에서 주었던 설정중 일부이다.
   
   
