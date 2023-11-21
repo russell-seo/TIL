@@ -32,6 +32,7 @@
     - [Java Reflection](https://github.com/russell-seo/TIL/blob/main/Java/Reflection.md)
     - [Optional](https://github.com/russell-seo/TIL/blob/main/Java/Optional.md)
     - [CompletableFuture](https://github.com/russell-seo/TIL/blob/main/Java/completableFuture.md)
+    - [JVM](https://github.com/russell-seo/TIL/blob/main/Java/jvm.md)
 
   - JPA
       - [영속성 컨텍스트](https://github.com/russell-seo/TIL/blob/main/JPA/%EC%98%81%EC%86%8D%EC%84%B1%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8.md)
