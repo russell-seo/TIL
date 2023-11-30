@@ -1,6 +1,26 @@
+
+
+
+
+
+
 # Mysql 구조 및 동작 흐름
 
+MySQL 구조 및 동작 흐름을 알기 전에 먼저 DBMS에 대해 이해 해보자
 
+## DBMS
+
+
+
+
+
+
+
+
+
+
+
+## MySQL
 
 ![image](https://github.com/russell-seo/TIL/assets/79154652/af154f4b-5661-4d8f-aeb2-2df3bd5dd823)
 
