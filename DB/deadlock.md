@@ -12,8 +12,24 @@ MYSQL 에서 SELECT FOR UPDATE 는 하나 또는 특정 범위의 ROW에 대해 
 
 이렇게 해당 ROW에 X락이 걸리기 때문에 다른 트랜잭션에서 해당 ROW에 접근하지 못하고 대기하게 된다.
 
+## 내가 만났던 이슈
 
+QA 성능 테스트를 하면서 만났던 상황과 동일한 상황을 예시로 들려고 한다.
 
+User 라는 아래와 같은 테이블이 존재한다. 
+
+<img width="249" alt="스크린샷 2024-01-31 오전 2 07 19" src="https://github.com/russell-seo/TIL/assets/79154652/0896bdbb-7f2b-436a-9471-cac157beef92">
+
+~~~mysql
+//Transaction 1
+begin;
+select * from user where uid = 2 for update;
+
+//Transaction 2
+begin;
+select * from user where uid = 3 for update;
+
+~~~
 
 
 
