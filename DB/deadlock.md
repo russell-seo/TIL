@@ -9,7 +9,7 @@ MYSQL 에서 InnoDB 를 사용하면 기본 isolation level 은 `REPEATTABLE REA
 
 InnoDB에서 Isolation Level이 `REPEATTABLE READ` 라면 select, delete, update 쿼리를 실행할때 GAP LOCK을 사용한다.
 
-GAP LOCK이랑 NEXT-KEY LOCK도 사용한다. `NEXT-KEY-LOCK`은 `supremum` 이라 불리는 임시의 레코드 다음에 있는 GAP 을 잠금한다.
+GAP LOCK과 NEXT-KEY LOCK도 사용한다. `NEXT-KEY-LOCK`은 `supremum` 이라 불리는 임시의 레코드 다음에 있는 GAP 을 잠금하며
 
 NETX-KEY LOCK은 REPEATABLE READ 에서 `Phantom Read` 를 막기 위해 사용한다.
 
@@ -27,6 +27,10 @@ MYSQL 에서 SELECT FOR UPDATE 는 하나 또는 특정 범위의 ROW에 대해 
 물론 DB에 데이터가 존재한다면 위와 같이 X락이 걸리면서 Record Lock 이 되는게 맞지만 만약에 DB에 찾고자 하는 Row 가 존재하지 않으면 `NETX-KEY-LOCK` 이 걸리게 된다.
 
 ## 내가 만났던 이슈
+
+이슈 내용은 코드상에서 유저를 Select for update 로 조회하고 없으면 유저를 생성하는 코드가 하나의 트랜잭션에서 동작하고 있는 상황이다.
+
+여기서 Select for update 쿼리를 날릴 때 존재하지 않는 열을 조회하게 되면 원래는 해당 레코드에만 락이 걸려야 하는데 레코드가 존재하지 않아 NEXT-KEY-LOCK 즉 GAP LOCK이 발생하게 된다.
 
 QA 성능 테스트를 하면서 만났던 상황과 동일한 상황을 예시로 들려고 한다.
 
