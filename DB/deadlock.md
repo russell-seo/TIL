@@ -15,6 +15,7 @@ NETX-KEY LOCK은 REPEATABLE READ 에서 `Phantom Read` 를 막기 위해 사용�
 
 `supremum` 레코드는 인덱스에서 실제 존재하는 값들 보다 더 큰 값을 가진다. 진짜 인덱스 레코드가 아니다. 그래서 NEXT-KEY-LOCK은 가장 큰 인덱스 다음에 오는 값을 잠근다.
 
+> 레코드를 잠글때, 인덱스를 잠근다는 사실을 기억하자. 따라서 테이블의 레코드에 잠금을 획득한다는 것은 인덱스 테이블에 잠금을 획득하는 것이다.
 
 ## SELECT FOR UPDATE
 
