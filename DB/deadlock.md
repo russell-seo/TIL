@@ -41,17 +41,34 @@ User 라는 아래와 같은 테이블이 존재한다.
 
 <img width="249" alt="스크린샷 2024-01-31 오전 2 07 19" src="https://github.com/russell-seo/TIL/assets/79154652/0896bdbb-7f2b-436a-9471-cac157beef92">
 
+유저 테이블을 만들고 pk 값으로 조회하면 데이터의 존재여부에 따라 데드락이 발생할 수 있고 발생하지 않을 수도 있었다.
+  - 락을 획득할 때 데이터가 존재했다면 경험이 발생하지 않았다.
+  - 반면 데이터가 존재하지 않으면 데드락이 터졌다.
+
+
+1. 아래와 같이 user 테이블에 데이터가 존재하지 않는다.
+
+<img width="425" alt="스크린샷 2024-02-04 오후 9 36 32" src="https://github.com/russell-seo/TIL/assets/79154652/f229fb81-a4d5-4762-b346-2539ff427432">
+
+
 ~~~mysql
+
 //Transaction 1
 begin;
 select * from user where uid = 2 for update;
+insert into user (name, created_at) values ('서상원', '20240129');
+
 
 //Transaction 2
 begin;
 select * from user where uid = 3 for update;
+insert into user (name, created_at) VALUES ('서상원2', '20240129');
 
 ~~~
 
+2. pk 값으로 아래와 같이 데이터가 없는 테이블에 조회를 하면 데드락이 발생한다.
+
+<img width="812" alt="스크린샷 2024-02-04 오후 9 22 01" src="https://github.com/russell-seo/TIL/assets/79154652/33eae712-09f2-4223-914b-d970d9e5c649">
 
 
 
@@ -61,3 +78,4 @@ select * from user where uid = 3 for update;
 참고
 ---
 [https://medium.com/daangn/mysql-gap-lock-%EB%91%90%EB%B2%88%EC%A7%B8-%EC%9D%B4%EC%95%BC%EA%B8%B0-49727c005084](https://medium.com/daangn/mysql-gap-lock-%EB%91%90%EB%B2%88%EC%A7%B8-%EC%9D%B4%EC%95%BC%EA%B8%B0-49727c005084)
+
