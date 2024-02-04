@@ -70,10 +70,26 @@ insert into user (name, created_at) VALUES ('서상원2', '20240129');
 
 <img width="812" alt="스크린샷 2024-02-04 오후 9 22 01" src="https://github.com/russell-seo/TIL/assets/79154652/33eae712-09f2-4223-914b-d970d9e5c649">
 
+아래와 같이 데이터가 없는 ROW를 `select for update`로 조회하면 아래와 같은 LOCK 이 잡힌다.
 
+<img width="947" alt="스크린샷 2024-02-04 오후 10 40 59" src="https://github.com/russell-seo/TIL/assets/79154652/868f8df9-730d-4186-b694-4e0ee8d9d3bc">
 
+- 데이터가 없으면 `테이블의 IX락, LOCK_DATA = null`
+- `RECORD 단위의 X락, LOCK_DATA = supremum pseudo-record`
+  - 데이터가 없을때 발생하는 X락의 LOCK_DATA인 `supremum pseudo-record` 의 경우 마지막 지점을 의미한다. 그래서 `해당 값 기준으로 마지막 PK(INDEX) 까지 GAP-LOCK` 이 걸리게된다
 
+> MYSQL 공식문서에 supremum pseudo-record에 대한 설명을 가져와보았다.
+>
+> For the last interval, the next-key lock locks the gap above the largest value
+in the index and the “supremum” pseudo-record having a value higher than any v
+alueactually in the index. The supremum is not a real index record, so, in eff
+ect, this next-key lock locks only the gap following the largest index value.
 
+요악하면 인덱스의 가장 큰 값 위쪽의 갭을 모두 잠그게 된다는 말이다. 실제로 데이터를 삽입하면서 확인해보니 잠근 데코드의 PK 컬럼값 보다 대략적으로 더 높은 값들로 INSERT 시 데드락이 발생한다.
+
+GAP LOCK 은 어떤 락과도 호환되지 않는다. 즉 INSERT 시 X락을 걸게되고 서로 락이 해제될때 까지 대기하다가 데드락이 발생하게 되는 이유 인 것 같다.
+
+결국 `select for update`의 비관적 락을 사용할때는 INSERT 문과 같은 트랜잭션에서 사용하면 데드락 발생 확률이 높기 때문에 최대한 쓰는 것을 고려해야 할 것 이다.
 
 참고
 ---
