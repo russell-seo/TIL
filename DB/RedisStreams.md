@@ -38,7 +38,7 @@ Flag 값을 변경하거나 이 1대의 서버가 다시 올라올때 까지 이
 
     ~~~
      > XADD <stream-key> <message-id> <field> <name> ... <field> <name>
-     > XADD mystream * user-id jake tx-amount 1000
+     > XADD FUNSDK * user-id jake tx-amount 1000
      1518951480106-0
     ~~~
 
@@ -49,7 +49,7 @@ Flag 값을 변경하거나 이 1대의 서버가 다시 올라올때 까지 이
    
   ~~~
   > XRANGE <stream-key> <start-id> <end-id> [COUNT <count-num>]
-  > XRANGE mystream - + 
+  > XRANGE FUNSDK - + 
   1)  1) ...
       2) 1)...
   ~~~
@@ -62,4 +62,23 @@ Flag 값을 변경하거나 이 1대의 서버가 다시 올라올때 까지 이
   - Stream Consumer Group은 PUB/SUB 혹은 Blocking List가 가질수 없는 여러 레벨을 제공한다.
     - `ACK`를 통해 해당 Consumer가 해당 메시지를 처리한다는 것을 명시
     - `ACK`가 오지 않은 메시지들을 `Pending`아이템을 관리할 수 있다.
-    - Pending 된
+    - Pending 된 아이템들을 `CLAIM`을 통해 다른 Consumer가 처리할 수 있다.
+
+
+  ~~~
+  > XREAD <COUNT> <count-num> STREAMS <stream-key> <start-id>
+  > XREAD STREAMS FUNSDK 0
+  ~~~
+
+  - Non-Blocking 형태의 XREAD STREAMS FUNSDK 0 은 `0-0`보다 큰 id를 가진 모든 메시지를 가져온다.
+
+  ![image](https://github.com/russell-seo/TIL/assets/79154652/45a7544d-58d7-47ae-a439-d9a55ce67e62)
+
+
+- `XDEL`
+  - `XDEL`을 통해 특정 메시지를 삭제할 수 있다. 발생한 데이터를 저장하고 time-series 형태로 관리할 수 있는 것이 Redis Stream 의 장점이고, 후에 나오는 `XACK`와 `XCLAIM`을 통해 메시지를 관리할 수 있다.
+ 
+  ~~~
+  > XDEL <stream-key> <message-id>
+  > XDEL FUNSDK 1711944192112-0
+  ~~~
