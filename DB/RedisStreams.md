@@ -26,3 +26,40 @@ Flag 값을 변경하거나 이 1대의 서버가 다시 올라올때 까지 이
   ![image](https://github.com/russell-seo/TIL/assets/79154652/91fad988-c539-4550-8378-a21b2b216352)
 
   ---
+
+  ## Redis Streams 기본 명령어
+
+  
+  - `XADD`
+    -  Stream에 데이터 추가
+    -  Append only 한 자료구조 답게 `XADD` 커맨드를 통해 Stream에 데이터를 추가한다.
+    -  메시지의 id는 * 로 자동 생성가능하며 권장된다. 자동생성된 id는 <millisecondsTime>-<sequenceNumber> 의 조합으로 되어있다.
+    -  time-series저장소로도 볼 수 있다.
+
+    ~~~
+     > XADD <stream-key> <message-id> <field> <name> ... <field> <name>
+     > XADD mystream * user-id jake tx-amount 1000
+     1518951480106-0
+    ~~~
+
+  - `XRANGE`
+    - Range를 통한 조회 `start`와 `end id`만 있으면 된다.
+    - `-`는 최소 id, `+`는 최대 id를 의미하며, count 옵션을 통해 개수 제한을 두고 조회 가능하며 `ASC` 순으로 조회된다.
+    - `XRANGE`의 시간복잡도는 `log(n)`이다.
+   
+  ~~~
+  > XRANGE <stream-key> <start-id> <end-id> [COUNT <count-num>]
+  > XRANGE mystream - + 
+  1)  1) ...
+      2) 1)...
+  ~~~
+
+
+- `XREAD`
+  - Subscribe 형식으로 접근할 때는 `XREAD` 커맨드를 사용한다.
+  - `XREAD`를 통한 조회 + Redis STreams의 특징은 여러 consumer들을 가질 수 있고, 새로운 아이템은 데이터를 기다리는 모든 consumer에게 전달
+  - Redis PUB/SUB은 fire & forget으로 메시지 발생 후 저장되지 않는 형태, Blocking List를 사용할땐 client 가 메시지를 받으면 popped, 하지만 Redis Streams은 모든 메시지는 append되는 형태로, 다른 Consumer들은 마지막으로 받은 메시지 id를 기억하는걸로 새로운 메시지가 온걸 알 수 있다.
+  - Stream Consumer Group은 PUB/SUB 혹은 Blocking List가 가질수 없는 여러 레벨을 제공한다.
+    - `ACK`를 통해 해당 Consumer가 해당 메시지를 처리한다는 것을 명시
+    - `ACK`가 오지 않은 메시지들을 `Pending`아이템을 관리할 수 있다.
+    - Pending 된
