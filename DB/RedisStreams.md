@@ -82,3 +82,58 @@ Flag 값을 변경하거나 이 1대의 서버가 다시 올라올때 까지 이
   > XDEL <stream-key> <message-id>
   > XDEL FUNSDK 1711944192112-0
   ~~~
+
+  ## Consumer Groups
+
+  - 필자가 Redis Streams 를 사용할려는 이유는 바로 이 Consumer Groups 때문이다. 보통 PUB/SUB 같은 경우 fan-out 의 형태로 모든 Consumer 들이 동일한 메시지를 받게 받게 되어 있는데 이 `Consumer Groups은 여러 Consumer를 가진 그룹이지만 이론상 하나의 Consumer를 등록하여 데이터를 가져가게 할 것 이다.
+ 
+  - Consumer가 메시지를 Consuming 했으면 `ack`를 통해 명시해줘야 한다. Redis 는 `ack`된 메시지를 처리 되었다고 생각하여 Consumer Group 으로 부터 제외 시킨다.
+  - Consumer Group은 Pending 중인 모든 메시지를 찾을 수 있다. Pending 된 메시지는 아직 처리되지 않은 `ack` 되지 않은 메시지를 의미한다.
+ 
+### Redis Stream 메시지 상태
+
+- `DELIVERED` : Consumer Group 이 Stream으로부터 메시지를 읽어와 그룹 내 Consumer에게 전달된 상태
+- `PENDING`: Delivered 되었지만 Consumer가 아직 메시지를 처리하지 못한 대기 상태
+- `ACK`: Consumer가 메시지를 처리하고 `XACK`커맨드를 통해 메시지의 처리완료를 명시한 상태
+
+
+### Consumer Group 만들기
+
+
+~~~
+> XGROUP CREATE <stream-key> <group-name> <start-id> [MKSTREAM]
+> XGROUP CREATE FUNSDK FUNSDK_GROUP $ MKSTREAM
+~~~
+
+`XGROUP CREATE`를 통해 Consumer Group 을 생성할 수 있으며, 동시에 `MKSTREAM`옵션을 통해 스트림이 없으면 스트림 생성도 가능하다.
+
+`start-id`설정 또한 조정가능하다.
+
+
+### Redis Stream 조회
+
+Consumer를 설정하고 Subscription 이 자동으로 돌아가는 시스템을 구축했다면, Redis Stream 세부정보를 `XINFO`로 알아볼 수 있다.
+
+~~~
+> XINFO STREAM <stream-key>
+> XINFO STREAM FUNSDK
+~~~
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/b28549ba-a6bb-4c9d-a451-a54bb89ec409)
+
+
+### Consuemr Group 조회
+~~~
+> XINFO GROUPS <stream-key>
+> XINFO GROUPS FUNSDK
+~~~
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/ad5b1714-5036-4ea7-a90c-2b9d524ae9ce)
+
+
+
+---
+
+## 마치며
+
+간단하게 Redis Streams 에 대해서 알아보았고 이제 Spring Boot 에서 Redis Streams 로 Event 를 처리하는 동작을 코드로 만나보자.
