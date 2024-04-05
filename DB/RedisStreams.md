@@ -134,6 +134,15 @@ Consumer를 설정하고 Subscription 이 자동으로 돌아가는 시스템을
 
 ---
 
-## 마치며
 
-간단하게 Redis Streams 에 대해서 알아보았고 이제 Spring Boot 에서 Redis Streams 로 Event 를 처리하는 동작을 코드로 만나보자.
+## Spring Boot 에서 Redis Streams 구현
+
+Spring Boot 에서 Redis Streams 사용하기 위한 설정
+
+- Spring Boot 2.4.0 이상
+- Spring Boot starter data redis 2.4.0 이상
+- Redis 5.0 이상
+- Client로 Lettuce 사용
+
+
+ ## 
