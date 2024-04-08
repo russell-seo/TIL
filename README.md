@@ -80,6 +80,7 @@
     - [Redis Replication](https://github.com/russell-seo/TIL/blob/main/DB/RedisReplication.md)
     - [Redis 적용](https://github.com/russell-seo/TIL/blob/main/DB/RedisApply.md)
     - [Redis 메모리 운영 및 주의점](https://github.com/russell-seo/TIL/blob/main/DB/RedisCaution.md)
+    - [Redis Streams 기본개념 익히기](https://github.com/russell-seo/TIL/blob/main/DB/RedisStreams.md)
   - [Cache](https://github.com/russell-seo/TIL/blob/main/DB/Cache.md)
   - [TimeZone](https://github.com/russell-seo/TIL/blob/main/DB/timezone.md)
   - [Flyway 도입기](https://github.com/russell-seo/TIL/blob/main/DB/flyway.md)
