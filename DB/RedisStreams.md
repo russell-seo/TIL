@@ -145,4 +145,170 @@ Spring Boot 에서 Redis Streams 사용하기 위한 설정
 - Client로 Lettuce 사용
 
 
- ## 
+ ## Redis Config 설정
+
+ - Redis 서버와 통신할 `RedisTemplate`,  이벤트를 push 할 `reactiveRedistemplate` 를 Bean 으로 등록한다.
+   
+ ~~~java
+  @Bean
+    public RedisConnectionFactory redisConnectionFactory(){
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(new RedisStandaloneConfiguration("localhost", 6379));
+        return lettuceConnectionFactory;
+    }
+
+    @Bean
+    public ReactiveRedisConnectionFactory reactiveRedisConnectionFactory(){
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory("localhost", 6379);
+        return lettuceConnectionFactory;
+    }
+
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate() {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(new GenericToStringSerializer<>(Integer.class));
+        return redisTemplate;
+    }
+
+    @Bean
+    public ReactiveRedisTemplate reactiveRedisTemplate(ReactiveRedisConnectionFactory reactiveRedisConnectionFactory){
+        RedisSerializer<String> serializer = new StringRedisSerializer();
+        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Integer.class);
+        RedisSerializationContext serializationContext = RedisSerializationContext.<String,Integer>newSerializationContext()
+                .key(serializer)
+                .value(jackson2JsonRedisSerializer)
+                .hashKey(serializer)
+                .hashValue(jackson2JsonRedisSerializer)
+                .build();
+
+        return new ReactiveRedisTemplate<>(reactiveRedisConnectionFactory, serializationContext);
+    }
+
+~~~
+
+
+## Redis Stream Consumer 구현
+
+제가 Redis Stream을 사용하는 이유는 바로 이 `Consumer Group` 을 사용해서 Kafka와 같은 기능을 사용하기 위해서 이다.
+
+즉 `Consumer Group` 을 통해 Redis Stream의 메시지를 EDA 형태로 구독하기 위함이다.
+
+- 메시지를 받을 수 있는 `StreamListener` 인터페이스를 implements 한다.(인터페이스로 OnMessage 라는 함수가 정의되어있다. -> Streams 에서 메시지를 받는 함수)
+- `StreamMessageListenerContainer` 를 통해서 Redis 에서 StreamMessage를 받을수 있게 설정한다.
+- `Subcription`을 통해 Stream 정보를 설정해야 한다.
+
+~~~java
+@Component
+@RequiredArgsConstructor
+public class RedisStreamConsumer implements StreamListener<String, ObjectRecord<String, Product>>, InitializingBean, DisposableBean {
+    private StreamMessageListenerContainer<String, ObjectRecord<String,Product>> listenerContainer;
+    private Subscription subscription;
+    protected static String streamKey = "FUNSDK";
+    protected static String consumerGroupName = "FUNSDK_GROUP";
+    private String consumerName = "CONSUMERS";
+    private final RedisStreams redisStreams;
+
+    //Bean destory 시 `StreamMessageListenerContainer`와 `Subscription`의 연결을 해제
+    @Override
+    public void destroy() throws Exception {
+        if(subscription != null){
+            subscription.cancel();
+        }
+        if(listenerContainer != null){
+            listenerContainer.stop();
+        }
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        //Consumer Group을 만든다.
+        redisStreams.createStream(streamKey, consumerGroupName);
+
+        //StreamMessageListenerContainer 설정
+        listenerContainer = redisStreams.createStreamMessageListenerContainer();
+
+        //SubScription 설정
+        subscription = listenerContainer.receive(
+                Consumer.from(consumerGroupName, consumerName+2),
+                StreamOffset.create(streamKey, ReadOffset.lastConsumed()), this);
+        //2초 마다 Stream에서 이벤트를 받는다.
+        subscription.await(Duration.ofSeconds(2));
+        //Reids listen 시작
+        listenerContainer.start();
+    }
+
+
+
+    @Override
+    public void onMessage(ObjectRecord<String, Product> message) {
+
+        //여기에서 Redis Stream에 발행된 이벤트를 받는다.
+
+        //ack 처리를 해줘야 Redis Stream에 확인된 이벤트로 처리됨
+        redisStreams.ackStream(streamKey, message);
+    }
+}
+
+~~~
+
+## Redis Stream에 요청하는 함수
+
+- `ackStream`은 Stream 에서 이벤트를 받고 처리하고 난 후 Stream에 받았다는 확인 처리하는 함수, 확인처리 하지 않으면 Stream 에 `pending` 상태로 이벤트 처리가 되어 있지 않은 것으로 보임
+- `createStream`은 Redis 에 Stream이 존재하는지 확인하고 없으면 생성 한다.
+- `createSTreamMessageListenerContainer` 기본적인 StreamMessageListenerContainer를 생성한다. `targetType`으로 설정한 타입으로 이벤트를 receive 하게 된다.
+- `publishEvent` StreamKey로 설정한 Stream 에 이벤트를 발행한다.
+
+~~~java
+@RequiredArgsConstructor
+@Component
+public class RedisStreams {
+
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final ReactiveRedisTemplate<String, Product> reactiveRedisTemplate;
+
+    public void ackStream(String streamKey, ObjectRecord<String, Product> message){
+        redisTemplate.opsForStream().acknowledge(RedisStreamConsumer.consumerGroupName, message);
+    }
+
+    public void createStream(String streamName, String groupName){          
+            if(Boolean.FALSE.equals(this.redisTemplate.hasKey(streamName))){
+                redisTemplate.opsForStream().createGroup(streamName, ReadOffset.from("0"), groupName);
+            }
+
+    }
+
+    public StreamMessageListenerContainer createStreamMessageListenerContainer(){
+        return StreamMessageListenerContainer.create(
+                redisTemplate.getConnectionFactory()
+                , StreamMessageListenerContainer.StreamMessageListenerContainerOptions
+                        .builder()
+                        .hashKeySerializer(new StringRedisSerializer())
+                        .hashValueSerializer(new StringRedisSerializer())
+                        .pollTimeout(Duration.ofSeconds(1))
+                                .targetType(Product.class)
+                        .build()
+        );
+    }
+
+
+    public void publishEvent(Product product){
+        ObjectRecord<String, Product> record = StreamRecords.newRecord().ofObject(product).withStreamKey(RedisStreamConsumer.streamKey);
+        this.reactiveRedisTemplate.opsForStream()
+                .add(record)
+                .doOnSuccess(it -> System.out.println("this is stream recordId = " + it))
+                .subscribe();
+    }
+}
+
+~~~
+
+
+
+---
+
+## 참고
+
+[https://docs.spring.io/spring-data/redis/reference/3.3-SNAPSHOT/redis/redis-streams.html#page-title](https://docs.spring.io/spring-data/redis/reference/3.3-SNAPSHOT/redis/redis-streams.html#page-title)
