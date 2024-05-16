@@ -5,6 +5,42 @@ Redis 를 사용하기 전에 Redis 가 데이터를 어떻게 저장하는지 �
 - Redis의 가장 기초적인 자료구조는 `Key/Value` 형태를 저장하는 것이다.(String타입) 이라고도 한다. 이를 위해 Redis 는 `Bucket을 활용한 Chained Linked List 구조` 를 사용한다.
 - 최초에는 4개의 Bucket 에서 사용하며, 같은 Bucket에 들어가는 Key는 `Linked List` 형태로 저장하게 된다.
   
+![image](https://github.com/russell-seo/TIL/assets/79154652/ebdb5598-034f-43a8-aaa0-6251fbebe412)
+
+이 Chanined Linked List 에는 약점이 있다. 한 `Bucket`안에 데이터가 많아지면 결국 탐색 속도가 느려지게 된다. 이를 위해서 Redis 는 특정 사이즈가 넘을때 마다 Bucket을 두배로 확장하고
+
+Key들을 `rehash`하게 된다.
+
+아래의 코드는 hash 값이 들어가야 할 hash table 내의 index 를 결정하는 방법은 아래와 같다.
+
+~~~
+/* Returns the index of a free slot that can be populated with
+ * a hash entry for the given 'key'.
+ * If the key already exists, -1 is returned.
+ *
+ * Note that if we are in the process of rehashing the hash table, the
+ * index is always returned in the context of the second (new) hash table. */
+static int _dictKeyIndex(dict *d, const void *key)
+{
+    ......
+    h = dictHashKey(d, key);
+    for (table = 0; table <= 1; table++) {
+        idx = h & d->ht[table “” not found /]
+.sizemask;
+        ......
+    }
+    return idx;
+}
+~~~
+
+table 에는 key 를 찾기 위해 비트 연산을 하기 위한 sizemask 가 들어가 있다. 초기에는 table의 bucket이 4개 이므로 sizemask는 이진수로 11즉 3의 값을 셋팅하게 된다.
+
+즉 해시된 결과 & 11의 연산 결과로 들어가야 하는 Bucket이 결정되게 된다.
+
+`여기서 Key 가 많아지면 Redis는 테이블의 사이즈를 2배로 늘리게 된다. 그러면 당연히 sizemask 도 커지게 된다. table size가 8이면 sizemask 는 7이 된다.`
+
+먼저 간단하게 말하자면 Redis 에서 사용하는 Keys 대신에 사용해아는 Scan 의 원리는 이 Bucket을 한 턴에 하나씩 순회하는 것이다. 그래서 아래 그림과 같이 처음에는 Bucket index 0 을 읽고 데이터를 던져주는 것이다.
+
 
 
 # Redis Spring 프로젝트에 적용하기
