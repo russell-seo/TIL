@@ -41,6 +41,7 @@ table 에는 key 를 찾기 위해 비트 연산을 하기 위한 sizemask 가 �
 
 먼저 간단하게 말하자면 Redis 에서 사용하는 Keys 대신에 사용해아는 Scan 의 원리는 이 Bucket을 한 턴에 하나씩 순회하는 것이다. 그래서 아래 그림과 같이 처음에는 Bucket index 0 을 읽고 데이터를 던져주는 것이다.
 
+![image](https://github.com/russell-seo/TIL/assets/79154652/fdf1e668-c921-41bb-bfc0-ae07e280845b)
 
 
 # Redis Spring 프로젝트에 적용하기
