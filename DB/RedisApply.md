@@ -1,3 +1,11 @@
+# Redis 의 자료구조
+
+Redis 를 사용하기 전에 Redis 가 데이터를 어떻게 저장하는지 부터 살펴볼려고 한다.
+
+- Redis의 가장 기초적인 자료구조는 `Key/Value` 형태를 저장하는 것이다.(String타입) 이라고도 한다. 이를 위해 Redis 는 `Bucket을 활용한 Chained Linked List 구조` 를 사용한다.
+- 최초에는 4개의 Bucket 에서 사용하며, 같은 Bucket에 들어가는 Key는 `Linked List` 형태로 저장하게 된다.
+  
+
 
 # Redis Spring 프로젝트에 적용하기
 
