@@ -1,3 +1,15 @@
+# Redis is Single Threaded
+
+- Redis 처리 구조
+  
+  ![image](https://github.com/russell-seo/TIL/assets/79154652/a2865d75-d215-484d-9263-c6a66a267515)
+
+- Redis 가 싱글 스레드 구조로 Atomic 하다는 이유가 바로 위의 그림에서 설명할 수 있다.
+  - `Packet`이 `ProcessInputBuffer` 에서 `command` 로 완성되면 처리가됨
+  - `processCommand`가 완료되기 전까지는 다음 `command`가 실행될 수 없다.
+  - 이 부분으로 인해서 Redis 전체의 Atomic 이 보장되고 있다.
+    - Multi-Threaded IO가 적용되어도 Main Thread 에서만 processCommand 가 실행되어 여전히 Atomic 보장
+
 # Redis 의 데이터 저장원리
 
 Redis 를 사용하기 전에 Redis 가 데이터를 어떻게 저장하는지 부터 살펴볼려고 한다.
