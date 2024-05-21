@@ -20,3 +20,4 @@ Redis Cluster 에서 Pub/Sub 에 대해서 기술해 볼려고 한다. 현재 �
 기본적으로 Redis Cluster의 Pub/Sub은 모든 노드에 데이터를 뿌리게 된다. 그래서 한대의 서버에 Publish 를 하면 해당 노드는 모든 Primary + Replica 들에 Publish 를 BroadCast 하게 되고, 
 
 어떤 노드에 Subscribe를 하든 해당 BroadCast되는 메시지를 받을 수 있다.
+[https://charsyam.wordpress.com/2022/04/18/%EC%9E%85-%EA%B0%9C%EB%B0%9C-redis-7-x-%EC%97%90%EC%84%9C%EC%9D%98-shardedpubsub/](https://charsyam.wordpress.com/2022/04/18/%EC%9E%85-%EA%B0%9C%EB%B0%9C-redis-7-x-%EC%97%90%EC%84%9C%EC%9D%98-shardedpubsub/)
