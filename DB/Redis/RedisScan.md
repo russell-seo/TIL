@@ -22,4 +22,6 @@
 
 cursor 값을 0 으로 지정한 SCAN/SSCAN/ZSCAN/HSCAN 명령으로 순회가 시작되고, 이어지는 순회에 사용할 cursor 값과, 지정한 패턴과 일치하는 키를 최대 지정한 `count`만큼 반환 합니다.
 
-반환된 cursor 값이 0이면 순회가 종료됩니다.
+반환된 cursor 값이 0이면 순회가 종료됩니다. Redis 가 Scan 으로 데이터를 반환하는 것은 바로 `Bucket 한턴에 하나씩 순회`하는 것이다. 아래에 Redis 가 저장될때의 동작 과정을 기술해 놓았으니 참고해보면 좋을 것이다.
+
+>[Redis 데이터 저장원리](https://github.com/russell-seo/TIL/blob/main/DB/RedisApply.md)
