@@ -30,6 +30,8 @@ cursor 값을 0 으로 지정한 SCAN/SSCAN/ZSCAN/HSCAN 명령으로 순회가 �
 
 ### Scan과 Cursor
 
+---
+
 Redis Scan 에서의 Cursor는 `bucket을 검색해야할 다음 index 값`이라고 볼 수 있다. 실제로 실행 시켜 보면 0, 1, 2 이렇게 증가하지 않는다.
 
 그 이유중에는 하나의 실제 Cursor 값이 다음 index의 reverse 값을 취하기 때문이다.
@@ -52,3 +54,17 @@ Redis Scan 에서의 Cursor는 `bucket을 검색해야할 다음 index 값`이�
 
 
 ## Scan 의 Count 수로 알아보는 성능 비교
+
+필자는 타사의 과제리뷰 테스트를 하면서 Scan 에 대해서 직접 구현해보고 Key 설계 및 Scan 의 Count 값으로 인해 성능을 비교해 볼 예정이다.
+
+먼저 Redis 는 광고 sdk를 타사의 서비스에 붙여서 app과 campaign 기준으로 노출 및 클릭 count 를 업데이트 하는 용도로 사용되고 매일 count 를 aggreagte 하여 db에 업데이트 하는 용도로 사용된다고 가정을 해보자.
+
+기존에 설계되어있는 Redis Key는 serv:app:{appId}:cid:{cid}:date:{date}:hours:{hours} 로 설계되어 있었고 key 설계를 변경해야 했다.
+
+저는 일단 해당 key 의 문제라고 하면 시간별로 key가 시간순으로 계속 무분별하게 늘어나는 것 입니다. 그래서 hash 타입으로 field를 날짜순으로 저장하고 해당 날짜에 들어온 요청의 value 값을 1씩 올려주게 변경을 하였다.
+
+`key = serv:app:{appId}:cid:{cid}`, `field = 2024-05-24`, `value = 1`  
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/8dcca9a0-fe05-49a6-b697-9b4758cdaccf)
+
+  
