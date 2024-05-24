@@ -67,4 +67,25 @@ Redis Scan 에서의 Cursor는 `bucket을 검색해야할 다음 index 값`이�
 
 ![image](https://github.com/russell-seo/TIL/assets/79154652/8dcca9a0-fe05-49a6-b697-9b4758cdaccf)
 
-  
+약 120만개 정도의 데이터를 Redis 에 미리 위와 같은 Key Field value 값으로 저장해 놓았다.
+
+---
+
+Redis 와 통신하기 위한 RedisTemplate 를 정의해 주고 redisTemplate의 execute 메소드를 통해서 Redis 명령어를 사용할 수 있다.
+
+~~~ java
+
+public Set<String> scan(String key, int count){
+        return redisTemplate.execute((RedisCallback<Set<String>>) connection -> {
+            Cursor<byte[]> scan = connection.scan(ScanOptions.scanOptions().match(key.getBytes()).count(count).build());
+            Set<String> keys = new HashSet<>();
+            while(scan.hasNext()){
+                String rkey = new String(scan.next());
+                keys.add(rkey);
+            }
+            scan.close();
+            return keys;
+        });
+    }
+
+~~~
