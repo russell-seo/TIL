@@ -89,3 +89,32 @@ public Set<String> scan(String key, int count){
     }
 
 ~~~
+
+
+### Count = 1000
+
+~~~ java
+
+@Test
+void getAllAppByCid(){
+int cid = new Random().nextInt(2000);
+var key = "stats:app:"+"*"+":cid:"+cid;
+//시작시간
+long start = System.currentTimeMillis();
+//
+
+Set<String> scans = redisService.scans(key, 1000);
+
+//
+long end = System.currentTimeMillis();
+long time = end - start;
+System.out.println("GET KEY" +" ==== 걸리는 시간 ==== " + time + "ms");
+System.out.println("key 갯수 = " + scans.size());
+//
+
+}
+~~~
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/87c852a5-ce10-41c3-853f-dfe2b841ad5c)
+
+Count 가 1000 일때 2000 중에서 랜덤으로 1개의 숫자를 가져와서 scan 의 성능을 처리했을때 key 를 가져오는데 1163ms 가 걸리는걸 확인 할 수 있다.
