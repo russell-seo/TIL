@@ -96,7 +96,7 @@ public Set<String> scan(String key, int count){
 ~~~ java
 
 @Test
-void getAllAppByCid(){
+void getAllAppByCidCount1000(){
 int cid = new Random().nextInt(2000);
 var key = "stats:app:"+"*"+":cid:"+cid;
 //시작시간
@@ -117,4 +117,68 @@ System.out.println("key 갯수 = " + scans.size());
 
 ![image](https://github.com/russell-seo/TIL/assets/79154652/87c852a5-ce10-41c3-853f-dfe2b841ad5c)
 
-Count 가 1000 일때 2000 중에서 랜덤으로 1개의 숫자를 가져와서 scan 의 성능을 처리했을때 key 를 가져오는데 1163ms 가 걸리는걸 확인 할 수 있다.
+Count 가 `1000` 일때 cid 를 랜덤으로 1개의 숫자를 가져와서 scan 의 성능을 처리했을때 key 를 가져오는데 1163ms 가 걸리는걸 확인 할 수 있다.
+
+### Count = 5000
+~~~java
+@Test
+void getAllAppByCid(){
+int cid = new Random().nextInt(2000);
+var key = "stats:app:"+"*"+":cid:"+cid;
+
+//시작시간
+long start = System.currentTimeMillis();
+//
+
+Set<String> scans = redisService.scans(key, 5000);
+
+//
+long end = System.currentTimeMillis();
+long time = end - start;
+
+System.out.println("GET KEY" +" ==== 걸리는 시간 ==== " + time + "ms");
+System.out.println("key 갯수 = " + scans.size());
+//
+
+}
+~~~
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/b0771d08-5790-4fdf-9d6c-0778887f80c8)
+
+
+Count가 `5000` 으로 설정하고 테스트 했을 시에는 899ms 정도가 key를 가지고 오는데 소요된다. 가지고온 key 의 갯수와 저장된 120만 개의 key는 동일하다.
+
+
+### Count = 10000
+
+~~~java
+@Test
+void getAllAppByCid(){
+int cid = new Random().nextInt(2000);
+var key = "stats:app:"+"*"+":cid:"+cid;
+//시작시간
+long start = System.currentTimeMillis();
+//
+
+Set<String> scans = redisService.scans(key, 10000);
+
+//
+long end = System.currentTimeMillis();
+long time = end - start;
+
+System.out.println("GET KEY" +" ==== 걸리는 시간 ==== " + time + "ms");
+System.out.println("key 갯수 = " + scans.size());
+//
+
+}
+~~~
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/8ab26039-adf3-4ba8-9cf7-27538fc5fbdc)
+
+Count가 `10000` 일떄는 899ms -> 690ms 조금 더 빨라지는 것을 볼 수 있다. 즉 Scan을 통해서 Key 들을 조회할 때 Redis 가 Bucket을 순회하는데 소요되는 시간이지만 적절한 Count 수를 테스트 해보고 사용 하는 것이 효율적 일 것이다.
+
+Count 가 `15000` 도 테스트 해 보았지만 Count `10000`일 때와 별다르지 않은 응답 속도를 보였다.
+
+Count수 를 작게 잡는다고 해서 무조건 latency가 빠르다고는 단정할 수 없는 것이다. 오히려 Redis 와 서버의 통신 I/O 때문에 훨씬 더 오래 걸리는 작업이 될 수도 있다고 생각한다.
+
+Scan Pattern 같은 경우 아마 O(N) 시간복잡도가 소요될 것이라고 생각된다. 그래서 서비스에 적합한 지 많은 테스트가 필요해 보인다고 생각이 든다.
