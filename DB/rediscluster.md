@@ -20,4 +20,22 @@ Redis Cluster 에서 Pub/Sub 에 대해서 기술해 볼려고 한다. 현재 �
 기본적으로 Redis Cluster의 Pub/Sub은 모든 노드에 데이터를 뿌리게 된다. 그래서 한대의 서버에 Publish 를 하면 해당 노드는 모든 Primary + Replica 들에 Publish 를 BroadCast 하게 되고, 
 
 어떤 노드에 Subscribe를 하든 해당 BroadCast되는 메시지를 받을 수 있다.
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/84de414f-3b66-42f7-8bb0-11183b0a068b)
+
+`일단 Redis Cluster에서의 문제는 항상 Broadcast 하는 것이다`, 안그래도 Pub/Sub 자체가 Pattern 을 지원해서 모든 채널을 확인해야 하기 때문에 보통 메시지 전달은 채널수 + 채널에 붙은 클라이언트 수 만큼 루프를 돌아야 한다.
+
+항상 모든 서버에서 일단 Broadcast 해야 한다는게 전체 성능에 영향을 미칠 수가 있게 되는 것이다. 
+
+이러한 문제때문에 Redis 에 오히려 싱글노드로 구성했을 때와 비슷하게 모든 마스터 노드에 부하가 가게 되어있다. 이 문제를 해결하기 위해서 Redis 에서 `Shared Pub/Sub` 을 Redis 7.X 에서부터 도입하게 되었다.
+
+## Shared Pub/Sub
+
+이는 기존 Redis Cluster의 특성을 기존 그대로 사용한다. 일반적으로 Key를 crc16으로 Hash 해서 해당 키가 속한 Slot 을처리하는 서버로만 메시지를 전달하게 되는데 이 특성을 이용해서 Pub/Sub 도 하나의 Shard 군에서만 처리하게 된다.
+
+![image](https://github.com/russell-seo/TIL/assets/79154652/defaa32f-c85d-423a-adf8-1e147b3a2cbd)
+
+
+
+--- 참고
 [https://charsyam.wordpress.com/2022/04/18/%EC%9E%85-%EA%B0%9C%EB%B0%9C-redis-7-x-%EC%97%90%EC%84%9C%EC%9D%98-shardedpubsub/](https://charsyam.wordpress.com/2022/04/18/%EC%9E%85-%EA%B0%9C%EB%B0%9C-redis-7-x-%EC%97%90%EC%84%9C%EC%9D%98-shardedpubsub/)
