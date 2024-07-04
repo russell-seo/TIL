@@ -161,9 +161,9 @@ server {
 
 그래서 `/etc/nginx/site-enabled/default`에도 proxy_pass를 설정해 주었다.
 
-추가로 SSL 도메인을 붙일려면 위와 같이 설정해주면 된다. 그리고 `underscores_in_headers` 라는 옵션은 필자가 회사 프로젝트를 진행하면서
+> 추가로 SSL 도메인을 붙일려면 위와 같이 설정해주면 된다. 그리고 `underscores_in_headers` 라는 옵션은 필자가 회사 프로젝트를 진행하면서
 
-Header 값으로 `TEST_KEY` 같은 언더스코어가 포함된 문자가 들어오면 기존에 Nginx 의 옵션을 on 처리해주지 않으면 Nginx에서 읽지 못하기 때문에 서버로 해당 값이 전달될 수가 없었다. 
+> Header 값으로 `TEST_KEY` 같은 언더스코어가 포함된 문자가 들어오면 기존에 Nginx 의 옵션을 on 처리해주지 않으면 Nginx에서 읽지 못하기 때문에 서버로 해당 값이 전달될 수가 없었다. 
 
 default
 ~~~ 
