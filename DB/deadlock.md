@@ -31,7 +31,7 @@ MYSQL 에서 SELECT FOR UPDATE 는 하나 또는 특정 범위의 ROW에 대해 
 
 ## 내가 만났던 이슈
 
-이슈 내용은 코드상에서 유저를 SELECT FOR UPDATE 로 조회하고 없으면 유저를 생성하는 코드가 하나의 트랜잭션에서 동작하고 있는 상황이다.
+이슈 내용은 코드상에서 유저를 SELECT FOR UPDATE `Record Lock`을 잡으며 조회하고 없으면 유저를 생성하는 코드가 하나의 트랜잭션에서 동작하고 있는 상황이다.
 
 여기서 SELECT FOR UPDATE 쿼리를 날릴 때 존재하지 않는 열을 조회하게 되면 원래는 해당 레코드에만 락이 걸려야 하는데 레코드가 존재하지 않아 NEXT-KEY-LOCK 즉 GAP LOCK이 발생하게 된다.
 
