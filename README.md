@@ -90,6 +90,7 @@
       - [Spatial Query Index로 최적화](https://github.com/russell-seo/TIL/blob/main/DB/sqIndex.md)
   - [Mysql Redo Log, Undo Log](https://github.com/russell-seo/TIL/blob/main/DB/mysql.md)
   - [Mysql InnoDB Lock](https://github.com/russell-seo/TIL/blob/main/DB/LOCK.md)
+  - [Mysql InnoDB GAP LOCK 으로 인한 DEADLOCK 이슈]()
 # Kotlin
   
   - [Kotlin](https://github.com/russell-seo/TIL/tree/main/Kotlin)
