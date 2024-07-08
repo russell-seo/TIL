@@ -156,3 +156,7 @@
   innodb_autoinc_lock_mode 설정 옵션을 통해 AUTO INCREMENT 잠금을 위해 사용되는 알고리즘을 설정할 수 있다.
 
   이를 통해 AUTO INCREMENT 값들의 예상되는 순서와 최대 동시성 사이의 트레이드 오프중 원하는 방법을 선택할 수 있다.
+
+
+
+  ## InnoDB GAP LOCK 으로 인해 내가 만난 문제들
