@@ -49,7 +49,20 @@ Netty 는 위와 같은 Low level 의 API 를 직접 사용하면 코드 복잡�
   - Channel
     - Channel 은 Java NIO 의 Channel 이다. Netty 에서는 데이터를 위한 운송수단으로 활용된다. Netty 가 자동으로 Channel 으로 열고 닫아주기 때문에 개발자가 직접 구현할 필요가 없다.
    
-  - 
+  - Callback
+    - 콜백 또한 기존에 우리가 알고 있는 콜백함수와 같다. Netty 가 이벤트를 처리할 때 내부적으로 Callback 을 트리거 하는데, 콜백이 발생하면 내부에서는 ChannelHandler 인터페이스를 구현함으로써 이벤트를 처리할 수 있다.
 
+  - Future
+    - Future 는 작업이 완료되면 Application 에 알리는 방법 중 하나다.
+      - 이 객체는 비동기 작업의 결과를 담는 역할을 하며, 이를 PlaceHolder 라고 부른다.
+    - JDK 자체에서 이와 같은 역할을 하는 java.util.concurrent.Future 인터페이스를 제공하지만, 수동으로 작업 여부를 확인하거나, 완료 전 까지 블로킹을 하는 기능만 있었다.
+    - 그래서 Netty 는 자체적으로 CompletableFuture를 사용하여 비동기 작업을 완료되도록 구현하였다.
+      - ChannelFuture에는 ChannelFutureListener 인스턴스를 하나 이상 등록할 수 있으며, 작업이 완료되면 이 Listener 들이 호출되며 처리 성공 유무를 확인할 수 있다.
+      - 이런 메커니즘으로 인해 수동, 블로킹 하지 않아도 된다.
+     
+  - `Event`와 `Handler`
+    - Netty 는 작업의 상태 변화를 알리기 위해 고유한 이벤트루프를 사용하며, 발생한 이벤트를 기준으로 적절한 동작을 트리거 할 수 있다.
 
-[https://sightstudio.tistory.com/15](https://sightstudio.tistory.com/15)
+    ![image](https://github.com/user-attachments/assets/e9c4c609-b0ab-4dce-9ebd-4984e3a8b044)
+
+    - 다음과 같은 설계에서 한 Channel 의 입출력이 동일한 스레드에서 처리되기 때문에 동기화가 필요 없다. 비동기 논블로킹 시에는 하나의 이벤트 루프가 여러개의 Channel 과 연결될 수 있다.
